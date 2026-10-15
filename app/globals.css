@@ -198,3 +198,67 @@ h2 { margin: 0; font-size: 14px; font-weight: 650; letter-spacing: -.15px; }
 @media (max-width: 900px) { .vehicle-stage-body { grid-template-columns: minmax(0,1fr); } .vehicle-inspector { border-top: 1px solid #1e2c40; border-left: 0; } .inspector-note { margin-top: 12px; } .vehicle-viewport { min-height: 300px; } }
 @media (max-width: 520px) { .vehicle-stage-heading { align-items: flex-start; flex-direction: column; padding: 15px; } .stage-controls { align-self: stretch; } .stage-tab { flex: 1; } .vehicle-viewport { min-height: 235px; } .viewport-topline, .viewport-bottomline { right: 9px; left: 9px; font-size: 6px; } .vehicle-hotspot { width: 24px; height: 24px; } .vehicle-stage-footer { align-items: flex-start; flex-direction: column; } }
 @media (prefers-reduced-motion: reduce) { .vehicle-hotspot { transition: none; } }
+
+
+/* Theme toggle and rotatable model viewer */
+.theme-toggle { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 32px; padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface-raised); color: var(--text); cursor: pointer; font: inherit; font-size: 10px; white-space: nowrap; }
+.theme-toggle:hover { border-color: var(--blue); }
+.theme-toggle > span:first-child { font-size: 16px; line-height: 1; }
+.vehicle-model-shell { position: absolute; inset: 34px 0 36px; display: flex; flex-direction: column; min-height: 0; }
+.vehicle-model-viewer { display: block; width: 100%; height: 100%; min-height: 240px; background: transparent; --poster-color: transparent; --progress-bar-color: var(--blue); --progress-bar-height: 2px; }
+.model-pending { display: flex; width: 100%; height: 100%; min-height: 240px; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 28px; color: var(--text); text-align: center; }
+.model-pending-mark { display: grid; place-items: center; width: 58px; height: 58px; border: 1px solid var(--blue); border-radius: 16px; color: var(--blue); background: var(--surface-raised); font-size: 22px; font-weight: 800; }
+.model-pending strong { font-size: 13px; }
+.model-pending p { max-width: 360px; margin: 0; color: var(--muted); font-size: 10px; line-height: 1.7; }
+.model-pending code { color: var(--blue); }
+.model-controls-hint { display: flex; justify-content: center; align-items: center; gap: 8px; color: var(--muted); font-size: 9px; pointer-events: none; }
+.model-controls-hint span { color: var(--blue); font-size: 15px; }
+.model-zone-strip { position: absolute; z-index: 2; right: 14px; bottom: 42px; left: 14px; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; pointer-events: none; }
+.model-zone-chip { display: inline-flex; align-items: center; gap: 6px; padding: 7px 9px; border: 1px solid var(--border); border-radius: 5px; background: color-mix(in srgb, var(--surface) 92%, transparent); color: var(--muted); cursor: pointer; font: inherit; font-size: 9px; pointer-events: auto; }
+.model-zone-chip > span { color: var(--blue); font-size: 8px; }
+.model-zone-chip.active { border-color: var(--blue); color: var(--text); background: var(--surface-raised); }
+.vehicle-viewport:has(.vehicle-model-shell) { min-height: 420px; }
+.vehicle-viewport:has(.vehicle-model-shell) .viewport-bottomline { z-index: 3; }
+
+/* Light theme overrides: all dashboard surfaces, text, borders, and controls. */
+html[data-theme="light"] { color-scheme: light; }
+html[data-theme="light"] body { background: #f3f6fb; color: #18263a; }
+html[data-theme="light"] .sidebar { background: #ffffff; border-color: #dce4ef; }
+html[data-theme="light"] .brand-mark { background: linear-gradient(145deg,#e8f2ff,#dceaff); color: #17406f; box-shadow: none; }
+html[data-theme="light"] .brand-copy strong, html[data-theme="light"] .nav-item.active, html[data-theme="light"] .vehicle-state strong { color: #18263a; }
+html[data-theme="light"] .brand-copy small, html[data-theme="light"] .side-label, html[data-theme="light"] .nav-item, html[data-theme="light"] .system-card small, html[data-theme="light"] .profile-copy small { color: #65758b; }
+html[data-theme="light"] .nav-item:hover, html[data-theme="light"] .nav-item.active { background: #edf4ff; border-color: #d5e5fb; color: #1d4779; }
+html[data-theme="light"] .system-card, html[data-theme="light"] .vehicle-state, html[data-theme="light"] .topbar, html[data-theme="light"] .notice, html[data-theme="light"] .metric-card, html[data-theme="light"] .panel-card, html[data-theme="light"] .logbook-strip, html[data-theme="light"] .vehicle-stage-card { background: #ffffff; border-color: #dce4ef; }
+html[data-theme="light"] .main-panel { background: #f3f6fb; }
+html[data-theme="light"] .topbar { background: #ffffffed; border-color: #dce4ef; }
+html[data-theme="light"] .breadcrumbs strong, html[data-theme="light"] h1, html[data-theme="light"] h2, html[data-theme="light"] .metric-value, html[data-theme="light"] .notice-copy strong, html[data-theme="light"] .health-row strong, html[data-theme="light"] .battery-empty > strong, html[data-theme="light"] .activity-empty strong, html[data-theme="light"] .logbook-strip strong, html[data-theme="light"] .vehicle-stage-heading h2, html[data-theme="light"] .inspector-title strong { color: #18263a; }
+html[data-theme="light"] .breadcrumbs, html[data-theme="light"] .subtitle, html[data-theme="light"] .section-heading p, html[data-theme="light"] .panel-heading p, html[data-theme="light"] .vehicle-stage-heading p, html[data-theme="light"] .health-row small, html[data-theme="light"] .metric-unit, html[data-theme="light"] .metric-foot, html[data-theme="light"] .battery-empty p, html[data-theme="light"] .activity-empty p, html[data-theme="light"] .logbook-strip p, html[data-theme="light"] .footer, html[data-theme="light"] .inspector-description, html[data-theme="light"] .inspector-row span { color: #66758b; }
+html[data-theme="light"] .notice { background: #edf5ff; border-color: #d1e3fa; border-left-color: #4386df; }
+html[data-theme="light"] .notice-copy p { color: #4e6581; }
+html[data-theme="light"] .notice-copy strong { color: #1e426d; }
+html[data-theme="light"] .notice-tag, html[data-theme="light"] .outline-label, html[data-theme="light"] .health-badge { background: #f3f6fa; border-color: #d8e1ec; color: #596b82; }
+html[data-theme="light"] .metric-card { background: linear-gradient(145deg,#fff,#f8faff); }
+html[data-theme="light"] .metric-foot, html[data-theme="light"] .panel-heading, html[data-theme="light"] .panel-footer, html[data-theme="light"] .health-row, html[data-theme="light"] .profile, html[data-theme="light"] .footer, html[data-theme="light"] .vehicle-stage-heading, html[data-theme="light"] .inspector-divider { border-color: #e3e9f1; }
+html[data-theme="light"] .mark, html[data-theme="light"] .panel-icon, html[data-theme="light"] .health-symbol, html[data-theme="light"] .empty-icon, html[data-theme="light"] .logbook-icon, html[data-theme="light"] .state-symbol { background: #edf4fc; border-color: #d9e6f5; color: #386a9f; }
+html[data-theme="light"] .mode-pill { background: #edf5ff; border-color: #d2e5fc; color: #285f9d; }
+html[data-theme="light"] .vehicle-viewport { background: radial-gradient(ellipse at 49% 45%,#e4edf8 0%,#f4f7fb 64%,#eef3f9 100%); }
+html[data-theme="light"] .viewport-grid { opacity: .35; }
+html[data-theme="light"] .viewport-topline, html[data-theme="light"] .viewport-bottomline, html[data-theme="light"] .inspector-label, html[data-theme="light"] .inspector-row strong, html[data-theme="light"] .vehicle-stage-footer { color: #61748b; }
+html[data-theme="light"] .vehicle-inspector { background: #fff; border-color: #e1e8f1; }
+html[data-theme="light"] .inspector-status { background: #f4f7fb; border-color: #e1e7ef; color: #63738a; }
+html[data-theme="light"] .inspector-note { background: #fff7e8; border-color: #f1dfbb; color: #785c2d; }
+html[data-theme="light"] .inspector-note p { color: #785c2d; }
+html[data-theme="light"] .stage-controls { background: #f0f4f9; border-color: #dce4ef; }
+html[data-theme="light"] .stage-tab { color: #5d6d82; }
+html[data-theme="light"] .stage-tab.selected { background: #fff; border-color: #d4e2f2; color: #24568e; }
+html[data-theme="light"] .vehicle-model-viewer { --poster-color: transparent; }
+html[data-theme="light"] .model-pending-mark { background: #fff; }
+html[data-theme="light"] .model-zone-chip { background: #fffffff0; border-color: #d7e0ec; color: #53647a; }
+html[data-theme="light"] .model-zone-chip.active { background: #e9f2ff; color: #1c4778; border-color: #7fb0ef; }
+html[data-theme="light"] .battery-body { background: #edf3f9; border-color: #b7c7d9; }
+html[data-theme="light"] .battery-body span { background: #d6e4f3; }
+html[data-theme="light"] .battery-terminal { background: #b7c7d9; }
+html[data-theme="light"] .logbook-strip { background: linear-gradient(100deg,#fff,#f4f8fd); }
+html[data-theme="light"] .coming-soon { background: #edf5ff; border-color: #d2e4fa; color: #2d6098; }
+html[data-theme="light"] .theme-toggle { background: #fff; color: #263a52; border-color: #d6e0ec; }
+@media (max-width: 520px) { .theme-toggle { padding: 6px 8px; font-size: 9px; } .vehicle-model-shell { inset: 32px 0 42px; } .vehicle-viewport:has(.vehicle-model-shell) { min-height: 380px; } .model-zone-strip { right: 8px; left: 8px; bottom: 43px; gap: 4px; } .model-zone-chip { padding: 6px; font-size: 8px; } }
