@@ -27,7 +27,7 @@ export default function VehicleModelStage() {
         <div>
           <div className="stage-eyebrow"><span className="stage-eyebrow-dot" /> VEHICLE DIGITAL VIEW</div>
           <h2 id="vehicle-stage-title">Vehicle model</h2>
-          <p>3D-ready vehicle workspace · subsystem status points</p>
+          <p>Rotatable 3D viewer · select a subsystem to inspect</p>
         </div>
         <div className="stage-controls" role="group" aria-label="Vehicle view mode">
           <button className={view === "3d" ? "stage-tab selected" : "stage-tab"} onClick={() => setView("3d")} type="button">Model view</button>
@@ -40,38 +40,29 @@ export default function VehicleModelStage() {
           <div className="viewport-grid" aria-hidden="true" />
           <div className="viewport-topline"><span>EVS / VEHICLE ASSET</span><span className="asset-state"><i /> MODEL ASSET PENDING</span></div>
           {view === "3d" ? (
-            <div className="vehicle-render-placeholder" role="img" aria-label="Illustrative electric race car placeholder; not the team's actual vehicle model">
-              <svg className="vehicle-blueprint" viewBox="0 0 680 310" role="img" aria-label="Generic low-detail race car silhouette placeholder">
-                <defs>
-                  <linearGradient id="carBody" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#7cbaff" stopOpacity=".92" /><stop offset=".48" stopColor="#2b639b" stopOpacity=".84" /><stop offset="1" stopColor="#132d4c" stopOpacity=".95" /></linearGradient>
-                  <linearGradient id="carGlass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#8edcf3" stopOpacity=".8" /><stop offset="1" stopColor="#244d70" stopOpacity=".9" /></linearGradient>
-                  <filter id="carGlow"><feGaussianBlur stdDeviation="7" /></filter>
-                </defs>
-                <ellipse cx="350" cy="238" rx="220" ry="21" fill="#2b92f2" opacity=".15" filter="url(#carGlow)" />
-                <path d="M105 205 L128 178 L198 158 L254 108 Q271 94 306 94 L399 98 Q426 102 451 133 L500 158 L558 176 L581 202 L570 224 L523 229 L490 210 L210 214 L177 231 L120 224 Z" fill="url(#carBody)" stroke="#83c6ff" strokeOpacity=".88" strokeWidth="2" />
-                <path d="M226 155 L271 111 Q282 103 307 104 L345 106 L346 155 Z" fill="url(#carGlass)" stroke="#a3dfff" strokeOpacity=".75" strokeWidth="1.5" />
-                <path d="M357 107 L396 110 Q417 115 440 147 L357 154 Z" fill="url(#carGlass)" stroke="#a3dfff" strokeOpacity=".75" strokeWidth="1.5" />
-                <path d="M125 180 L191 163 L217 170 L203 193 L132 199 Z" fill="#10243b" stroke="#65baff" strokeWidth="1.5" />
-                <path d="M445 155 L503 174 L552 188 L559 202 L486 197 Z" fill="#0e2136" stroke="#65baff" strokeWidth="1.5" />
-                <path d="M224 169 L342 168 L344 202 L211 203 Z" fill="#1b3b5c" stroke="#4c9de8" strokeWidth="1.5" />
-                <path d="M357 169 L462 166 L484 198 L357 202 Z" fill="#1b3b5c" stroke="#4c9de8" strokeWidth="1.5" />
-                <path d="M143 207 L532 207" stroke="#9ad9ff" strokeOpacity=".9" strokeWidth="3" />
-                <path d="M173 229 L195 228 L213 212 L489 212 L509 231 L535 232" fill="none" stroke="#69d9ef" strokeWidth="3" strokeLinecap="round" />
-                <path d="M252 211 L268 220 L421 220 L444 211" fill="none" stroke="#72bfff" strokeOpacity=".8" strokeWidth="2" />
-                <g>
-                  <ellipse cx="204" cy="216" rx="36" ry="43" fill="#07101b" stroke="#547da1" strokeWidth="3" />
-                  <ellipse cx="204" cy="216" rx="21" ry="27" fill="#172a3c" stroke="#6ca9d8" strokeWidth="3" />
-                  <ellipse cx="204" cy="216" rx="7" ry="9" fill="#78b9e8" />
-                  <path d="M204 190 V242 M184 216 H224 M190 197 L218 235 M218 197 L190 235" stroke="#4b769a" strokeWidth="3" />
-                  <ellipse cx="491" cy="216" rx="36" ry="43" fill="#07101b" stroke="#547da1" strokeWidth="3" />
-                  <ellipse cx="491" cy="216" rx="21" ry="27" fill="#172a3c" stroke="#6ca9d8" strokeWidth="3" />
-                  <ellipse cx="491" cy="216" rx="7" ry="9" fill="#78b9e8" />
-                  <path d="M491 190 V242 M471 216 H511 M477 197 L505 235 M505 197 L477 235" stroke="#4b769a" strokeWidth="3" />
-                </g>
-                <path d="M111 205 L87 204 L76 211 L106 217 M565 202 L597 194 L609 201 L578 213" fill="none" stroke="#76c9f3" strokeWidth="4" strokeLinecap="round" />
-                <path d="M276 92 L288 81 L404 84 L419 98" fill="none" stroke="#6bb9ff" strokeWidth="2" strokeDasharray="4 5" opacity=".75" />
-              </svg>
-              <span className="placeholder-caption">ILLUSTRATIVE PLACEHOLDER · NOT THE TEAM CAR</span>
+            <div className="vehicle-model-shell">
+              <model-viewer
+                className="vehicle-model-viewer"
+                src="/models/exotic-racer.glb"
+                alt="Interactive 3D model of the Exotic Racing Team vehicle"
+                camera-controls
+                auto-rotate
+                rotation-per-second="12deg"
+                interaction-prompt="auto"
+                shadow-intensity="1"
+                exposure="1"
+                environment-image="neutral"
+                loading="eager"
+                ar
+              >
+                <div slot="poster" className="model-pending">
+                  <span className="model-pending-mark">3D</span>
+                  <strong>Vehicle model not uploaded yet</strong>
+                  <p>Add the team’s verified <code>exotic-racer.glb</code> file to <code>public/models/</code>. Once present, drag to rotate and scroll or pinch to zoom.</p>
+                  <span className="placeholder-caption">WAITING FOR THE REAL VEHICLE ASSET</span>
+                </div>
+              </model-viewer>
+              <div className="model-controls-hint"><span>↔</span> Drag to rotate <span>⌕</span> Scroll / pinch to zoom</div>
             </div>
           ) : (
             <div className="systems-list">
@@ -98,7 +89,7 @@ export default function VehicleModelStage() {
           <div className="inspector-note"><span>i</span><p>Unknown does not mean healthy. Subsystem indicators will only reflect verified incoming data.</p></div>
         </aside>
       </div>
-      <div className="vehicle-stage-footer"><span><i /> Interactive subsystem selection is ready</span><span>Actual 3D model and sensor mapping pending</span></div>
+      <div className="vehicle-stage-footer"><span><i /> 3D viewer supports drag rotation and zoom when the model asset is present</span><span>GLB asset and verified sensor mapping pending</span></div>
     </section>
   );
 }
