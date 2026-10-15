@@ -57,6 +57,7 @@ export default function VehicleModelStage() {
           {view === "3d" ? (
             <div className="vehicle-model-shell">
               <model-viewer
+                ref={modelViewerRef}
                 className="vehicle-model-viewer"
                 src="/models/exotic-racer.glb"
                 alt="Interactive 3D model of the Exotic Racing Team vehicle"
