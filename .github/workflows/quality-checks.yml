@@ -17,11 +17,30 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - name: Install dependencies
+      - name: Install web dependencies
         run: npm ci
-      - name: Lint
+      - name: Lint web app
         run: npm run lint
-      - name: Type check
+      - name: Type check web app
         run: npx tsc --noEmit
-      - name: Build
+      - name: Build web app
         run: npm run build
+
+  mobile:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install mobile dependencies
+        run: npm install --no-audit --no-fund
+      - name: Check Expo package compatibility
+        run: npx expo install --check
+      - name: Type check mobile app
+        run: npm run typecheck
