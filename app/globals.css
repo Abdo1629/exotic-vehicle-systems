@@ -334,3 +334,44 @@ html[data-theme="light"] .record-form input, html[data-theme="light"] .record-fo
 html[data-theme="light"] .primary-action { background: #2f5f8f; color: #fff; }
 @media (max-width: 900px) { .record-layout { grid-template-columns: 1fr; } }
 @media (max-width: 520px) { .page-intro { align-items: flex-start; flex-direction: column; gap: 10px; } .record-form { padding: 14px; } .checklist { padding: 4px 13px; } .checklist > div { gap: 9px; } }
+
+
+/* Finish the light palette across every shared component. */
+html[data-theme="light"] .system-card-icon,
+html[data-theme="light"] .avatar,
+html[data-theme="light"] .team-avatar,
+html[data-theme="light"] .inspector-symbol,
+html[data-theme="light"] .empty-icon { background: #edf2f7; border-color: #d8e1eb; color: #46698c; }
+html[data-theme="light"] .topbar-team { color: #536579; }
+html[data-theme="light"] .updated-label,
+html[data-theme="light"] .text-link,
+html[data-theme="light"] .panel-footer a { color: #386b9f; }
+html[data-theme="light"] .battery-illustration { opacity: .85; }
+html[data-theme="light"] .activity-empty { background: #fff; }
+html[data-theme="light"] .system-select { background: #f7f9fc; border-color: #dce4ed; color: #29394a; }
+html[data-theme="light"] .system-select.active { background: #eaf2fb; border-color: #a8c8ec; }
+html[data-theme="light"] .model-controls-hint { color: #66758b; }
+html[data-theme="light"] .model-pending p { color: #66758b; }
+html[data-theme="light"] .model-pending strong { color: #1d2b3a; }
+html[data-theme="light"] .vehicle-model-viewer { color: #1d2b3a; }
+html[data-theme="light"] .viewport-grid { background-image: linear-gradient(#607b9820 1px,transparent 1px),linear-gradient(90deg,#607b9820 1px,transparent 1px); }
+html[data-theme="light"] .asset-state i { background: #b8893f; }
+html[data-theme="light"] .profile { border-color: #e0e6ed; }
+html[data-theme="light"] .nav-icon { color: #6a7d91; }
+html[data-theme="light"] .nav-item:hover { color: #243a50; }
+html[data-theme="light"] .nav-item.active .nav-icon { color: #2e6ba7; }
+html[data-theme="light"] .nav-indicator { background: #3d7dbb; }
+html[data-theme="light"] .panel-footer { background: #fbfcfd; }
+html[data-theme="light"] .footer { border-color: #dce3eb; }
+html[data-theme="light"] .vehicle-stage-footer { border-color: #e0e6ed; }
+html[data-theme="light"] .inspector-row { border-color: #e5eaf0; }
+html[data-theme="light"] .inspector-divider { background: #e5eaf0; }
+html[data-theme="light"] .mode-pill { color: #3b668f; }
+html[data-theme="light"] .theme-toggle { box-shadow: none; }
+html[data-theme="light"] .system-card { background: #f8fafc; }
+html[data-theme="light"] .record-form input, html[data-theme="light"] .record-form textarea { color: #202a35; border-color: #d6dfe8; }
+html[data-theme="light"] .record-item { border-color: #e4e9ef; }
+html[data-theme="light"] .quiet-action { border-color: #d6dfe8; color: #56677a; }
+html[data-theme="light"] .health-symbol { background: #f0f4f8; }
+html[data-theme="light"] .coming-soon { background: #edf4fb; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
