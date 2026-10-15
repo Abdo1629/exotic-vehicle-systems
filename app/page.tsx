@@ -1,4 +1,5 @@
 import VehicleModelStage from "@/components/vehicle/VehicleModelStage";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const navigation = [
   { label: "Overview", icon: "◫", href: "#overview", active: true },
