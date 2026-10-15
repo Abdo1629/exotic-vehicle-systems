@@ -1,6 +1,7 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import type { FormEvent } from "react";
 
 type RecordItem = { id: string; title: string; date: string; notes: string; createdAt: string };
 
