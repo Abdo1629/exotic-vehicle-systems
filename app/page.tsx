@@ -1,3 +1,5 @@
+import VehicleModelStage from "@/components/vehicle/VehicleModelStage";
+
 const navigation = [
   { label: "Overview", icon: "◫", href: "#overview", active: true },
   { label: "Battery & charging", icon: "▤", href: "#battery" },
@@ -77,6 +79,8 @@ export default function Home() {
             <div className="notice-copy"><strong>Demo environment · No live vehicle data</strong><p>Telemetry is currently unavailable. Values are intentionally withheld until a verified source is connected. No commands are sent to the vehicle.</p></div>
             <span className="notice-tag">SIMULATED</span>
           </section>
+
+          <VehicleModelStage />
 
           <section className="section-block" aria-labelledby="telemetry-heading">
             <div className="section-heading"><div><h2 id="telemetry-heading">Telemetry snapshot</h2><p>Latest known values from the configured data source</p></div><span className="updated-label"><span className="status-dot grey" /> No readings received</span></div>
