@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useMemo, useState, useSyncExternalStore } from "react";
 import type { FormEvent } from "react";
 
 type RecordItem = { id: string; title: string; date: string; notes: string; createdAt: string };
@@ -8,31 +8,46 @@ type RecordItem = { id: string; title: string; date: string; notes: string; crea
 export default function LocalRecordBook({ storageKey, heading, description, buttonLabel, emptyTitle, emptyDescription }: {
   storageKey: string; heading: string; description: string; buttonLabel: string; emptyTitle: string; emptyDescription: string;
 }) {
-  const [items, setItems] = useState<RecordItem[]>([]);
   const [title, setTitle] = useState("");
-  const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
+  const [date, setDate] = useState("");
   const [notes, setNotes] = useState("");
-  const [ready, setReady] = useState(false);
 
-  useEffect(() => {
-    try {
-      const saved = window.localStorage.getItem(storageKey);
-      if (saved) setItems(JSON.parse(saved) as RecordItem[]);
-    } catch { setItems([]); }
-    setReady(true);
+  const subscribe = useCallback((notify: () => void) => {
+    const onStorage = (event: StorageEvent) => {
+      if (event.key === storageKey || event.key === null) notify();
+    };
+    window.addEventListener("storage", onStorage);
+    window.addEventListener("evs-records-change", notify);
+    return () => {
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener("evs-records-change", notify);
+    };
   }, [storageKey]);
 
+  const getSnapshot = useCallback(() => {
+    try { return window.localStorage.getItem(storageKey) ?? "[]"; } catch { return "[]"; }
+  }, [storageKey]);
+
+  const serialized = useSyncExternalStore(subscribe, getSnapshot, () => "[]");
+  const items = useMemo<RecordItem[]>(() => {
+    try {
+      const parsed: unknown = JSON.parse(serialized);
+      return Array.isArray(parsed) ? parsed as RecordItem[] : [];
+    } catch { return []; }
+  }, [serialized]);
+
   function save(next: RecordItem[]) {
-    setItems(next);
     try { window.localStorage.setItem(storageKey, JSON.stringify(next)); } catch { /* Browser storage may be unavailable. */ }
+    window.dispatchEvent(new Event("evs-records-change"));
   }
 
   function addRecord(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!title.trim()) return;
-    const next = [{ id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, title: title.trim(), date, notes: notes.trim(), createdAt: new Date().toISOString() }, ...items];
-    save(next);
+    const recordDate = date || new Date().toLocaleDateString("en-CA");
+    save([{ id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, title: title.trim(), date: recordDate, notes: notes.trim(), createdAt: new Date().toISOString() }, ...items]);
     setTitle("");
+    setDate("");
     setNotes("");
   }
 
@@ -49,7 +64,7 @@ export default function LocalRecordBook({ storageKey, heading, description, butt
         </form>
       </section>
       <section className="panel-card record-list-panel">
-        <div className="panel-heading"><div><h2>Saved records</h2><p>{ready ? `${items.length} entr${items.length === 1 ? "y" : "ies"} on this device` : "Loading local records"}</p></div><span className="panel-icon">☷</span></div>
+        <div className="panel-heading"><div><h2>Saved records</h2><p>{`${items.length} entr${items.length === 1 ? "y" : "ies"} on this device`}</p></div><span className="panel-icon">☷</span></div>
         {items.length === 0 ? (
           <div className="record-empty"><span className="empty-icon">☷</span><strong>{emptyTitle}</strong><p>{emptyDescription}</p></div>
         ) : (
