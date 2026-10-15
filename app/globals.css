@@ -278,7 +278,7 @@ html[data-theme="light"] .theme-toggle { background: #fff; color: #263a52; borde
 
 /* Product polish: calmer type, real navigation, and useful record forms. */
 :root { --background: #0c1118; --surface: #111923; --surface-raised: #17212d; --border: #293442; --border-soft: #202a36; --text: #e7edf4; --muted: #9aa8b8; --subtle: #6e7e90; --blue: #77aef7; --cyan: #6dc9d4; }
-body { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 13px; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 13px; }
 .sidebar { background: #0d131b; border-color: #252e39; }
 .brand { padding-bottom: 28px; }
 .brand-mark { border-radius: 7px; background: #1b2a3a; box-shadow: none; }
