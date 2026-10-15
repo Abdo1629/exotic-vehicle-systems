@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type VehicleZone = {
   id: string;
@@ -20,6 +20,21 @@ const zones: VehicleZone[] = [
 export default function VehicleModelStage() {
   const [selectedZone, setSelectedZone] = useState(zones[0]);
   const [view, setView] = useState<"3d" | "systems">("3d");
+  const [modelStatus, setModelStatus] = useState<"pending" | "loaded" | "error">("pending");
+  const modelViewerRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const viewer = modelViewerRef.current;
+    if (!viewer) return;
+    const handleLoad = () => setModelStatus("loaded");
+    const handleError = () => setModelStatus("error");
+    viewer.addEventListener("load", handleLoad);
+    viewer.addEventListener("error", handleError);
+    return () => {
+      viewer.removeEventListener("load", handleLoad);
+      viewer.removeEventListener("error", handleError);
+    };
+  }, []);
 
   return (
     <section className="vehicle-stage-card" aria-labelledby="vehicle-stage-title">
@@ -38,7 +53,7 @@ export default function VehicleModelStage() {
       <div className="vehicle-stage-body">
         <div className="vehicle-viewport" data-model-slot="vehicle-glb" data-model-path="/models/exotic-racer.glb">
           <div className="viewport-grid" aria-hidden="true" />
-          <div className="viewport-topline"><span>EVS / VEHICLE ASSET</span><span className="asset-state"><i /> MODEL ASSET PENDING</span></div>
+          <div className="viewport-topline"><span>EVS / VEHICLE ASSET</span><span className="asset-state"><i /> {modelStatus === "loaded" ? "3D MODEL LOADED" : modelStatus === "error" ? "ASSET NOT FOUND" : "MODEL ASSET PENDING"}</span></div>
           {view === "3d" ? (
             <div className="vehicle-model-shell">
               <model-viewer
