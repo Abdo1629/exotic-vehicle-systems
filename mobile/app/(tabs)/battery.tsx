@@ -37,7 +37,7 @@ export default function BatteryScreen() {
 }
 
 const styles = StyleSheet.create({
-  packCard: { backgroundColor: "#13232E" },
+  packCard: { backgroundColor: theme.colors.surfaceRaised },
   packHeader: { flexDirection: "row", alignItems: "center", gap: 11, marginBottom: 6 },
   batteryIcon: { color: theme.colors.accent, fontSize: 30, width: 42, textAlign: "center" },
   packTitle: { color: theme.colors.text, fontSize: 17, fontWeight: "700" },

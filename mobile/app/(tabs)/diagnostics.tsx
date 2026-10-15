@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   content: { flex: 1, gap: 8 },
   name: { color: theme.colors.text, fontWeight: "700", fontSize: 14 },
   detail: { color: theme.colors.muted, fontSize: 12, lineHeight: 18 },
-  infoCard: { borderColor: "#6B5834", backgroundColor: "#211D16", marginTop: 4 },
+  infoCard: { borderColor: theme.colors.border, backgroundColor: theme.colors.surfaceRaised, marginTop: 4 },
   infoTitle: { color: theme.colors.warning, fontWeight: "700", fontSize: 13 },
   infoBody: { color: theme.colors.muted, fontSize: 12, lineHeight: 19 },
 });
