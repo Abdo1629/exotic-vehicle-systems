@@ -262,3 +262,75 @@ html[data-theme="light"] .logbook-strip { background: linear-gradient(100deg,#ff
 html[data-theme="light"] .coming-soon { background: #edf5ff; border-color: #d2e4fa; color: #2d6098; }
 html[data-theme="light"] .theme-toggle { background: #fff; color: #263a52; border-color: #d6e0ec; }
 @media (max-width: 520px) { .theme-toggle { padding: 6px 8px; font-size: 9px; } .vehicle-model-shell { inset: 32px 0 42px; } .vehicle-viewport:has(.vehicle-model-shell) { min-height: 380px; } .model-zone-strip { right: 8px; left: 8px; bottom: 43px; gap: 4px; } .model-zone-chip { padding: 6px; font-size: 8px; } }
+
+
+/* Product polish: calmer type, real navigation, and useful record forms. */
+:root { --background: #0c1118; --surface: #111923; --surface-raised: #17212d; --border: #293442; --border-soft: #202a36; --text: #e7edf4; --muted: #9aa8b8; --subtle: #6e7e90; --blue: #77aef7; --cyan: #6dc9d4; }
+body { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 13px; }
+.sidebar { background: #0d131b; border-color: #252e39; }
+.brand { padding-bottom: 28px; }
+.brand-mark { border-radius: 7px; background: #1b2a3a; box-shadow: none; }
+.brand-copy strong { letter-spacing: 1.7px; }
+.brand-copy small { letter-spacing: 1.1px; }
+.side-label, .eyebrow, .stage-eyebrow { letter-spacing: 1px; }
+.nav-item { border-radius: 5px; transition: background .15s ease, color .15s ease; }
+.nav-item.active { background: #1a2736; border-color: #2d4054; }
+.nav-indicator { left: -17px; }
+.main-panel { background: var(--background); }
+.topbar { background: #0d131beF; border-color: #252e39; }
+.content { max-width: 1600px; }
+h1 { font-size: clamp(27px, 2.7vw, 33px); font-weight: 620; letter-spacing: -.8px; }
+h2 { font-size: 14px; font-weight: 620; letter-spacing: 0; }
+.metric-card, .panel-card, .vehicle-stage-card, .vehicle-state, .notice, .system-card { border-radius: 6px; box-shadow: none; }
+.metric-card { background: var(--surface); }
+.metric-value { font-weight: 600; }
+.notice { background: #131d29; }
+.vehicle-stage-card { background: var(--surface); }
+.vehicle-stage-heading { padding: 17px 18px; }
+.stage-controls { border-radius: 5px; }
+.stage-tab { border-radius: 3px; }
+.theme-toggle { border-radius: 5px; font-size: 11px; }
+html[data-theme="light"] body, html[data-theme="light"] .main-panel { background: #f3f5f7; color: #202a35; }
+html[data-theme="light"] .sidebar { background: #fff; border-color: #d8dfe7; }
+html[data-theme="light"] .topbar { background: #ffffffed; border-color: #d8dfe7; }
+html[data-theme="light"] .metric-card, html[data-theme="light"] .panel-card, html[data-theme="light"] .vehicle-stage-card, html[data-theme="light"] .vehicle-state, html[data-theme="light"] .notice, html[data-theme="light"] .system-card { box-shadow: none; }
+html[data-theme="light"] .notice { background: #eef4f9; }
+html[data-theme="light"] .nav-item.active { background: #edf2f7; border-color: #d8e2ed; color: #20354a; }
+.page-intro { display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; margin-bottom: 25px; }
+.page-intro .eyebrow { margin: 0; }
+.page-intro h1 { margin-top: 12px; }
+.page-intro .health-badge { margin-bottom: 6px; }
+.checklist { padding: 4px 18px; }
+.checklist > div { display: flex; align-items: flex-start; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--border-soft); }
+.checklist > div:last-child { border-bottom: 0; }
+.checklist > div > span { color: var(--blue); font-size: 11px; font-variant-numeric: tabular-nums; }
+.checklist p { display: flex; flex: 1; flex-direction: column; gap: 5px; margin: 0; }
+.checklist strong { font-size: 12px; font-weight: 570; }
+.checklist small { color: var(--muted); font-size: 11px; line-height: 1.55; }
+.checklist em { color: var(--subtle); font-size: 9px; font-style: normal; letter-spacing: .4px; }
+.record-layout { display: grid; grid-template-columns: minmax(260px,.8fr) minmax(0,1.2fr); gap: 16px; align-items: start; }
+.record-form { display: flex; flex-direction: column; gap: 15px; padding: 18px; }
+.record-form label { display: flex; flex-direction: column; gap: 7px; color: var(--muted); font-size: 11px; }
+.record-form input, .record-form textarea { width: 100%; min-width: 0; border: 1px solid var(--border); border-radius: 5px; background: var(--background); color: var(--text); padding: 10px 11px; outline: none; font: inherit; font-size: 12px; }
+.record-form input:focus, .record-form textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 2px color-mix(in srgb, var(--blue) 16%, transparent); }
+.record-form textarea { resize: vertical; line-height: 1.55; }
+.primary-action { align-self: flex-start; border: 1px solid #4775a7; border-radius: 5px; padding: 10px 14px; background: #254b70; color: #f1f7ff; cursor: pointer; font: inherit; font-size: 11px; }
+.primary-action:hover { background: #2e5a84; }
+.local-storage-note { margin: -3px 0 0; color: var(--subtle); font-size: 10px; line-height: 1.5; }
+.record-empty { display: flex; min-height: 230px; flex-direction: column; align-items: center; justify-content: center; padding: 28px; text-align: center; }
+.record-empty .empty-icon { margin-bottom: 13px; }
+.record-empty strong { font-size: 12px; font-weight: 600; }
+.record-empty p { max-width: 270px; margin: 7px 0 0; color: var(--muted); font-size: 11px; line-height: 1.6; }
+.record-list { padding: 0 18px; }
+.record-item { padding: 16px 0; border-bottom: 1px solid var(--border-soft); }
+.record-item:last-child { border-bottom: 0; }
+.record-item-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.record-item time { color: var(--subtle); font-size: 10px; }
+.record-item h3 { margin: 5px 0 0; font-size: 12px; font-weight: 600; }
+.record-item p { margin: 10px 0 0; color: var(--muted); font-size: 11px; line-height: 1.65; white-space: pre-wrap; }
+.quiet-action { border: 1px solid var(--border); border-radius: 4px; padding: 5px 8px; background: transparent; color: var(--muted); cursor: pointer; font: inherit; font-size: 10px; }
+.quiet-action:hover { border-color: #a36d6d; color: #d98e8e; }
+html[data-theme="light"] .record-form input, html[data-theme="light"] .record-form textarea { background: #fff; }
+html[data-theme="light"] .primary-action { background: #2f5f8f; color: #fff; }
+@media (max-width: 900px) { .record-layout { grid-template-columns: 1fr; } }
+@media (max-width: 520px) { .page-intro { align-items: flex-start; flex-direction: column; gap: 10px; } .record-form { padding: 14px; } .checklist { padding: 4px 13px; } .checklist > div { gap: 9px; } }
