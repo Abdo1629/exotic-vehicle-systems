@@ -56,7 +56,7 @@ export default function Home() {
         <header className="topbar">
           <div className="breadcrumbs"><span>EVS</span><span className="crumb-sep">/</span><strong>Overview</strong></div>
           <div className="topbar-actions">
-            <span className="mode-pill"><span className="status-dot blue-dot" /> SIMULATION MODE</span>
+            <span className="mode-pill"><span className="status-dot blue-dot" /> DEMO MODE</span>
             <span className="topbar-divider" />
             <span className="topbar-team"><span className="team-avatar">ER</span><span>Engineering team</span></span>
           </div>
