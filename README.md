@@ -1,79 +1,59 @@
 # Exotic Vehicle Systems (EVS)
 
-Engineering dashboard foundation for Exotic Racing Team IAET.
+Engineering dashboard and mobile companion foundation for Exotic Racing Team IAET.
 
 ## Current status
 
-This repository currently contains a responsive dashboard UI foundation. It is **not connected to the vehicle**, is not safety-certified, and must not be used as evidence of vehicle state or readiness.
+The web dashboard and mobile app are **not connected to the vehicle**, are not safety-certified, and must not be used as evidence of vehicle state or readiness.
 
 - Vehicle telemetry: unavailable until hardware and protocol are verified.
 - Remote commands: not implemented.
-- Backend, persistence, authentication, and hardware adapter: not implemented.
-- Dashboard metrics intentionally show unavailable values rather than invented measurements.
+- Backend, team sync, authentication, and hardware adapter: not implemented.
+- Measurements remain unavailable rather than invented.
 
-## Stack
+## Applications
 
-- Next.js App Router
-- React
-- TypeScript
-- Tailwind CSS v4 (base dependency retained; dashboard styling currently uses CSS variables and component classes)
+### Web dashboard (repository root)
 
-## Requirements
+- Next.js App Router, React, TypeScript
+- Run: `npm ci && npm run dev`
+- Pages: overview, battery, diagnostics, tests, engineering logbook
 
-- Node.js compatible with the installed Next.js 16 version
-- npm
+### Mobile app (Expo)
 
-## Run locally
+The separate React Native app lives in [mobile/](mobile/README.md) and supports Android first, with iOS configured for future use.
 
 ```bash
-npm ci
-npm run dev
+cd mobile
+npm install
+npx expo start
 ```
 
-Open http://localhost:3000.
+Mobile screens:
+- Overview — connection readiness and unavailable telemetry
+- Battery — known nameplate details and unavailable live readings
+- System — diagnostics readiness
+- Test log — local notes stored on the device
 
-## Quality checks
+Mobile notes are not synced to the web dashboard or a team server.
 
-```bash
-npm run lint
-npx tsc --noEmit
-npm run build
-```
+## Vehicle 3D model
 
-These commands should be run in a local Node.js environment or CI. A GitHub file edit does not execute them.
-
-## Vehicle 3D model integration
-
-The dashboard includes a model-ready vehicle workspace with selectable subsystem placeholders. The illustration is generic and is not the team's actual vehicle model. Asset location and integration requirements are documented in [public/models/README.md](public/models/README.md). A GLB renderer and actual model are not included yet.
+The web dashboard has a model-ready vehicle workspace, but the actual team GLB asset has not been supplied. A generic placeholder is not the team's vehicle.
 
 ## Data integrity and safety boundaries
 
-- Do not label simulated values as live vehicle measurements.
-- Treat missing readings as unavailable; do not infer vehicle motion or stopped state from connectivity.
-- A real integration must define measurement units, source identity, timestamps, freshness thresholds, and validity rules.
+- Do not label simulated values as live measurements.
+- Missing readings are unavailable; do not infer motion or stopped state from connectivity.
+- A real integration must define units, source identity, timestamps, freshness thresholds, and validity rules.
 - Keep the vehicle adapter separate from API and UI layers.
 - Do not implement remote propulsion, steering, or braking controls.
-- Any future remote operation requires a hardware-specific engineering review, server-side authorization, independent local safety interlocks, and trustworthy target-system acknowledgement.
+- Future remote operations require a hardware-specific engineering review, server-side authorization, independent local safety interlocks, and trustworthy target-system acknowledgement.
 
-## Planned delivery sequence
+## Telemetry contract
 
-1. Dashboard foundation and explicit unavailable states.
-2. Typed telemetry contracts and isolated simulation provider.
-3. API, persistence, authentication, and authorization after requirements are defined.
-4. Hardware adapter only after controller and communication interfaces are verified.
-5. Test coverage, accessibility, and security hardening.
+Types and structural validation live in `lib/telemetry/`; integration gates are documented in [docs/vehicle-telemetry-contract.md](docs/vehicle-telemetry-contract.md). This contract does not imply that a hardware source exists.
 
+## Quality checks
 
-## Workspace pages
-
-- `/` — vehicle overview and rotatable-model host.
-- `/battery` — battery nameplate context and telemetry integration checklist.
-- `/diagnostics` — software connection and data-readiness checklist.
-- `/tests` — test-session notes saved in the current browser.
-- `/logbook` — engineering notes saved in the current browser.
-
-The light/dark preference is saved locally and applied before the page renders. Test-session and logbook entries are browser-local only; there is no shared backend yet. The interface deliberately shows unavailable measurements until the team's real hardware source is verified.
-
-## Automated checks
-
-GitHub Actions is configured to run lint, TypeScript checking, and a production build on pushes and pull requests to `main`. A successful run should be confirmed in the repository's Actions tab before treating the build as verified.
+The root GitHub Actions workflow runs lint, TypeScript checking, and a production build for the web app. The mobile app has a separate TypeScript configuration and should be installed and checked from the `mobile/` directory. Do not consider the mobile app verified until its dependencies are installed and it is tested on a device or emulator.
