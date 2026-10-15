@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Link from "next/link";
 import ThemeToggle from "@/components/ThemeToggle";
 
 const navigation = [
@@ -12,17 +13,17 @@ export default function AppShell({ children, active, title }: { children: ReactN
   return (
     <main className="app-shell">
       <aside className="sidebar">
-        <a className="brand" href="/" aria-label="Exotic Vehicle Systems home">
+        <Link className="brand" href="/" aria-label="Exotic Vehicle Systems home">
           <span className="brand-mark"><span>EV</span><i>S</i></span>
           <span className="brand-copy"><strong>EXOTIC</strong><small>VEHICLE SYSTEMS</small></span>
-        </a>
+        </Link>
         <div className="side-label">TEAM WORKSPACE</div>
         <nav className="nav-list" aria-label="Main navigation">
           {navigation.map((item) => (
-            <a className={item.key === active ? "nav-item active" : "nav-item"} href={item.href} key={item.key} aria-current={item.key === active ? "page" : undefined}>
+            <Link className={item.key === active ? "nav-item active" : "nav-item"} href={item.href} key={item.key} aria-current={item.key === active ? "page" : undefined}>
               <span className="nav-icon" aria-hidden="true">{item.icon}</span><span>{item.label}</span>
               {item.key === active && <span className="nav-indicator" />}
-            </a>
+            </Link>
           ))}
         </nav>
         <div className="sidebar-bottom">
@@ -39,7 +40,7 @@ export default function AppShell({ children, active, title }: { children: ReactN
       </aside>
       <section className="main-panel">
         <header className="topbar">
-          <div className="breadcrumbs"><a href="/">EVS</a><span className="crumb-sep">/</span><strong>{title}</strong></div>
+          <div className="breadcrumbs"><Link href="/">EVS</Link><span className="crumb-sep">/</span><strong>{title}</strong></div>
           <div className="topbar-actions">
             <ThemeToggle />
             <span className="mode-pill"><span className="status-dot blue-dot" /> NO LIVE DATA</span>
