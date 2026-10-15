@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View, type StyleProp, type ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { theme } from "../lib/theme";
 
@@ -27,7 +27,7 @@ export function Heading({ title, subtitle }: { title: string; subtitle: string }
   );
 }
 
-export function Card({ children, style }: { children: ReactNode; style?: object }) {
+export function Card({ children, style }: { children: ReactNode; style?: StyleProp<ViewStyle> }) {
   return <View style={[styles.card, style]}>{children}</View>;
 }
 
