@@ -8,7 +8,7 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 
 export const metadata: Metadata = {
   title: "EVS | Exotic Vehicle Systems",
-  description: "Engineering dashboard foundation for Exotic Racing Team IAET. Vehicle telemetry is unavailable until a verified hardware integration is configured.",
+  description: "Engineering workspace for the Exotic Racing Team IAET. Vehicle readings remain unavailable until a verified hardware source is connected.",
   applicationName: "Exotic Vehicle Systems",
   robots: { index: false, follow: false },
 };
