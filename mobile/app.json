@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "Exotic Racing",
+    "slug": "exotic-racing-mobile",
+    "scheme": "exoticracing",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.iaet.exoticracing"
+    },
+    "android": {
+      "package": "com.iaet.exoticracing",
+      "edgeToEdgeEnabled": true
+    },
+    "plugins": ["expo-router"],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
