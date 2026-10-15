@@ -1,27 +1,30 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useSyncExternalStore } from "react";
 
 type Theme = "dark" | "light";
 
-export default function ThemeToggle() {
-  const [theme, setTheme] = useState<Theme>("dark");
+const getSnapshot = (): Theme =>
+  document.documentElement.dataset.theme === "light" ? "light" : "dark";
+const getServerSnapshot = (): Theme => "dark";
 
-  useEffect(() => {
-    let saved: string | null = null;
-    try { saved = window.localStorage.getItem("evs-theme"); } catch { /* Storage can be disabled by browser settings. */ }
-    const nextTheme: Theme = saved === "light" ? "light" : "dark";
-    setTheme(nextTheme);
-    document.documentElement.dataset.theme = nextTheme;
-    document.documentElement.style.colorScheme = nextTheme;
+export default function ThemeToggle() {
+  const subscribe = useCallback((notify: () => void) => {
+    window.addEventListener("evs-theme-change", notify);
+    window.addEventListener("storage", notify);
+    return () => {
+      window.removeEventListener("evs-theme-change", notify);
+      window.removeEventListener("storage", notify);
+    };
   }, []);
+  const theme = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
   function toggleTheme() {
     const nextTheme: Theme = theme === "dark" ? "light" : "dark";
-    setTheme(nextTheme);
     document.documentElement.dataset.theme = nextTheme;
     document.documentElement.style.colorScheme = nextTheme;
     try { window.localStorage.setItem("evs-theme", nextTheme); } catch { /* Theme still changes for this page view. */ }
+    window.dispatchEvent(new Event("evs-theme-change"));
   }
 
   return (
