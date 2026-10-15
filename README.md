@@ -62,3 +62,18 @@ The dashboard includes a model-ready vehicle workspace with selectable subsystem
 3. API, persistence, authentication, and authorization after requirements are defined.
 4. Hardware adapter only after controller and communication interfaces are verified.
 5. Test coverage, accessibility, and security hardening.
+
+
+## Workspace pages
+
+- `/` — vehicle overview and rotatable-model host.
+- `/battery` — battery nameplate context and telemetry integration checklist.
+- `/diagnostics` — software connection and data-readiness checklist.
+- `/tests` — test-session notes saved in the current browser.
+- `/logbook` — engineering notes saved in the current browser.
+
+The light/dark preference is saved locally and applied before the page renders. Test-session and logbook entries are browser-local only; there is no shared backend yet. The interface deliberately shows unavailable measurements until the team's real hardware source is verified.
+
+## Automated checks
+
+GitHub Actions is configured to run lint, TypeScript checking, and a production build on pushes and pull requests to `main`. A successful run should be confirmed in the repository's Actions tab before treating the build as verified.
