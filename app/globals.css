@@ -221,7 +221,19 @@ h2 { margin: 0; font-size: 14px; font-weight: 650; letter-spacing: -.15px; }
 .vehicle-viewport:has(.vehicle-model-shell) .viewport-bottomline { z-index: 3; }
 
 /* Light theme overrides: all dashboard surfaces, text, borders, and controls. */
-html[data-theme="light"] { color-scheme: light; }
+html[data-theme="light"] {
+  color-scheme: light;
+  --background: #f3f5f7;
+  --surface: #ffffff;
+  --surface-raised: #f7f9fb;
+  --border: #d8e0e8;
+  --border-soft: #e6ebf0;
+  --text: #202a35;
+  --muted: #68788a;
+  --subtle: #7d8997;
+  --blue: #2f6fa8;
+  --cyan: #267d8c;
+}
 html[data-theme="light"] body { background: #f3f6fb; color: #18263a; }
 html[data-theme="light"] .sidebar { background: #ffffff; border-color: #dce4ef; }
 html[data-theme="light"] .brand-mark { background: linear-gradient(145deg,#e8f2ff,#dceaff); color: #17406f; box-shadow: none; }
@@ -375,3 +387,16 @@ html[data-theme="light"] .quiet-action { border-color: #d6dfe8; color: #56677a; 
 html[data-theme="light"] .health-symbol { background: #f0f4f8; }
 html[data-theme="light"] .coming-soon { background: #edf4fb; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* Keep the workspace restrained rather than decorative. */
+.sidebar { box-shadow: none; }
+.metric-card { background: var(--surface); }
+.vehicle-viewport { background: #101923; }
+.stage-eyebrow, .eyebrow, .side-label { letter-spacing: .8px; }
+.brand-copy small { letter-spacing: .9px; }
+.mode-pill { letter-spacing: .45px; }
+.notice-tag, .coming-soon { letter-spacing: .35px; }
+html[data-theme="light"] .vehicle-viewport { background: #edf2f6; }
+html[data-theme="light"] .model-pending { color: #202a35; }
+html[data-theme="light"] .vehicle-viewport .viewport-topline,
+html[data-theme="light"] .vehicle-viewport .viewport-bottomline { color: #5c7085; }
