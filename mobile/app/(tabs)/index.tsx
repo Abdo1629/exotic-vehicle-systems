@@ -48,7 +48,7 @@ export default function OverviewScreen() {
 }
 
 const styles = StyleSheet.create({
-  hero: { padding: 18, backgroundColor: "#13232E" },
+  hero: { padding: 18, backgroundColor: theme.colors.surfaceRaised },
   heroTop: { flexDirection: "row", alignItems: "center", gap: 12 },
   brandMark: { width: 42, height: 42, borderRadius: 13, backgroundColor: "#1D3D48", borderColor: "#37626A", borderWidth: 1, alignItems: "center", justifyContent: "center" },
   brandGlyph: { color: theme.colors.accent, fontWeight: "900", fontSize: 12, letterSpacing: 1 },
