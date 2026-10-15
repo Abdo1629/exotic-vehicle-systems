@@ -42,6 +42,10 @@ npm run build
 
 These commands should be run in a local Node.js environment or CI. A GitHub file edit does not execute them.
 
+## Vehicle 3D model integration
+
+The dashboard includes a model-ready vehicle workspace with selectable subsystem placeholders. The illustration is generic and is not the team's actual vehicle model. Asset location and integration requirements are documented in [public/models/README.md](public/models/README.md). A GLB renderer and actual model are not included yet.
+
 ## Data integrity and safety boundaries
 
 - Do not label simulated values as live vehicle measurements.
