@@ -8,7 +8,8 @@ export default function ThemeToggle() {
   const [theme, setTheme] = useState<Theme>("dark");
 
   useEffect(() => {
-    const saved = window.localStorage.getItem("evs-theme");
+    let saved: string | null = null;
+    try { saved = window.localStorage.getItem("evs-theme"); } catch { /* Storage can be disabled by browser settings. */ }
     const nextTheme: Theme = saved === "light" ? "light" : "dark";
     setTheme(nextTheme);
     document.documentElement.dataset.theme = nextTheme;
@@ -20,7 +21,7 @@ export default function ThemeToggle() {
     setTheme(nextTheme);
     document.documentElement.dataset.theme = nextTheme;
     document.documentElement.style.colorScheme = nextTheme;
-    window.localStorage.setItem("evs-theme", nextTheme);
+    try { window.localStorage.setItem("evs-theme", nextTheme); } catch { /* Theme still changes for this page view. */ }
   }
 
   return (
