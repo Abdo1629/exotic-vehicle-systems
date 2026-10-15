@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Exotic Vehicle Systems (EVS)
 
-## Getting Started
+Engineering dashboard foundation for Exotic Racing Team IAET.
 
-First, run the development server:
+## Current status
+
+This repository currently contains a responsive dashboard UI foundation. It is **not connected to the vehicle**, is not safety-certified, and must not be used as evidence of vehicle state or readiness.
+
+- Vehicle telemetry: unavailable until hardware and protocol are verified.
+- Remote commands: not implemented.
+- Backend, persistence, authentication, and hardware adapter: not implemented.
+- Dashboard metrics intentionally show unavailable values rather than invented measurements.
+
+## Stack
+
+- Next.js App Router
+- React
+- TypeScript
+- Tailwind CSS v4 (base dependency retained; dashboard styling currently uses CSS variables and component classes)
+
+## Requirements
+
+- Node.js compatible with the installed Next.js 16 version
+- npm
+
+## Run locally
 
 ```bash
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Quality checks
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run lint
+npx tsc --noEmit
+npm run build
+```
 
-## Learn More
+These commands should be run in a local Node.js environment or CI. A GitHub file edit does not execute them.
 
-To learn more about Next.js, take a look at the following resources:
+## Data integrity and safety boundaries
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Do not label simulated values as live vehicle measurements.
+- Treat missing readings as unavailable; do not infer vehicle motion or stopped state from connectivity.
+- A real integration must define measurement units, source identity, timestamps, freshness thresholds, and validity rules.
+- Keep the vehicle adapter separate from API and UI layers.
+- Do not implement remote propulsion, steering, or braking controls.
+- Any future remote operation requires a hardware-specific engineering review, server-side authorization, independent local safety interlocks, and trustworthy target-system acknowledgement.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Planned delivery sequence
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Dashboard foundation and explicit unavailable states.
+2. Typed telemetry contracts and isolated simulation provider.
+3. API, persistence, authentication, and authorization after requirements are defined.
+4. Hardware adapter only after controller and communication interfaces are verified.
+5. Test coverage, accessibility, and security hardening.
