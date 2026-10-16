@@ -44,7 +44,7 @@ jobs:
           key: evs-android-debug-keystore-v1
 
       - name: Install mobile dependencies
-        run: npm ci --prefix mobile --no-audit --no-fund
+        run: npm install --prefix mobile --no-audit --no-fund
 
       - name: Generate native Android project
         working-directory: mobile
