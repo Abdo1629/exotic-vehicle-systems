@@ -7,7 +7,7 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <LocaleProvider>
-        <StatusBar style="light" backgroundColor="#111317" />
+        <StatusBar style="light" />
         <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: "#111317" } }}>
           <Stack.Screen name="(tabs)" />
         </Stack>
