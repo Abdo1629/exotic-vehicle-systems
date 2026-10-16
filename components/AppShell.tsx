@@ -6,6 +6,8 @@ import { LanguageToggle, T } from "@/components/LocaleProvider";
 const navigation = [
   { key: "overview", label: "Overview", ar: "نظرة عامة", icon: "◫", href: "/" },
   { key: "battery", label: "Battery & charging", ar: "البطارية والشحن", icon: "▤", href: "/battery" },
+  { key: "map", label: "Live map", ar: "الخريطة المباشرة", icon: "⌖", href: "/map" },
+  { key: "trips", label: "Trip history", ar: "سجل الرحلات", icon: "↗", href: "/trips" },
   { key: "diagnostics", label: "Diagnostics", ar: "حالة النظام", icon: "⌁", href: "/diagnostics" },
   { key: "tests", label: "Test sessions", ar: "جلسات الاختبار", icon: "◷", href: "/tests" },
   { key: "checklist", label: "Before-test checklist", ar: "قائمة ما قبل الاختبار", icon: "✓", href: "/checklist" },
@@ -18,7 +20,7 @@ export default function AppShell({ children, active, title }: { children: ReactN
     <main className="app-shell">
       <aside className="sidebar">
         <Link className="brand" href="/" aria-label="Exotic Vehicle Systems home">
-          <span className="brand-mark" aria-label="Official team logo placeholder"><span>LOGO</span></span>
+          <span className="brand-mark" aria-label="Official team logo placeholder"><span>IAET</span></span>
           <span className="brand-copy"><strong>EXOTIC</strong><small>VEHICLE SYSTEMS</small></span>
         </Link>
         <div className="side-label"><T en="TEAM WORKSPACE" ar="مساحة عمل الفريق" /></div>
