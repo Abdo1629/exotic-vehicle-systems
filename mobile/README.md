@@ -23,6 +23,18 @@ Install Expo Go on an Android device and scan the QR code on a trusted local net
 - No fabricated readings: measurements remain unavailable until the API returns a verified hardware snapshot.
 - Test notes and Pit Mode checklist use AsyncStorage on this device only; they are not synced or backed up.
 
+## Downloadable Android APK
+
+The website's `/download` page links to the latest published team-test APK. GitHub Actions builds the native Android app after changes to `mobile/**` reach `main`, then replaces the asset at the stable `mobile-latest` prerelease.
+
+- Download page: `/download`
+- APK asset: `https://github.com/Abdo1629/exotic-vehicle-systems/releases/download/mobile-latest/exotic-racing.apk`
+- Build: Expo prebuild + Gradle `assembleDebug`; the APK is installable on Android but is debug-signed for internal team testing, not a production/Play Store release.
+- The workflow caches the Android debug keystore so team-test builds can be updated using the same signature. Do not use this debug key for a production release.
+- The first download becomes available only after the first successful Android APK workflow run on `main`. Check the repository's Actions tab if the download is not available yet.
+
+Android may ask you to allow your browser to install APK files. Install only builds published from the official team repository. Vehicle telemetry still requires the backend and compatible hardware gateway to be configured.
+
 ## API configuration
 
 Set `EXPO_PUBLIC_EVS_API_URL` to the EVS server base URL in the mobile app's local Expo environment. This is a public URL, not a secret. Never put the database service-role key or gateway ingestion token in an `EXPO_PUBLIC_*` variable.

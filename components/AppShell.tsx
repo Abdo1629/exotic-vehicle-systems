@@ -11,6 +11,7 @@ const navigation = [
   { key: "diagnostics", label: "Diagnostics", ar: "حالة النظام", icon: "⌁", href: "/diagnostics" },
   { key: "tests", label: "Test sessions", ar: "جلسات الاختبار", icon: "◷", href: "/tests" },
   { key: "checklist", label: "Before-test checklist", ar: "قائمة ما قبل الاختبار", icon: "✓", href: "/checklist" },
+  { key: "download", label: "Download app", ar: "تنزيل التطبيق", icon: "↓", href: "/download" },
   { key: "logbook", label: "Engineering logbook", ar: "سجل الصيانة والهندسة", icon: "☷", href: "/logbook" },
 ];
 
