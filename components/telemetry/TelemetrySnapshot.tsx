@@ -5,7 +5,7 @@ import type { VehicleTelemetrySnapshot } from "@/lib/telemetry/contracts";
 import { T, useLocale } from "@/components/LocaleProvider";
 
 type ApiResponse = {
-  status: "connected" | "not_configured" | "unavailable" | "authorization_required";
+  status: "connected" | "not_configured" | "unavailable" | "authorization_required" | "stale";
   vehicleId: string;
   data: VehicleTelemetrySnapshot | null;
   message?: string;
