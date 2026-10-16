@@ -2,8 +2,6 @@ import { NextResponse } from "next/server";
 import type { Measurement, VehicleTelemetrySnapshot as ApiSnapshot } from "@/lib/telemetry/contracts";
 import type { NumericReading, VehicleTelemetrySnapshot } from "@/lib/telemetry/types";
 
-export const dynamic = "force-dynamic";
-
 function databaseConfig() {
   const url = process.env.SUPABASE_URL?.replace(/\/$/, "");
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
