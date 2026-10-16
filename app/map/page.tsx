@@ -37,13 +37,12 @@ export default function LiveMapPage() {
     Number.isFinite(lat.value) && Number.isFinite(lon.value) && Math.abs(lat.value) <= 90 && Math.abs(lon.value) <= 180;
   let mapUrl: string | null = null;
   if (hasCoordinates && lat && lon) {
-    const params = new URLSearchParams({ bbox: [lon.value - 0.004, lat.value - 0.003, lon.value + 0.004, lat.value + 0.003].join(","), layer: "mapnik", marker: lat.value + "," + lon.value });
-    mapUrl = "https://www.openstreetmap.org/export/embed.html?" + params.toString();
+    mapUrl = "https://maps.google.com/maps?q=" + lat.value + "," + lon.value + "&z=16&output=embed";
   }
   return <AppShell active="map" title="Live map"><div className="content">
     <div className="page-intro"><div><p className="eyebrow"><span className="eyebrow-line" /> <T en="POSITION & CONNECTIVITY" ar="الموقع والاتصال" /></p><h1><T en="Live vehicle map" ar="خريطة موقع المركبة" /><span className="title-period">.</span></h1><p className="subtitle"><T en="The map updates only from verified GPS coordinates received from the vehicle gateway." ar="لا تُحدَّث الخريطة إلا باستخدام إحداثيات GPS موثّقة تصل من بوابة اتصال المركبة." /></p></div><span className="health-badge neutral">{loading ? (locale === "ar" ? "جارٍ التحقق" : "CHECKING") : hasCoordinates ? (locale === "ar" ? "موقع موثّق" : "VERIFIED GPS") : (locale === "ar" ? "الموقع غير متاح" : "LOCATION UNAVAILABLE")}</span></div>
     <div className="map-layout">
-      <section className="panel-card"><div className="panel-heading"><div><h2><T en="Vehicle position" ar="موقع المركبة" /></h2><p><T en="OpenStreetMap · GPS source required" ar="OpenStreetMap · يتطلب مصدر GPS" /></p></div><span className="panel-icon">⌖</span></div>
+      <section className="panel-card"><div className="panel-heading"><div><h2><T en="Vehicle position" ar="موقع المركبة" /></h2><p><T en="Google Maps · GPS source required" ar="Google Maps · يتطلب مصدر GPS" /></p></div><span className="panel-icon">⌖</span></div>
         {mapUrl ? <iframe className="map-frame" title={locale === "ar" ? "خريطة موقع المركبة" : "Vehicle location map"} src={mapUrl} loading="lazy" referrerPolicy="no-referrer" /> : <div className="map-placeholder"><div><span className="panel-icon">⌖</span><strong><T en="No verified location available" ar="لا يتوفر موقع موثّق للمركبة" /></strong><p><T en="The system will not place a fake marker. Authorize telemetry access and provide valid GPS coordinates from the vehicle gateway." ar="لن يعرض النظام موقعًا افتراضيًا مضللًا. يلزم تفعيل صلاحية الوصول إلى بيانات المركبة واستقبال إحداثيات GPS صحيحة من بوابة الاتصال." /></p></div></div>}
         <div className="panel-footer"><span><T en="Location is sensitive data; team authorization must be enabled before production use." ar="بيانات الموقع حساسة؛ يجب تفعيل صلاحيات أعضاء الفريق قبل الاستخدام الفعلي." /></span></div>
       </section>
