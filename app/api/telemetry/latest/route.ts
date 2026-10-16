@@ -62,7 +62,7 @@ export async function GET(request: Request) {
     const query = new URLSearchParams({
       select: "payload,received_at",
       vehicle_id: `eq.${vehicleId}`,
-      order: "received_at.desc",
+      order: "captured_at.desc",
       limit: "1",
     });
     const response = await fetch(`${config.url}/rest/v1/vehicle_telemetry_snapshots?${query.toString()}`, {
@@ -78,8 +78,18 @@ export async function GET(request: Request) {
       return NextResponse.json({ status: "unavailable", vehicleId, data: null, message: "No telemetry snapshot has been received from the vehicle gateway yet." }, { status: 503, headers: { "Cache-Control": "no-store" } });
     }
     const data = toApiSnapshot(row.payload, row.received_at);
+    const staleAfterSeconds = Number(process.env.EVS_GATEWAY_STALE_AFTER_SECONDS ?? "120");
+    const threshold = Number.isFinite(staleAfterSeconds) && staleAfterSeconds > 0 ? staleAfterSeconds : 120;
+    const ageSeconds = (Date.now() - Date.parse(row.payload.capturedAt)) / 1000;
+    const isStale = !Number.isFinite(ageSeconds) || ageSeconds > threshold;
+    const status = !row.payload.connection.connected ? "unavailable" : isStale ? "stale" : "connected";
+    const message = status === "connected"
+      ? "Latest stored hardware snapshot."
+      : status === "stale"
+        ? "The latest snapshot is older than the configured freshness threshold; live values are withheld."
+        : "The last snapshot reports a disconnected gateway; its readings may not be current.";
     return NextResponse.json(
-      { status: row.payload.connection.connected ? "connected" : "unavailable", vehicleId, data, message: row.payload.connection.connected ? "Latest stored hardware snapshot." : "The last snapshot reports a disconnected gateway; its readings may not be current." },
+      { status, vehicleId, data, message },
       { headers: { "Cache-Control": "no-store" } },
     );
   } catch {
