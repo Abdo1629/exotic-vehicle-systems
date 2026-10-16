@@ -1008,3 +1008,73 @@ html[data-theme="light"] .overview-map-card .panel-footer { background: #f7f9f7;
   .overview-metric { transition: none; }
   .overview-metric:hover { transform: none; }
 }
+
+
+/* Final theme parity pass: shared semantic colors, form controls, and consistent contrast. */
+:root { --iaet-red: #e53935; --iaet-green: #25a56a; --focus-ring: color-mix(in srgb, var(--iaet-red) 42%, transparent); }
+html[data-theme="dark"] {
+  color-scheme: dark; --background: #111317; --surface: #191c21; --surface-raised: #24282e;
+  --border: #353a41; --border-soft: #292d33; --text: #f1f0eb; --muted: #a7a9a8;
+  --subtle: #858a88; --blue: #e53935; --cyan: #25a56a; --accent: #e53935;
+  --accent-soft: #291514; --panel: #171a1e;
+}
+html[data-theme="light"] {
+  color-scheme: light; --background: #f5f6f3; --surface: #ffffff; --surface-raised: #eef1ed;
+  --border: #dce2dd; --border-soft: #e8ece8; --text: #20231f; --muted: #59635d;
+  --subtle: #727a73; --blue: #d9302b; --cyan: #087844; --accent: #d9302b;
+  --accent-soft: #fff0ef; --panel: #ffffff;
+}
+:where(button, input, textarea, select, a):focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+input, textarea, select { color: var(--text); accent-color: var(--accent); }
+html[data-theme="light"] .topbar, html[data-theme="light"] .sidebar { background: var(--surface); border-color: var(--border); }
+html[data-theme="light"] .main-panel, html[data-theme="light"] .content { color: var(--text); }
+html[data-theme="light"] .breadcrumbs strong, html[data-theme="light"] h1, html[data-theme="light"] h2,
+html[data-theme="light"] h3, html[data-theme="light"] .vehicle-state strong, html[data-theme="light"] .brand-copy strong,
+html[data-theme="light"] .health-row strong, html[data-theme="light"] .battery-empty > strong,
+html[data-theme="light"] .activity-empty strong, html[data-theme="light"] .record-item h3,
+html[data-theme="light"] .overview-metric strong, html[data-theme="light"] .overview-map-empty > strong { color: var(--text); }
+html[data-theme="light"] .subtitle, html[data-theme="light"] .breadcrumbs, html[data-theme="light"] .eyebrow,
+html[data-theme="light"] .section-heading p, html[data-theme="light"] .panel-heading p,
+html[data-theme="light"] .vehicle-stage-heading p, html[data-theme="light"] .battery-empty p,
+html[data-theme="light"] .activity-empty p, html[data-theme="light"] .logbook-strip p,
+html[data-theme="light"] .record-item p, html[data-theme="light"] .overview-map-empty > p { color: var(--muted); }
+html[data-theme="light"] .metric-card, html[data-theme="light"] .panel-card, html[data-theme="light"] .vehicle-stage-card,
+html[data-theme="light"] .vehicle-state, html[data-theme="light"] .system-card, html[data-theme="light"] .overview-metric,
+html[data-theme="light"] .overview-map-card, html[data-theme="light"] .overview-trips-card {
+  background-color: var(--surface); border-color: var(--border);
+}
+html[data-theme="light"] .health-row, html[data-theme="light"] .panel-heading, html[data-theme="light"] .panel-footer,
+html[data-theme="light"] .metric-foot, html[data-theme="light"] .profile, html[data-theme="light"] .record-item,
+html[data-theme="light"] .inspector-row { border-color: var(--border-soft); }
+html[data-theme="light"] .nav-item { color: #59635d; }
+html[data-theme="light"] .nav-item:hover, html[data-theme="light"] .nav-item.active {
+  background: #f9eae8; border-color: #f0c9c6; color: #20231f;
+}
+html[data-theme="light"] .nav-item.active .nav-icon { color: var(--accent); }
+html[data-theme="light"] .notice { background: #fff0ef; border-color: #f0cfcc; border-left-color: var(--accent); }
+html[data-theme="light"] .notice-copy strong { color: #472421; }
+html[data-theme="light"] .notice-copy p { color: #59635d; }
+html[data-theme="light"] .metric-value { color: var(--text); }
+html[data-theme="light"] .metric-top { color: var(--muted); }
+html[data-theme="light"] .health-row small, html[data-theme="light"] .metric-unit,
+html[data-theme="light"] .updated-label, html[data-theme="light"] .panel-footer { color: var(--muted); }
+html[data-theme="light"] .health-badge, html[data-theme="light"] .outline-label, html[data-theme="light"] .coming-soon,
+html[data-theme="light"] .notice-tag { background: var(--surface-raised); border-color: var(--border); color: var(--muted); }
+html[data-theme="light"] .record-form input, html[data-theme="light"] .record-form textarea,
+html[data-theme="light"] .system-select { background: var(--surface); color: var(--text); border-color: var(--border); }
+html[data-theme="light"] .record-form input::placeholder, html[data-theme="light"] .record-form textarea::placeholder { color: var(--subtle); }
+html[data-theme="light"] .primary-action { background: var(--accent); border-color: var(--accent); color: #fff; }
+html[data-theme="light"] .primary-action:hover { background: #bd2824; }
+html[data-theme="light"] .quiet-action { border-color: var(--border); color: var(--muted); }
+html[data-theme="light"] .vehicle-viewport { background: radial-gradient(ellipse at 50% 52%, #e4efe7 0%, #f1f5f1 48%, #fafbfa 100%); }
+html[data-theme="light"] .vehicle-inspector { background: var(--surface); border-color: var(--border); }
+html[data-theme="light"] .stage-controls { background: var(--surface-raised); border-color: var(--border); }
+html[data-theme="light"] .stage-tab { color: var(--muted); }
+html[data-theme="light"] .stage-tab.selected { background: var(--accent-soft); border-color: #efc8c4; color: #a62925; }
+html[data-theme="light"] .overview-map-empty {
+  background-color: #f3f7f4;
+  background-image: linear-gradient(#1b6c4210 1px, transparent 1px), linear-gradient(90deg, #1b6c4210 1px, transparent 1px), radial-gradient(ellipse at 50% 42%, #e0eee4 0%, #f3f7f4 72%);
+}
+html[data-theme="light"] .overview-map-empty > .text-link { background: #eaf6ef; border-color: #c4e4d0; color: #087844; }
+html[data-theme="dark"] .overview-map-empty { background-color: #121715; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
