@@ -4,7 +4,7 @@ import { T } from "@/components/LocaleProvider";
 const checks = [
   ["Battery data source", "No interface or protocol verified", "NOT CONFIGURED", "مصدر بيانات البطارية", "لم يتم التحقق من الواجهة أو البروتوكول", "غير مُعد"],
   ["Motor controller", "Model and communication protocol unknown", "NOT CONFIGURED", "وحدة التحكم في المحرك", "الموديل وبروتوكول الاتصال غير معروفين", "غير مُعد"],
-  ["Vehicle gateway", "No adapter connected to the application", "OFFLINE", "وحدة الاتصال بالعربية", "لا يوجد وسيط اتصال مرتبط بالتطبيق", "غير متصل"],
+  ["Vehicle gateway", "No adapter connected to the application", "OFFLINE", "وحدة الاتصال بالمركبة", "لا يوجد وسيط اتصال مرتبط بالتطبيق", "غير متصل"],
   ["Telemetry freshness", "No timestamps have been received", "UNKNOWN", "حداثة القراءات", "لم يتم استقبال طوابع زمنية", "غير معروفة"],
   ["Remote commands", "Not implemented; no commands are sent", "DISABLED", "الأوامر عن بُعد", "غير منفذة ولا يتم إرسال أوامر", "معطّلة"],
 ];
