@@ -57,13 +57,13 @@ export default function LocalRecordBook({ storageKey, heading, description, butt
   return (
     <div className="record-layout">
       <section className="panel-card record-form-panel">
-        <div className="panel-heading"><div><h2>{heading === "New test session" ? <T en={heading} ar="جلسة اختبار جديدة" /> : <T en={heading} ar="ملاحظة هندسية جديدة" />}</h2><p>{description === "Write down the session purpose and observations." ? <T en={description} ar="سجّل هدف الجلسة والملاحظات." /> : <T en={description} ar="وضّح ما الذي تغيّر وما الذي تم فحصه وما الذي لا يزال مفتوحًا." />}</p></div><span className="panel-icon">＋</span></div>
+        <div className="panel-heading"><div><h2>{heading === "New test session" ? <T en={heading} ar="جلسة اختبار جديدة" /> : <T en={heading} ar="ملاحظة هندسية جديدة" />}</h2><p>{description === "Write down the session purpose and observations." ? <T en={description} ar="دوّن هدف الجلسة والملاحظات." /> : <T en={description} ar="وضّح التغييرات التي أُجريت، وما تم فحصه، وما لا يزال قيد المتابعة." />}</p></div><span className="panel-icon">＋</span></div>
         <form className="record-form" onSubmit={addRecord}>
           <label><T en="Title" ar="العنوان" /><input required value={title} onChange={(event) => setTitle(event.target.value)} placeholder={rtl ? "مثال: فحص البطارية" : "e.g. Battery inspection"} maxLength={100} /></label>
           <label><T en="Date" ar="التاريخ" /><input required type="date" value={date} onChange={(event) => setDate(event.target.value)} /></label>
           <label><T en="Notes" ar="ملاحظات" /><textarea value={notes} onChange={(event) => setNotes(event.target.value)} placeholder={rtl ? "إيه اللي تم فحصه أو تغييره أو ملاحظته؟" : "What was checked, changed, or observed?"} rows={4} maxLength={2000} /></label>
           <button className="primary-action" type="submit">{rtl ? (buttonLabel === "Save session" ? "حفظ الجلسة" : "حفظ الملاحظة") : buttonLabel}</button>
-          <p className="local-storage-note"><T en="Saved in this browser only. It is not uploaded or shared with the team." ar="يتم الحفظ في المتصفح ده فقط، ولا يتم رفع السجل أو مشاركته مع الفريق." /></p>
+          <p className="local-storage-note"><T en="Saved in this browser only. It is not uploaded or shared with the team." ar="يُحفظ السجل في هذا المتصفح فقط، ولا يُرفع أو يُشارك مع بقية أعضاء الفريق." /></p>
         </form>
       </section>
       <section className="panel-card record-list-panel">
