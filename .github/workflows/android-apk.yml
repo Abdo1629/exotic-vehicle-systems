@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   build-and-publish:
-    name: Build and publish installable Android APK
+    name: Build and publish standalone Android APK
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
@@ -44,17 +44,20 @@ jobs:
           key: evs-android-debug-keystore-v1
 
       - name: Install mobile dependencies
-        run: npm install --prefix mobile --no-audit --no-fund
+        run: npm ci --prefix mobile --no-audit --no-fund
 
       - name: Generate native Android project
         working-directory: mobile
         run: npx expo prebuild --platform android --no-install --non-interactive
 
-      - name: Build installable APK
+      # Debug variants intentionally skip Metro JS bundling in React Native.
+      # Release variant packages the JS bundle inside the APK, so it runs
+      # without Metro, USB debugging, or a development server.
+      - name: Build standalone APK with embedded JavaScript bundle
         working-directory: mobile/android
         run: |
           chmod +x gradlew
-          ./gradlew --no-daemon assembleDebug
+          ./gradlew --no-daemon assembleRelease
 
       - name: Publish latest team-test APK
         env:
@@ -63,12 +66,12 @@ jobs:
           BUILD_SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
-          APK="mobile/android/app/build/outputs/apk/debug/app-debug.apk"
+          APK="mobile/android/app/build/outputs/apk/release/app-release.apk"
           test -s "$APK"
-          NOTES="$(printf '%s\n\n' 'Automatically built Android APK for internal Exotic Racing Team testing.' 'This is a debug-signed team-test build, not a Google Play production release. Install only if you trust the official team repository.' "Source commit: $BUILD_SHA")"
+          NOTES="$(printf '%s\n\n' 'Standalone Android APK for internal Exotic Racing Team testing.' 'JavaScript is bundled in the APK; Metro and a USB connection are not required. This is a team-test release, not a Google Play production release.' "Source commit: $BUILD_SHA")"
           if gh release view mobile-latest >/dev/null 2>&1; then
-            gh release edit mobile-latest --target "$BUILD_SHA" --title "Exotic Racing Android — Team Test" --notes "$NOTES" --prerelease
+            gh release edit mobile-latest --target "$BUILD_SHA" --title "Exotic Racing Android — Standalone Team Build" --notes "$NOTES" --prerelease
           else
-            gh release create mobile-latest --target "$BUILD_SHA" --title "Exotic Racing Android — Team Test" --notes "$NOTES" --prerelease
+            gh release create mobile-latest --target "$BUILD_SHA" --title "Exotic Racing Android — Standalone Team Build" --notes "$NOTES" --prerelease
           fi
           gh release upload mobile-latest "$APK#exotic-racing.apk" --clobber
