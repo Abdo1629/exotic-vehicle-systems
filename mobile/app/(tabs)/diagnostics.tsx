@@ -1,9 +1,11 @@
 import { StyleSheet, Text, View } from "react-native";
 import { Card, Heading, Pill, Screen } from "../../components/Screen";
-import { theme } from "../../lib/theme";
+import { useTheme, type ThemeColors } from "../../lib/theme";
 import { useLocale } from "../../lib/i18n";
 
 export default function DiagnosticsScreen() {
+  const { colors } = useTheme();
+  const styles = makeStyles(colors);
   const { tr, locale } = useLocale();
   const checks = [
     { name: tr("Vehicle gateway", "وحدة الاتصال بالمركبة"), state: tr("NOT CONFIGURED", "غير مُعدة"), detail: tr("No verified gateway or hardware adapter is connected.", "لا توجد وحدة اتصال أو وسيط أجهزة تم التحقق منه.") },
@@ -34,16 +36,17 @@ export default function DiagnosticsScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+function makeStyles(colors: ThemeColors) { return StyleSheet.create({
   row: { flexDirection: "row", alignItems: "flex-start", gap: 12 },
   rowRtl: { flexDirection: "row-reverse" },
   textRtl: { alignItems: "stretch" },
-  number: { width: 36, height: 36, borderRadius: 11, backgroundColor: theme.colors.surfaceRaised, alignItems: "center", justifyContent: "center" },
-  numberText: { color: theme.colors.accent, fontSize: 11, fontWeight: "800" },
+  number: { width: 36, height: 36, borderRadius: 11, backgroundColor: colors.surfaceRaised, alignItems: "center", justifyContent: "center" },
+  numberText: { color: colors.accent, fontSize: 11, fontWeight: "800" },
   content: { flex: 1, gap: 8 },
-  name: { color: theme.colors.text, fontWeight: "700", fontSize: 14 },
-  detail: { color: theme.colors.muted, fontSize: 12, lineHeight: 18 },
-  infoCard: { borderColor: theme.colors.border, backgroundColor: theme.colors.surfaceRaised, marginTop: 4 },
-  infoTitle: { color: theme.colors.warning, fontWeight: "700", fontSize: 13 },
-  infoBody: { color: theme.colors.muted, fontSize: 12, lineHeight: 19 },
+  name: { color: colors.text, fontWeight: "700", fontSize: 14 },
+  detail: { color: colors.muted, fontSize: 12, lineHeight: 18 },
+  infoCard: { borderColor: colors.border, backgroundColor: colors.surfaceRaised, marginTop: 4 },
+  infoTitle: { color: colors.warning, fontWeight: "700", fontSize: 13 },
+  infoBody: { color: colors.muted, fontSize: 12, lineHeight: 19 },
 });
+}

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Card, Heading, Pill, Screen } from "../../components/Screen";
-import { theme } from "../../lib/theme";
+import { useTheme, type ThemeColors } from "../../lib/theme";
 import { useLocale } from "../../lib/i18n";
 
 const STORAGE_KEY = "evs.mobile.pretest-checklist.v1";
@@ -16,6 +16,8 @@ const checklist = [
 ];
 
 export default function PitScreen() {
+  const { colors } = useTheme();
+  const styles = makeStyles(colors);
   const { tr, locale } = useLocale();
   const [checked, setChecked] = useState<Record<string, boolean>>({});
   const [loading, setLoading] = useState(true);
@@ -51,27 +53,28 @@ export default function PitScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  summary: { backgroundColor: theme.colors.surfaceRaised },
+function makeStyles(colors: ThemeColors) { return StyleSheet.create({
+  summary: { backgroundColor: colors.surfaceRaised },
   summaryRow: { flexDirection: "row", alignItems: "center", gap: 10 },
   rowRtl: { flexDirection: "row-reverse" },
   textRtl: { textAlign: "right" },
-  summaryTitle: { color: theme.colors.text, fontSize: 15, fontWeight: "800" },
-  summarySub: { color: theme.colors.muted, fontSize: 11, lineHeight: 17 },
-  count: { color: theme.colors.accent, fontSize: 23, fontWeight: "800" },
-  track: { height: 5, borderRadius: 99, overflow: "hidden", backgroundColor: theme.colors.border },
-  fill: { height: "100%", backgroundColor: theme.colors.accent, borderRadius: 99 },
-  task: { flexDirection: "row", alignItems: "center", gap: 10, padding: 13, backgroundColor: theme.colors.surface, borderWidth: 1, borderColor: theme.colors.border, borderRadius: 12 },
-  taskDone: { borderColor: theme.colors.accent + "77" },
+  summaryTitle: { color: colors.text, fontSize: 15, fontWeight: "800" },
+  summarySub: { color: colors.muted, fontSize: 11, lineHeight: 17 },
+  count: { color: colors.accent, fontSize: 23, fontWeight: "800" },
+  track: { height: 5, borderRadius: 99, overflow: "hidden", backgroundColor: colors.border },
+  fill: { height: "100%", backgroundColor: colors.accent, borderRadius: 99 },
+  task: { flexDirection: "row", alignItems: "center", gap: 10, padding: 13, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border, borderRadius: 12 },
+  taskDone: { borderColor: colors.accent + "77" },
   pressed: { opacity: 0.75 },
-  number: { width: 34, height: 34, borderRadius: 10, alignItems: "center", justifyContent: "center", backgroundColor: theme.colors.surfaceRaised, borderWidth: 1, borderColor: theme.colors.border },
-  numberDone: { backgroundColor: theme.colors.accent + "20", borderColor: theme.colors.accent },
-  numberText: { color: theme.colors.muted, fontSize: 10, fontWeight: "800" },
-  numberTextDone: { color: theme.colors.accent },
+  number: { width: 34, height: 34, borderRadius: 10, alignItems: "center", justifyContent: "center", backgroundColor: colors.surfaceRaised, borderWidth: 1, borderColor: colors.border },
+  numberDone: { backgroundColor: colors.accent + "20", borderColor: colors.accent },
+  numberText: { color: colors.muted, fontSize: 10, fontWeight: "800" },
+  numberTextDone: { color: colors.accent },
   taskCopy: { flex: 1, gap: 5 },
-  taskTitle: { color: theme.colors.text, fontSize: 12, fontWeight: "700", lineHeight: 18 },
-  taskSub: { color: theme.colors.subtle, fontSize: 10, lineHeight: 15 },
-  warning: { backgroundColor: theme.colors.surfaceRaised },
-  warningTitle: { color: theme.colors.warning, fontSize: 13, fontWeight: "800" },
-  warningBody: { color: theme.colors.muted, fontSize: 11, lineHeight: 18 },
+  taskTitle: { color: colors.text, fontSize: 12, fontWeight: "700", lineHeight: 18 },
+  taskSub: { color: colors.subtle, fontSize: 10, lineHeight: 15 },
+  warning: { backgroundColor: colors.surfaceRaised },
+  warningTitle: { color: colors.warning, fontSize: 13, fontWeight: "800" },
+  warningBody: { color: colors.muted, fontSize: 11, lineHeight: 18 },
 });
+}
