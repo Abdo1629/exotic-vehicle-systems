@@ -1078,3 +1078,4 @@ html[data-theme="light"] .overview-map-empty {
 html[data-theme="light"] .overview-map-empty > .text-link { background: #eaf6ef; border-color: #c4e4d0; color: #087844; }
 html[data-theme="dark"] .overview-map-empty { background-color: #121715; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
