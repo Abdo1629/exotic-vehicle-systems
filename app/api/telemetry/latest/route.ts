@@ -1,42 +1,70 @@
 import { NextResponse } from "next/server";
-import { telemetryProvider } from "@/lib/telemetry/provider";
+import type { Measurement, VehicleTelemetrySnapshot as ApiSnapshot } from "@/lib/telemetry/contracts";
+import type { NumericReading, VehicleTelemetrySnapshot } from "@/lib/telemetry/types";
 
 export const dynamic = "force-dynamic";
+
+function databaseConfig() {
+  const url = process.env.SUPABASE_URL?.replace(/\/$/, "");
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  return url && key ? { url, key } : null;
+}
+
+function measurement(reading: NumericReading | undefined, source: string): Measurement | undefined {
+  if (!reading || reading.quality !== "valid" || reading.value === null || !reading.measuredAt) return undefined;
+  return { value: reading.value, unit: reading.unit, measuredAt: reading.measuredAt, source, quality: "verified" };
+}
+
+function toApiSnapshot(snapshot: VehicleTelemetrySnapshot, receivedAt: string): ApiSnapshot {
+  const source = snapshot.source.id;
+  return {
+    vehicleId: snapshot.vehicleId,
+    receivedAt,
+    connection: snapshot.connection.connected ? "connected" : "disconnected",
+    stateOfChargePercent: measurement(snapshot.battery.stateOfCharge, source),
+    batteryVoltageV: measurement(snapshot.battery.voltage, source),
+    batteryCurrentA: measurement(snapshot.battery.current, source),
+    batteryTemperatureC: measurement(snapshot.battery.temperature, source),
+  };
+}
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const vehicleId = searchParams.get("vehicleId")?.trim() || "exotic-racing-01";
+  const config = databaseConfig();
 
-  if (!telemetryProvider) {
+  if (!config) {
     return NextResponse.json(
-      {
-        status: "not_configured",
-        vehicleId,
-        data: null,
-        message:
-          "Telemetry adapter is not configured. Connect a verified GPS/BMS/controller source to enable live readings.",
-      },
+      { status: "not_configured", vehicleId, data: null, message: "Persistent telemetry storage is not configured. Set the server-side database credentials after creating the schema." },
       { status: 503, headers: { "Cache-Control": "no-store" } },
     );
   }
 
   try {
-    const data = await telemetryProvider.getLatestSnapshot(vehicleId);
-    if (!data) {
-      return NextResponse.json(
-        { status: "unavailable", vehicleId, data: null, message: "No telemetry snapshot has been received yet." },
-        { status: 503, headers: { "Cache-Control": "no-store" } },
-      );
+    const query = new URLSearchParams({
+      select: "payload,received_at",
+      vehicle_id: `eq.${vehicleId}`,
+      order: "received_at.desc",
+      limit: "1",
+    });
+    const response = await fetch(`${config.url}/rest/v1/vehicle_telemetry_snapshots?${query.toString()}`, {
+      headers: { apikey: config.key, Authorization: `Bearer ${config.key}` },
+      cache: "no-store",
+    });
+    if (!response.ok) {
+      return NextResponse.json({ status: "unavailable", vehicleId, data: null, message: "Telemetry storage could not be queried." }, { status: 503, headers: { "Cache-Control": "no-store" } });
     }
-
+    const rows = await response.json() as Array<{ payload: VehicleTelemetrySnapshot; received_at: string }>;
+    const row = rows[0];
+    if (!row?.payload) {
+      return NextResponse.json({ status: "unavailable", vehicleId, data: null, message: "No telemetry snapshot has been received from the vehicle gateway yet." }, { status: 503, headers: { "Cache-Control": "no-store" } });
+    }
+    const data = toApiSnapshot(row.payload, row.received_at);
     return NextResponse.json(
-      { status: "connected", vehicleId, data },
+      { status: row.payload.connection.connected ? "connected" : "unavailable", vehicleId, data, message: row.payload.connection.connected ? "Latest stored hardware snapshot." : "The last snapshot reports a disconnected gateway; its readings may not be current." },
       { headers: { "Cache-Control": "no-store" } },
     );
   } catch {
-    return NextResponse.json(
-      { status: "unavailable", vehicleId, data: null, message: "The telemetry provider could not be reached." },
-      { status: 503, headers: { "Cache-Control": "no-store" } },
-    );
+    return NextResponse.json({ status: "unavailable", vehicleId, data: null, message: "Persistent telemetry storage could not be reached." }, { status: 503, headers: { "Cache-Control": "no-store" } });
   }
 }
