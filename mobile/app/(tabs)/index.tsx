@@ -1,5 +1,5 @@
 import { Link } from "expo-router";
-import { StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 import { Card, Eyebrow, Heading, Label, Pill, Screen, Value } from "../../components/Screen";
 import { theme } from "../../lib/theme";
 
@@ -16,7 +16,7 @@ export default function OverviewScreen() {
       <Heading title="Vehicle overview." subtitle="The team's mobile engineering companion. Live data will appear after a verified hardware connection." />
       <Card style={styles.hero}>
         <View style={styles.heroTop}>
-          <View style={styles.brandMark}><Text style={styles.brandGlyph}>EX</Text></View>
+          <Image source={require("../../assets/exotic-racing-logo.jpg")} style={styles.brandImage} accessibilityLabel="Exotic Racing Team logo" />
           <View style={{ flex: 1, gap: 3 }}>
             <Eyebrow>VEHICLE 01</Eyebrow>
             <Text style={styles.heroTitle}>Exotic Racer</Text>
@@ -50,8 +50,7 @@ export default function OverviewScreen() {
 const styles = StyleSheet.create({
   hero: { padding: 18, backgroundColor: theme.colors.surfaceRaised },
   heroTop: { flexDirection: "row", alignItems: "center", gap: 12 },
-  brandMark: { width: 42, height: 42, borderRadius: 13, backgroundColor: "#1D3D48", borderColor: "#37626A", borderWidth: 1, alignItems: "center", justifyContent: "center" },
-  brandGlyph: { color: theme.colors.accent, fontWeight: "900", fontSize: 12, letterSpacing: 1 },
+  brandImage: { width: 48, height: 48, borderRadius: 10, borderWidth: 1, borderColor: theme.colors.border },
   heroTitle: { color: theme.colors.text, fontSize: 21, fontWeight: "700" },
   divider: { height: 1, backgroundColor: theme.colors.border, marginVertical: 14 },
   heroMessage: { color: theme.colors.muted, fontSize: 13, lineHeight: 19 },
