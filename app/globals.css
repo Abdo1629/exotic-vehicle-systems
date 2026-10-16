@@ -590,3 +590,27 @@ html[dir="rtl"] .footer { direction: rtl; }
   .mode-pill { max-width: 84px; }
   .theme-toggle span:last-child { display: none; }
 }
+
+
+/* Pre-test checklist — clear task states and progress feedback */
+.pit-checklist { overflow: hidden; }
+.pit-progress { display: grid; gap: 10px; padding: 16px 18px; border-bottom: 1px solid var(--border-soft); }
+.pit-progress-copy { display: flex; align-items: baseline; gap: 9px; }
+.pit-progress-copy strong { color: var(--text); font-size: 17px; font-variant-numeric: tabular-nums; }
+.pit-progress-copy span { color: var(--muted); font-size: 11px; }
+.pit-progress-track { height: 5px; overflow: hidden; border-radius: 99px; background: var(--border); }
+.pit-progress-track span { display: block; height: 100%; border-radius: inherit; background: var(--accent); transition: width .18s ease; }
+.pit-list { padding: 0 18px; }
+.pit-item { display: flex; width: 100%; align-items: center; gap: 13px; padding: 15px 0; border: 0; border-bottom: 1px solid var(--border-soft); background: transparent; color: var(--text); text-align: left; cursor: pointer; font: inherit; }
+.pit-item:last-child { border-bottom: 0; }
+.pit-check { display: grid; width: 32px; height: 32px; flex: 0 0 32px; place-items: center; border: 1px solid var(--border); border-radius: 8px; color: var(--muted); font-size: 10px; font-weight: 800; }
+.pit-item.checked .pit-check { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+.pit-item-copy { display: flex; flex: 1; flex-direction: column; gap: 5px; }
+.pit-item-copy strong { font-size: 12px; font-weight: 650; line-height: 1.6; }
+.pit-item-copy small { color: var(--subtle); font-size: 10px; line-height: 1.5; }
+.pit-item-state { color: var(--subtle); font-size: 8px; font-weight: 800; letter-spacing: .5px; }
+.pit-item.checked .pit-item-state { color: var(--accent); }
+.pit-checklist .panel-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+html[dir="rtl"] .pit-item { text-align: right; }
+html[dir="rtl"] .pit-item-copy { text-align: right; }
+@media (max-width: 520px) { .pit-list { padding: 0 13px; } .pit-item { gap: 9px; } .pit-item-copy strong { font-size: 11px; } .pit-item-state { font-size: 7px; } .pit-checklist .panel-footer { align-items: flex-start; flex-direction: column; } }
