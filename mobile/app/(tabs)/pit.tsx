@@ -42,7 +42,7 @@ export default function PitScreen() {
         const done = checked[item.id] === true;
         return <Pressable key={item.id} onPress={() => setChecked((prev) => ({ ...prev, [item.id]: !prev[item.id] }))} accessibilityRole="checkbox" accessibilityState={{ checked: done }} style={({ pressed }) => [styles.task, done && styles.taskDone, pressed && styles.pressed, locale === "ar" && styles.rowRtl]}>
           <View style={[styles.number, done && styles.numberDone]}><Text style={[styles.numberText, done && styles.numberTextDone]}>{done ? "✓" : String(index + 1).padStart(2, "0")}</Text></View>
-          <View style={[styles.taskCopy, locale === "ar" && styles.textRtl]}><Text style={styles.taskTitle}>{tr(item.en, item.ar)}</Text><Text style={styles.taskSub}>{tr(done ? "Marked complete on this phone" : "Mark only after the responsible person verifies it", done ? "تم التأشير كمكتمل على الموبايل" : "لا تؤشر عليه إلا بعد تحقق الشخص المسؤول")}</Text></View>
+          <View style={styles.taskCopy}><Text style={[styles.taskTitle, locale === "ar" && styles.textRtl]}>{tr(item.en, item.ar)}</Text><Text style={[styles.taskSub, locale === "ar" && styles.textRtl]}>{tr(done ? "Marked complete on this phone" : "Mark only after the responsible person verifies it", done ? "تم التأشير كمكتمل على الموبايل" : "لا تؤشر عليه إلا بعد تحقق الشخص المسؤول")}</Text></View>
           <Pill tone={done ? "accent" : "neutral"}>{tr(done ? "DONE" : "OPEN", done ? "تم" : "مفتوح")}</Pill>
         </Pressable>;
       })}
