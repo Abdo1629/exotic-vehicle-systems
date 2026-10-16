@@ -15,9 +15,15 @@
       "package": "com.iaet.exoticracing",
       "edgeToEdgeEnabled": true
     },
-    "plugins": ["expo-router"],
+    "plugins": [
+      "expo-router"
+    ],
     "experiments": {
       "typedRoutes": true
+    },
+    "androidStatusBar": {
+      "backgroundColor": "#111317",
+      "barStyle": "light-content"
     }
   }
 }

@@ -1,27 +1,19 @@
 # Exotic Vehicle Systems (EVS)
 
-Engineering dashboard and mobile companion foundation for Exotic Racing Team IAET.
-
-## Current status
-
-The web dashboard and mobile app are **not connected to the vehicle**, are not safety-certified, and must not be used as evidence of vehicle state or readiness.
-
-- Vehicle telemetry: unavailable until hardware and protocol are verified.
-- Remote commands: not implemented.
-- Backend, team sync, authentication, and hardware adapter: not implemented.
-- Measurements remain unavailable rather than invented.
+Bilingual vehicle-operations software for Exotic Racing Team IAET, designed as a product foundation for multiple teams and vehicles.
 
 ## Applications
 
-### Web dashboard (repository root)
+### Web dashboard
+Next.js App Router, React, TypeScript. Run with `npm ci && npm run dev`.
 
-- Next.js App Router, React, TypeScript
-- Run: `npm ci && npm run dev`
-- Pages: overview, battery, diagnostics, tests, engineering logbook
+- Arabic/English language toggle with RTL layout and Arabic typography.
+- Overview, battery & charging, diagnostics, test sessions, pre-test checklist and engineering logbook.
+- Telemetry cards read from the API and do not generate measurements.
+- Dark/light theme and responsive phone-sized web layout.
 
-### Mobile app (Expo)
-
-The separate React Native app lives in [mobile/](mobile/README.md) and supports Android first, with iOS configured for future use.
+### Mobile app
+Expo + React Native + TypeScript under [mobile/](mobile/README.md). Android-first; iOS is configured for future use.
 
 ```bash
 cd mobile
@@ -29,31 +21,49 @@ npm install
 npx expo start
 ```
 
-Mobile screens:
-- Overview — connection readiness and unavailable telemetry
-- Battery — known nameplate details and unavailable live readings
-- System — diagnostics readiness
-- Test log — local notes stored on the device
+- Dedicated app header that respects the phone's safe area/status bar.
+- Arabic/English toggle, RTL-aware layouts and bottom navigation.
+- Overview and Battery poll the configured latest-telemetry API; System, Test Log and Pit Mode screens are available.
+- Test notes and Pit Mode checklist state are still stored locally on the device and are not synced to the team server.
 
-Mobile notes are not synced to the web dashboard or a team server.
+## Real telemetry integration
 
-## Vehicle 3D model
+The software now has a versioned data contract, structural validation, authenticated ingestion endpoint, PostgreSQL schema and latest-snapshot API integration:
 
-The web dashboard has a model-ready vehicle workspace, but the actual team GLB asset has not been supplied. A generic placeholder is not the team's vehicle.
+- Contract and validation: `lib/telemetry/`
+- Ingestion: `POST /api/telemetry/ingest`
+- Latest snapshot: `GET /api/telemetry/latest`
+- Database schema: `supabase/migrations/202610160001_vehicle_telemetry.sql`
+- Hardware + cellular architecture: [docs/cellular-telemetry-architecture.md](docs/cellular-telemetry-architecture.md)
+- Contract details: [docs/vehicle-telemetry-contract.md](docs/vehicle-telemetry-contract.md)
+- Environment template: [.env.example](.env.example)
+
+### Important setup gates
+
+1. Apply the SQL migration to a private Supabase project.
+2. Configure `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, and a strong `EVS_INGEST_TOKEN` as server-only deployment secrets.
+3. Identify the exact BMS and motor-controller models and documented interfaces.
+4. Select a cellular gateway/modem with matching interfaces, supported LTE bands and GPS if needed; use a data SIM in the gateway so it can transmit without Wi-Fi.
+5. Build and bench-test the hardware adapter, then validate units, timestamps, disconnect behavior and buffering.
+6. **Before public or commercial deployment, add and verify sign-in, team/vehicle authorization and protected telemetry reads.** The ingestion route is authenticated, but the current read path is not yet a complete user authorization system. Do not expose private vehicle telemetry publicly.
+
+The battery reported by the team is Smart App Series Marine LiFePO4, rated 24 V / 80 Ah. These are label specifications only. They do not identify the BMS protocol or confirm live readings.
 
 ## Data integrity and safety boundaries
 
-- Do not label simulated values as live measurements.
-- Missing readings are unavailable; do not infer motion or stopped state from connectivity.
-- A real integration must define units, source identity, timestamps, freshness thresholds, and validity rules.
-- Keep the vehicle adapter separate from API and UI layers.
-- Do not implement remote propulsion, steering, or braking controls.
-- Future remote operations require a hardware-specific engineering review, server-side authorization, independent local safety interlocks, and trustworthy target-system acknowledgement.
+- No invented live values. Missing, invalid or stale data must remain clearly identified.
+- Connection state does not prove that the car is stopped or safe.
+- Production ingestion rejects payloads marked as simulation.
+- Do not assume CAN, UART, RS-485, Bluetooth or any other protocol before verifying the actual hardware documentation.
+- The app is a monitoring/engineering workspace, not a safety-certified controller.
+- No remote propulsion, steering or braking commands are in scope.
+- Any future lock/unlock operation requires separate hardware validation, authorization, safety review and confirmed command acknowledgement.
 
-## Telemetry contract
+## Current limitations
 
-Types and structural validation live in `lib/telemetry/`; integration gates are documented in [docs/vehicle-telemetry-contract.md](docs/vehicle-telemetry-contract.md). This contract does not imply that a hardware source exists.
-
-## Quality checks
-
-The root GitHub Actions workflow runs lint, TypeScript checking, and a production build for the web app. The mobile app has a separate TypeScript configuration and should be installed and checked from the `mobile/` directory. Do not consider the mobile app verified until its dependencies are installed and it is tested on a device or emulator.
+- No vehicle gateway has been connected or verified yet.
+- Cloud database and deployment secrets must be configured by the team.
+- Team accounts, role-based permissions and protected read access remain release blockers.
+- Web and mobile logbooks are local-only; shared records, audit trails, trip history, maps, energy analytics and push notifications require backend work.
+- The actual team vehicle GLB model has not yet been supplied.
+- Changes in this branch have not been built or tested on a physical phone in this environment; run the web and mobile quality checks before merging.

@@ -1,12 +1,30 @@
 import type { ReactNode } from "react";
-import { ScrollView, StyleSheet, Text, View, type StyleProp, type ViewStyle } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View, type StyleProp, type ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { theme } from "../lib/theme";
+import { useLocale } from "../lib/i18n";
 
 export function Screen({ children }: { children: ReactNode }) {
+  const { locale, toggle, tr } = useLocale();
+  const rtl = locale === "ar";
   return (
     <SafeAreaView style={styles.safe} edges={["top"]}>
-      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+      <View style={[styles.appHeader, rtl && styles.rowRtl]}>
+        <View style={[styles.brandGroup, rtl && styles.rowRtl]}>
+          <View style={styles.brandMark}><Text style={styles.brandGlyph}>EVS</Text></View>
+          <View style={styles.brandCopy}>
+            <Text style={styles.brandTitle}>EXOTIC RACING</Text>
+            <Text style={styles.brandSubtitle}>{tr("IAET · VEHICLE SYSTEMS", "IAET · أنظمة العربية")}</Text>
+          </View>
+        </View>
+        <View style={[styles.headerActions, rtl && styles.rowRtl]}>
+          <View style={[styles.connectionPill, rtl && styles.rowRtl]}><View style={styles.offlineDot} /><Text style={styles.connectionText}>{tr("OFFLINE", "غير متصلة")}</Text></View>
+          <Pressable onPress={toggle} accessibilityRole="button" accessibilityLabel={tr("Switch language", "تغيير اللغة")} style={styles.languageButton}>
+            <Text style={styles.languageText}>{rtl ? "EN" : "عربي"}</Text>
+          </Pressable>
+        </View>
+      </View>
+      <ScrollView contentContainerStyle={[styles.content, rtl && styles.rtlContent]} showsVerticalScrollIndicator={false}>
         {children}
       </ScrollView>
     </SafeAreaView>
@@ -18,9 +36,10 @@ export function Eyebrow({ children }: { children: ReactNode }) {
 }
 
 export function Heading({ title, subtitle }: { title: string; subtitle: string }) {
+  const { locale, tr } = useLocale();
   return (
-    <View style={styles.heading}>
-      <Eyebrow>EXOTIC RACING · IAET</Eyebrow>
+    <View style={[styles.heading, locale === "ar" && styles.textRtl]}>
+      <Eyebrow>{tr("EXOTIC RACING · IAET", "إكزوتك ريسينج · المعهد")}</Eyebrow>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.subtitle}>{subtitle}</Text>
     </View>
@@ -51,11 +70,27 @@ export function Pill({ children, tone = "neutral" }: { children: ReactNode; tone
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: theme.colors.background },
+  appHeader: { minHeight: 66, paddingHorizontal: 17, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: theme.colors.border, flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 10, backgroundColor: theme.colors.surface },
+  brandGroup: { flexDirection: "row", alignItems: "center", gap: 9, flexShrink: 1 },
+  brandMark: { width: 36, height: 36, borderRadius: 9, borderWidth: 1, borderColor: "#756442", backgroundColor: "#292821", alignItems: "center", justifyContent: "center" },
+  brandGlyph: { color: theme.colors.accent, fontWeight: "900", fontSize: 10, letterSpacing: 1 },
+  brandCopy: { gap: 3, flexShrink: 1 },
+  brandTitle: { color: theme.colors.text, fontWeight: "800", fontSize: 10, letterSpacing: 1 },
+  brandSubtitle: { color: theme.colors.subtle, fontSize: 8 },
+  headerActions: { flexDirection: "row", alignItems: "center", gap: 7 },
+  connectionPill: { flexDirection: "row", alignItems: "center", gap: 5, borderWidth: 1, borderColor: theme.colors.border, borderRadius: 99, paddingHorizontal: 8, paddingVertical: 6 },
+  offlineDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: theme.colors.warning },
+  connectionText: { color: theme.colors.muted, fontSize: 8, fontWeight: "800" },
+  languageButton: { minHeight: 32, minWidth: 39, alignItems: "center", justifyContent: "center", borderRadius: 8, borderWidth: 1, borderColor: theme.colors.border, paddingHorizontal: 8 },
+  languageText: { color: theme.colors.text, fontSize: 11, fontWeight: "800" },
   content: { padding: 20, paddingBottom: 34, gap: 16 },
+  rtlContent: { direction: "rtl" },
+  rowRtl: { flexDirection: "row-reverse" },
+  textRtl: { alignItems: "stretch" },
   heading: { gap: 7, marginBottom: 4 },
   eyebrow: { color: theme.colors.accent, fontSize: 10, letterSpacing: 1.2, fontWeight: "700" },
-  title: { color: theme.colors.text, fontSize: 29, fontWeight: "700", letterSpacing: -0.6 },
-  subtitle: { color: theme.colors.muted, fontSize: 13, lineHeight: 19, maxWidth: 330 },
+  title: { color: theme.colors.text, fontSize: 27, fontWeight: "700", letterSpacing: -0.4, textAlign: "auto" },
+  subtitle: { color: theme.colors.muted, fontSize: 13, lineHeight: 20, maxWidth: 360, textAlign: "auto" },
   card: { backgroundColor: theme.colors.surface, borderColor: theme.colors.border, borderWidth: 1, borderRadius: theme.radius.card, padding: 16, gap: 12 },
   label: { color: theme.colors.muted, fontSize: 12, fontWeight: "600" },
   valueRow: { flexDirection: "row", alignItems: "baseline", gap: 6 },

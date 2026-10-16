@@ -2,12 +2,15 @@
 
 import { useCallback, useMemo, useState, useSyncExternalStore } from "react";
 import type { FormEvent } from "react";
+import { T, useLocale } from "@/components/LocaleProvider";
 
 type RecordItem = { id: string; title: string; date: string; notes: string; createdAt: string };
 
 export default function LocalRecordBook({ storageKey, heading, description, buttonLabel, emptyTitle, emptyDescription }: {
   storageKey: string; heading: string; description: string; buttonLabel: string; emptyTitle: string; emptyDescription: string;
 }) {
+  const { locale } = useLocale();
+  const rtl = locale === "ar";
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
   const [notes, setNotes] = useState("");
@@ -54,23 +57,23 @@ export default function LocalRecordBook({ storageKey, heading, description, butt
   return (
     <div className="record-layout">
       <section className="panel-card record-form-panel">
-        <div className="panel-heading"><div><h2>{heading}</h2><p>{description}</p></div><span className="panel-icon">＋</span></div>
+        <div className="panel-heading"><div><h2>{heading === "New test session" ? <T en={heading} ar="جلسة اختبار جديدة" /> : <T en={heading} ar="ملاحظة هندسية جديدة" />}</h2><p>{description === "Write down the session purpose and observations." ? <T en={description} ar="سجّل هدف الجلسة والملاحظات." /> : <T en={description} ar="وضّح ما الذي تغيّر وما الذي تم فحصه وما الذي لا يزال مفتوحًا." />}</p></div><span className="panel-icon">＋</span></div>
         <form className="record-form" onSubmit={addRecord}>
-          <label>Title<input required value={title} onChange={(event) => setTitle(event.target.value)} placeholder="e.g. Battery inspection" maxLength={100} /></label>
-          <label>Date<input required type="date" value={date} onChange={(event) => setDate(event.target.value)} /></label>
-          <label>Notes<textarea value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="What was checked, changed, or observed?" rows={4} maxLength={2000} /></label>
-          <button className="primary-action" type="submit">{buttonLabel}</button>
-          <p className="local-storage-note">Saved in this browser only. It is not uploaded or shared with the team.</p>
+          <label><T en="Title" ar="العنوان" /><input required value={title} onChange={(event) => setTitle(event.target.value)} placeholder={rtl ? "مثال: فحص البطارية" : "e.g. Battery inspection"} maxLength={100} /></label>
+          <label><T en="Date" ar="التاريخ" /><input required type="date" value={date} onChange={(event) => setDate(event.target.value)} /></label>
+          <label><T en="Notes" ar="ملاحظات" /><textarea value={notes} onChange={(event) => setNotes(event.target.value)} placeholder={rtl ? "إيه اللي تم فحصه أو تغييره أو ملاحظته؟" : "What was checked, changed, or observed?"} rows={4} maxLength={2000} /></label>
+          <button className="primary-action" type="submit">{rtl ? (buttonLabel === "Save session" ? "حفظ الجلسة" : "حفظ الملاحظة") : buttonLabel}</button>
+          <p className="local-storage-note"><T en="Saved in this browser only. It is not uploaded or shared with the team." ar="يتم الحفظ في المتصفح ده فقط، ولا يتم رفع السجل أو مشاركته مع الفريق." /></p>
         </form>
       </section>
       <section className="panel-card record-list-panel">
-        <div className="panel-heading"><div><h2>Saved records</h2><p>{`${items.length} entr${items.length === 1 ? "y" : "ies"} on this device`}</p></div><span className="panel-icon">☷</span></div>
+        <div className="panel-heading"><div><h2><T en="Saved records" ar="السجلات المحفوظة" /></h2><p>{rtl ? `${items.length} سجل على الجهاز ده` : `${items.length} ${items.length === 1 ? "entry" : "entries"} on this device`}</p></div><span className="panel-icon">☷</span></div>
         {items.length === 0 ? (
-          <div className="record-empty"><span className="empty-icon">☷</span><strong>{emptyTitle}</strong><p>{emptyDescription}</p></div>
+          <div className="record-empty"><span className="empty-icon">☷</span><strong>{rtl ? (emptyTitle === "No sessions recorded" ? "لا توجد جلسات مسجلة" : "لا توجد ملاحظات هندسية بعد") : emptyTitle}</strong><p>{rtl ? "أضف أول سجل بعد فحص أو اختبار موثّق." : emptyDescription}</p></div>
         ) : (
           <div className="record-list">{items.map((item) => (
             <article className="record-item" key={item.id}>
-              <div className="record-item-top"><div><time>{item.date}</time><h3>{item.title}</h3></div><button className="quiet-action" type="button" onClick={() => save(items.filter((record) => record.id !== item.id))} aria-label={`Delete ${item.title}`}>Delete</button></div>
+              <div className="record-item-top"><div><time>{item.date}</time><h3>{item.title}</h3></div><button className="quiet-action" type="button" onClick={() => save(items.filter((record) => record.id !== item.id))} aria-label={rtl ? `حذف ${item.title}` : `Delete ${item.title}`}><T en="Delete" ar="حذف" /></button></div>
               {item.notes && <p>{item.notes}</p>}
             </article>
           ))}</div>
