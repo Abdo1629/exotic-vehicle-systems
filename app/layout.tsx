@@ -16,6 +16,7 @@ export const metadata: Metadata = {
   title: "EVS | Exotic Vehicle Systems",
   description: "Engineering workspace for the Exotic Racing Team IAET. Vehicle readings remain unavailable until a verified hardware source is connected.",
   applicationName: "Exotic Vehicle Systems",
+  icons: { icon: "/exotic-racing-logo.jpg", apple: "/exotic-racing-logo.jpg" },
   robots: { index: false, follow: false },
 };
 
