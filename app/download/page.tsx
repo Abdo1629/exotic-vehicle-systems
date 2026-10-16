@@ -1,7 +1,7 @@
 import AppShell from "@/components/AppShell";
 import { T } from "@/components/LocaleProvider";
 
-const apkUrl = "https://github.com/Abdo1629/exotic-vehicle-systems/releases/download/mobile-latest/exotic-racing.apk";
+const apkUrl = "https://github.com/Abdo1629/exotic-vehicle-systems/releases/download/mobile-latest/app-release.apk";
 
 export default function DownloadPage() {
   return (
