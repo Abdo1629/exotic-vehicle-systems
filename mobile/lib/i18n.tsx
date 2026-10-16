@@ -1,5 +1,4 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
-import { I18nManager } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export type Locale = "en" | "ar";
