@@ -9,7 +9,7 @@ export type TelemetryApiSnapshot = {
   batteryTemperatureC?: ApiMeasurement;
 };
 export type TelemetryApiResponse = {
-  status: "connected" | "not_configured" | "unavailable";
+  status: "connected" | "not_configured" | "unavailable" | "authorization_required";
   vehicleId: string;
   data: TelemetryApiSnapshot | null;
   message?: string;
