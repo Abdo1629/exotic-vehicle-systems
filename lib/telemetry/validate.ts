@@ -39,6 +39,8 @@ function validateReading(
   }
   if (value.measuredAt !== null && !isTimestamp(value.measuredAt)) {
     errors.push(`${path}.measuredAt must be a timestamp or null`);
+  } else if (isTimestamp(value.measuredAt) && Date.parse(value.measuredAt) > Date.now() + 60_000) {
+    errors.push(`${path}.measuredAt cannot be more than 60 seconds in the future`);
   }
   if (typeof value.quality !== "string" || !qualities.includes(value.quality as (typeof qualities)[number])) {
     errors.push(`${path}.quality is not supported`);
@@ -78,6 +80,7 @@ export function validateTelemetrySnapshot(input: unknown): TelemetryValidationRe
   if (input.schemaVersion !== "1.0") errors.push('schemaVersion must be "1.0"');
   if (typeof input.vehicleId !== "string" || !input.vehicleId.trim()) errors.push("vehicleId is required");
   if (!isTimestamp(input.capturedAt)) errors.push("capturedAt must be a valid timestamp");
+  else if (Date.parse(input.capturedAt) > Date.now() + 60_000) errors.push("capturedAt cannot be more than 60 seconds in the future");
 
   if (!isRecord(input.source)) {
     errors.push("source must be an object");
