@@ -1,15 +1,27 @@
+import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Card, Heading, Label, Pill, Screen, Value } from "../../components/Screen";
 import { theme } from "../../lib/theme";
 import { useLocale } from "../../lib/i18n";
+import { fetchLatestTelemetry, type TelemetryApiResponse } from "../../lib/api";
 
 export default function BatteryScreen() {
   const { tr, locale } = useLocale();
+  const [response, setResponse] = useState<TelemetryApiResponse | null>(null);
+  useEffect(() => {
+    let active = true;
+    const load = async () => { const result = await fetchLatestTelemetry(); if (active) setResponse(result); };
+    void load();
+    const timer = setInterval(() => void load(), 10000);
+    return () => { active = false; clearInterval(timer); };
+  }, []);
+  const data = response?.data;
+  const connected = response?.status === "connected" && data?.connection === "connected";
   const readings = [
-    { label: tr("State of charge", "نسبة الشحن"), unit: "%" },
-    { label: tr("Pack voltage", "جهد البطارية"), unit: "V" },
-    { label: tr("Current", "التيار"), unit: "A" },
-    { label: tr("Temperature", "درجة الحرارة"), unit: "°C" },
+    { label: tr("State of charge", "نسبة الشحن"), value: connected ? data?.stateOfChargePercent?.value : undefined, unit: "%" },
+    { label: tr("Pack voltage", "جهد البطارية"), value: connected ? data?.batteryVoltageV?.value : undefined, unit: "V" },
+    { label: tr("Current", "التيار"), value: connected ? data?.batteryCurrentA?.value : undefined, unit: "A" },
+    { label: tr("Temperature", "درجة الحرارة"), value: connected ? data?.batteryTemperatureC?.value : undefined, unit: "°C" },
   ];
   const checks = [
     tr("Identify the exact BMS model and documented interface.", "حدد موديل الـBMS وواجهة الاتصال الموثقة بدقة."),
@@ -26,10 +38,11 @@ export default function BatteryScreen() {
         <View style={[styles.specRow, locale === "ar" && styles.rowRtl]}><Text style={styles.specLabel}>{tr("Rated capacity", "السعة الاسمية")}</Text><Text style={styles.specValue}>80 Ah</Text></View>
         <Text style={[styles.note, locale === "ar" && styles.textRtl]}>{tr("These are nameplate specifications only, not live voltage, remaining charge or a charging estimate.", "دي مواصفات الملصق فقط، مش الجهد الحالي أو الشحن المتبقي أو تقدير وقت الشحن.")}</Text>
       </Card>
-      <View style={[styles.sectionHeading, locale === "ar" && styles.rowRtl]}><Text style={styles.sectionTitle}>{tr("Live readings", "القراءات المباشرة")}</Text><Pill>{tr("UNAVAILABLE", "غير متاحة")}</Pill></View>
+      <View style={[styles.sectionHeading, locale === "ar" && styles.rowRtl]}><Text style={styles.sectionTitle}>{tr("Live readings", "القراءات المباشرة")}</Text><Pill tone={connected ? "accent" : "neutral"}>{connected ? tr("LIVE SOURCE", "مصدر مباشر") : tr("UNAVAILABLE", "غير متاحة")}</Pill></View>
       <View style={styles.readingGrid}>
-        {readings.map((item) => <Card key={item.label} style={styles.reading}><Label>{item.label}</Label><Value unit={item.unit}>—</Value><Text style={styles.note}>{tr("No verified source", "لا يوجد مصدر موثّق")}</Text></Card>)}
+        {readings.map((item) => <Card key={item.label} style={styles.reading}><Label>{item.label}</Label><Value unit={item.unit}>{typeof item.value === "number" && Number.isFinite(item.value) ? item.value.toLocaleString(locale === "ar" ? "ar-EG" : "en-US", { maximumFractionDigits: 2 }) : "—"}</Value><Text style={styles.note}>{connected ? tr("Verified source", "مصدر موثّق") : tr("No current verified reading", "لا توجد قراءة حالية موثّقة")}</Text></Card>)}
       </View>
+      {data?.receivedAt ? <Text style={styles.note}>{tr("Last server receipt", "آخر استقبال على الخادم")}: {new Date(data.receivedAt).toLocaleString(locale === "ar" ? "ar-EG" : "en-US")}</Text> : null}
       <Card>
         <Text style={styles.cardTitle}>{tr("Before connecting telemetry", "قبل ربط القراءات")}</Text>
         {checks.map((item, index) => <View style={[styles.checkRow, locale === "ar" && styles.rowRtl]} key={item}><Text style={styles.checkNumber}>{String(index + 1).padStart(2, "0")}</Text><Text style={[styles.checkText, locale === "ar" && styles.textRtl]}>{item}</Text></View>)}
