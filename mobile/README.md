@@ -1,6 +1,6 @@
 # Exotic Racing Mobile
 
-Expo + React Native + TypeScript companion app for the Exotic Racing Team IAET vehicle systems workspace.
+Expo + React Native + TypeScript companion app for the EVS vehicle systems workspace.
 
 ## Run on Android
 
@@ -12,24 +12,38 @@ npm install
 npx expo start
 ```
 
-Install Expo Go on an Android device, then scan the QR code from the same trusted local network. Alternatively, use an Android emulator with Android Studio and run `npm run android`.
+Install Expo Go on an Android device and scan the QR code on a trusted local network, or use an Android emulator.
 
-## Current screens
+## Mobile experience
 
-- Overview — connection readiness and unavailable telemetry.
-- Battery — confirmed nameplate details (24 V, 80 Ah LiFePO4) and unavailable live readings.
-- System — data source and diagnostics readiness.
-- Test log — create and delete notes persisted locally on this device using AsyncStorage.
+- Phone-safe app header with brand, connection status and language switch.
+- Arabic/English UI with right-to-left layout for core screens.
+- Bottom navigation: Overview, Battery, System diagnostics, Test log and Pit Mode checklist.
+- Overview polls `/api/telemetry/latest` every 10 seconds when `EXPO_PUBLIC_EVS_API_URL` is configured.
+- No fabricated readings: measurements remain unavailable until the API returns a verified hardware snapshot.
+- Test notes and Pit Mode checklist use AsyncStorage on this device only; they are not synced or backed up.
+
+## API configuration
+
+Set `EXPO_PUBLIC_EVS_API_URL` to the EVS server base URL in the mobile app's local Expo environment. This is a public URL, not a secret. Never put the database service-role key or gateway ingestion token in an `EXPO_PUBLIC_*` variable.
+
+**Do not point a production build at an endpoint with public vehicle reads.** The current latest-read API is an integration foundation; sign-in and team/vehicle-level read authorization must be implemented and verified before a public pilot. See [cellular telemetry architecture](../docs/cellular-telemetry-architecture.md).
+
+## Real vehicle data
+
+The app does not communicate directly with the BMS, motor controller, SIM or gateway. The intended path is:
+
+1. Verified BMS/controller interfaces feed a vehicle gateway.
+2. The gateway sends validated snapshots over cellular data using a SIM and HTTPS/TLS.
+3. The authenticated server ingestion endpoint validates and stores snapshots in PostgreSQL.
+4. The mobile app reads authorized latest snapshots from the server.
+
+No gateway, hardware protocol, cellular modem or SIM plan has been selected yet. Verify exact controller/BMS models and interface documentation before choosing hardware.
 
 ## Safety and data integrity
 
-This is an early UI foundation, not a live vehicle monitor. No hardware connection, API, account, team sync, push notification, or remote command is implemented. A network connection or an empty value must not be interpreted as a safe vehicle state. No fabricated telemetry is displayed.
+A network connection or missing value must not be interpreted as a safe vehicle state. The app is not a safety controller and sends no vehicle commands. Do not use local mobile notes as the only copy of safety-critical records.
 
-The logbook stores notes on this device only. Do not use it as the sole copy of safety-critical test records.
+## Quality checks
 
-## Next integration steps
-
-1. Test on an actual Android phone and fix layout issues.
-2. Add unit tests for the mobile telemetry contract and UI state.
-3. Agree on a backend API and authentication requirements.
-4. Integrate a hardware adapter only after the BMS/controller models, documented interfaces, units, and safe bench-test process are confirmed.
+Run `npm run typecheck` from `mobile/`, then test on a real Android device and a small-screen emulator. Verify Arabic and English, keyboard/input behavior, status bar and safe areas, poor connectivity, and server timeouts before release.

@@ -1,6 +1,6 @@
 /**
  * Versioned boundary between a verified vehicle adapter and the dashboard.
- * These types describe data; they do not imply that a hardware source exists.
+ * Optional signals remain absent until a documented hardware source is mapped.
  */
 export type TelemetrySourceKind = "bms" | "motor_controller" | "gateway" | "manual" | "simulation";
 export type ReadingQuality = "valid" | "stale" | "invalid" | "unavailable";
@@ -24,6 +24,21 @@ export interface BatteryTelemetry {
   voltage: NumericReading; // unit: "V"
   current: NumericReading; // unit: "A"; sign convention must be documented by adapter
   temperature: NumericReading; // unit: "°C"; sensor location must be documented
+  chargerConnected?: { value: boolean | null; measuredAt: string | null; quality: "valid" | "unavailable" };
+}
+
+export interface MotorTelemetry {
+  speedKph?: NumericReading; // unit: "km/h"
+  temperatureC?: NumericReading; // unit: "°C"
+  voltageV?: NumericReading; // unit: "V"
+  currentA?: NumericReading; // unit: "A"
+  controllerTemperatureC?: NumericReading; // unit: "°C"
+}
+
+export interface GpsTelemetry {
+  latitudeDeg?: NumericReading; // unit: "deg"
+  longitudeDeg?: NumericReading; // unit: "deg"
+  accuracyM?: NumericReading; // unit: "m"
 }
 
 export interface VehicleTelemetrySnapshot {
@@ -36,6 +51,9 @@ export interface VehicleTelemetrySnapshot {
     lastMessageAt: string | null;
   };
   battery: BatteryTelemetry;
+  motor?: MotorTelemetry;
+  gps?: GpsTelemetry;
+  odometerKm?: NumericReading;
 }
 
 export type TelemetryValidationResult =

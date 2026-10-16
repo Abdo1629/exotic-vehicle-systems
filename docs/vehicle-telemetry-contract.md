@@ -16,9 +16,12 @@ Every snapshot includes:
 - `capturedAt`: timestamp for the snapshot
 - `source`: stable source ID, source kind, and explicit simulation flag
 - `connection`: transport connection status and last received message timestamp
-- `battery`: SOC, voltage, current, and temperature readings
+- `battery`: SOC, voltage, current, and temperature readings; optional charger-connected state
+- optional `motor`: vehicle speed, motor/controller temperature, voltage and current
+- optional `gps`: latitude, longitude and fix accuracy
+- optional `odometerKm`: odometer measurement
 
-Every numeric reading has a value (or `null`), an explicit unit, measurement timestamp (or `null`), and quality: `valid`, `stale`, `invalid`, or `unavailable`.
+Every numeric reading has a value (or `null`), an explicit unit, measurement timestamp (or `null`), and quality: `valid`, `stale`, `invalid`, or `unavailable`. Optional groups can be omitted when the vehicle does not expose that signal; do not fill absent GPS or motor signals with placeholders. GPS coordinates are range-checked, but validation does not verify the real location.
 
 ## Rules
 
