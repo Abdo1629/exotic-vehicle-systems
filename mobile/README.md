@@ -18,10 +18,10 @@ Install Expo Go on an Android device and scan the QR code on a trusted local net
 
 - Phone-safe app header with brand, connection status and language switch.
 - Arabic/English UI with right-to-left layout for core screens.
-- Bottom navigation: Overview, Battery, System diagnostics and Test log.
+- Bottom navigation: Overview, Battery, System diagnostics, Test log and Pit Mode checklist.
 - Overview polls `/api/telemetry/latest` every 10 seconds when `EXPO_PUBLIC_EVS_API_URL` is configured.
 - No fabricated readings: measurements remain unavailable until the API returns a verified hardware snapshot.
-- Test notes use AsyncStorage on this device only; they are not synced or backed up.
+- Test notes and Pit Mode checklist use AsyncStorage on this device only; they are not synced or backed up.
 
 ## API configuration
 
