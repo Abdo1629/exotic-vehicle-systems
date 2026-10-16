@@ -54,8 +54,14 @@ function validateReading(
     if (path.endsWith(".stateOfCharge") && (value.value < 0 || value.value > 100)) {
       errors.push(`${path}.value must be between 0 and 100`);
     }
-    if (path.endsWith(".voltage") && value.value < 0) {
+    if ((path.endsWith(".voltage") || path.endsWith(".voltageV") || path.endsWith(".speedKph") || path.endsWith(".accuracyM") || path.endsWith(".odometerKm")) && value.value < 0) {
       errors.push(`${path}.value cannot be negative`);
+    }
+    if (path.endsWith(".latitudeDeg") && (value.value < -90 || value.value > 90)) {
+      errors.push(`${path}.value must be between -90 and 90`);
+    }
+    if (path.endsWith(".longitudeDeg") && (value.value < -180 || value.value > 180)) {
+      errors.push(`${path}.value must be between -180 and 180`);
     }
   }
   return true;
@@ -106,6 +112,36 @@ export function validateTelemetrySnapshot(input: unknown): TelemetryValidationRe
     validateReading(input.battery.current, "battery.current", "A", errors);
     validateReading(input.battery.temperature, "battery.temperature", "°C", errors);
   }
+
+  if (isRecord(input.battery) && input.battery.chargerConnected !== undefined) {
+    const charging = input.battery.chargerConnected;
+    if (!isRecord(charging)) {
+      errors.push("battery.chargerConnected must be an object");
+    } else {
+      if (charging.value !== null && typeof charging.value !== "boolean") errors.push("battery.chargerConnected.value must be boolean or null");
+      if (charging.measuredAt !== null && !isTimestamp(charging.measuredAt)) errors.push("battery.chargerConnected.measuredAt must be a timestamp or null");
+      if (charging.quality !== "valid" && charging.quality !== "unavailable") errors.push("battery.chargerConnected.quality is not supported");
+      if (charging.quality === "valid" && (typeof charging.value !== "boolean" || !isTimestamp(charging.measuredAt))) errors.push("battery.chargerConnected cannot be valid without a value and timestamp");
+      if (charging.quality === "unavailable" && charging.value !== null) errors.push("battery.chargerConnected must be null when unavailable");
+    }
+  }
+
+  const optionalGroups: Array<{ key: "motor" | "gps"; readings: Array<[string, string]> }> = [
+    { key: "motor", readings: [["speedKph", "km/h"], ["temperatureC", "°C"], ["voltageV", "V"], ["currentA", "A"], ["controllerTemperatureC", "°C"]] },
+    { key: "gps", readings: [["latitudeDeg", "deg"], ["longitudeDeg", "deg"], ["accuracyM", "m"]] },
+  ];
+  for (const group of optionalGroups) {
+    const rawGroup = input[group.key];
+    if (rawGroup === undefined) continue;
+    if (!isRecord(rawGroup)) {
+      errors.push(`${group.key} must be an object`);
+      continue;
+    }
+    for (const [field, unit] of group.readings) {
+      if (rawGroup[field] !== undefined) validateReading(rawGroup[field], `${group.key}.${field}`, unit, errors);
+    }
+  }
+  if (input.odometerKm !== undefined) validateReading(input.odometerKm, "odometerKm", "km", errors);
 
   if (errors.length > 0) return { ok: false, errors };
   return { ok: true, data: input as unknown as VehicleTelemetrySnapshot };
