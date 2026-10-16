@@ -1,6 +1,6 @@
 import { Link } from "expo-router";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { Card, Eyebrow, Heading, Label, Pill, Screen, Value } from "../../components/Screen";
 import { theme } from "../../lib/theme";
 import { useLocale } from "../../lib/i18n";
