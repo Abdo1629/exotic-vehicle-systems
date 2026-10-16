@@ -5,10 +5,9 @@ import { useTheme, type ThemeColors } from "../lib/theme";
 import { useLocale } from "../lib/i18n";
 
 export function Screen({ children }: { children: ReactNode }) {
-  const { colors } = useTheme();
+  const { colors, mode, toggle: toggleTheme } = useTheme();
   const styles = makeStyles(colors);
   const { locale, toggle, tr } = useLocale();
-  const { mode, toggle: toggleTheme } = useTheme();
   const rtl = locale === "ar";
   return (
     <SafeAreaView style={styles.safe} edges={["top"]}>
@@ -109,12 +108,12 @@ function makeStyles(colors: ThemeColors) { return StyleSheet.create({
   eyebrow: { color: colors.accent, fontSize: 10, letterSpacing: 1.2, fontWeight: "700" },
   title: { color: colors.text, fontSize: 27, fontWeight: "700", letterSpacing: -0.4, textAlign: "auto" },
   subtitle: { color: colors.muted, fontSize: 13, lineHeight: 20, maxWidth: 360, textAlign: "auto" },
-  card: { backgroundColor: colors.surface, borderColor: colors.border, borderWidth: 1, borderRadius: theme.radius.card, padding: 16, gap: 12 },
+  card: { backgroundColor: colors.surface, borderColor: colors.border, borderWidth: 1, borderRadius: 9, padding: 16, gap: 12 },
   label: { color: colors.muted, fontSize: 12, fontWeight: "600" },
   valueRow: { flexDirection: "row", alignItems: "baseline", gap: 6 },
   value: { color: colors.text, fontSize: 26, fontWeight: "700", letterSpacing: -0.5 },
   unit: { color: colors.subtle, fontSize: 12 },
-  pill: { alignSelf: "flex-start", borderWidth: 1, borderRadius: theme.radius.pill, paddingHorizontal: 10, paddingVertical: 5 },
+  pill: { alignSelf: "flex-start", borderWidth: 1, borderRadius: 999, paddingHorizontal: 10, paddingVertical: 5 },
   pillText: { fontSize: 9, letterSpacing: 0.8, fontWeight: "800" },
 });
 }
