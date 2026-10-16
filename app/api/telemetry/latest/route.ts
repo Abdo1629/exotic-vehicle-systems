@@ -31,6 +31,11 @@ function toApiSnapshot(snapshot: VehicleTelemetrySnapshot, receivedAt: string): 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const vehicleId = searchParams.get("vehicleId")?.trim() || "exotic-racing-01";
+  // Fail closed: vehicle telemetry can include location and operational details.
+  // Replace this internal-only gate with verified sign-in + team/vehicle authorization before release.
+  if (process.env.EVS_ALLOW_UNAUTHENTICATED_TELEMETRY_READ !== "true") {
+    return NextResponse.json({ status: "authorization_required", vehicleId, data: null, message: "Telemetry reads are protected until team and vehicle authorization is configured." }, { status: 403, headers: { "Cache-Control": "no-store" } });
+  }
   const config = databaseConfig();
 
   if (!config) {
