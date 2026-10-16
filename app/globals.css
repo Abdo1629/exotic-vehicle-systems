@@ -751,3 +751,16 @@ html[data-theme="light"] .brand-copy small { color: #67726a; }
   height: 100%;
   object-fit: cover;
 }
+
+
+/* Android app download section */
+.app-download-card { display:flex; align-items:center; gap:18px; margin:24px 0; padding:22px; border:1px solid var(--border); border-radius:16px; background:linear-gradient(115deg, color-mix(in srgb, #df302c 10%, var(--surface)), var(--surface) 68%); }
+.app-download-mark { display:grid; place-items:center; width:48px; height:48px; flex:0 0 48px; border-radius:13px; background:#df302c; color:#fff; font-size:28px; font-weight:800; }
+.app-download-copy { flex:1; min-width:0; }
+.app-download-copy h2 { margin:6px 0; color:var(--text); font-size:18px; font-weight:750; }
+.app-download-copy p { margin:0; color:var(--muted); font-size:13px; line-height:1.6; }
+.app-download-actions { display:flex; flex-direction:column; align-items:stretch; gap:9px; }
+.app-download-button { display:inline-flex; align-items:center; justify-content:center; gap:10px; padding:12px 16px; border-radius:10px; background:#df302c; color:#fff; font-size:13px; font-weight:750; text-decoration:none; white-space:nowrap; }
+.app-download-button:hover { background:#c92723; }
+.app-download-status { color:var(--muted); font-size:12px; text-align:center; text-decoration:underline; }
+@media (max-width:640px) { .app-download-card { align-items:flex-start; flex-wrap:wrap; padding:16px; } .app-download-copy { flex-basis:calc(100% - 68px); } .app-download-actions { width:100%; } }
