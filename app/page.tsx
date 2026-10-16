@@ -9,11 +9,11 @@ export default function Home() {
       <div className="content">
         <section className="welcome-row">
           <div>
-            <div className="eyebrow"><span className="eyebrow-line" /> <T en="TEAM VEHICLE / OVERVIEW" ar="عربية الفريق / نظرة عامة" /></div>
-            <h1><T en="Vehicle overview" ar="ملخص العربية" /><span className="title-period">.</span></h1>
-            <p className="subtitle"><T en="Understand the latest confirmed vehicle information and what needs attention." ar="اعرف آخر معلومات مؤكدة عن العربية وإيه اللي محتاج متابعة." /></p>
+            <div className="eyebrow"><span className="eyebrow-line" /> <T en="TEAM VEHICLE / OVERVIEW" ar="مركبة الفريق / نظرة عامة" /></div>
+            <h1><T en="Vehicle overview" ar="ملخص المركبة" /><span className="title-period">.</span></h1>
+            <p className="subtitle"><T en="Understand the latest confirmed vehicle information and what needs attention." ar="اطّلع على أحدث المعلومات المؤكدة عن المركبة والعناصر التي تتطلب المتابعة." /></p>
           </div>
-          <div className="vehicle-state"><span className="state-symbol">↗</span><div><span><T en="VEHICLE STATUS" ar="حالة العربية" /></span><strong><T en="Not connected" ar="غير متصلة بالنظام" /></strong><small><T en="Movement and safety state are unknown" ar="حالة الحركة والسلامة غير معروفة" /></small></div></div>
+          <div className="vehicle-state"><span className="state-symbol">↗</span><div><span><T en="VEHICLE STATUS" ar="حالة المركبة" /></span><strong><T en="Not connected" ar="غير متصلة بالنظام" /></strong><small><T en="Movement and safety state are unknown" ar="حالة الحركة والسلامة غير معروفة" /></small></div></div>
         </section>
         <VehicleModelStage />
         <TelemetrySnapshot />
@@ -21,12 +21,12 @@ export default function Home() {
           <section className="panel-card" id="diagnostics">
             <div className="panel-heading"><div><h2><T en="System readiness" ar="جاهزية النظام" /></h2><p><T en="Connection and data quality" ar="الاتصال وجودة البيانات" /></p></div><span className="panel-icon">⌁</span></div>
             <div className="health-list">
-              <div className="health-row"><span className="health-symbol">◉</span><div><strong><T en="Vehicle gateway" ar="وحدة الاتصال بالعربية" /></strong><small><T en="No adapter configured" ar="لم يتم إعداد وسيط اتصال" /></small></div><span className="health-badge neutral"><T en="NOT SET" ar="غير مُعد" /></span></div>
+              <div className="health-row"><span className="health-symbol">◉</span><div><strong><T en="Vehicle gateway" ar="وحدة الاتصال بالمركبة" /></strong><small><T en="No adapter configured" ar="لم يتم إعداد وسيط اتصال" /></small></div><span className="health-badge neutral"><T en="NOT SET" ar="غير مُعد" /></span></div>
               <div className="health-row"><span className="health-symbol">▤</span><div><strong><T en="Telemetry stream" ar="تدفق القراءات" /></strong><small><T en="No readings received" ar="لم يتم استقبال قراءات" /></small></div><span className="health-badge neutral"><T en="WAITING" ar="في الانتظار" /></span></div>
               <div className="health-row"><span className="health-symbol">⌑</span><div><strong><T en="Data freshness" ar="حداثة البيانات" /></strong><small><T en="Cannot be evaluated yet" ar="لا يمكن تقييمها حتى الآن" /></small></div><span className="health-badge neutral"><T en="UNKNOWN" ar="غير معروفة" /></span></div>
               <div className="health-row"><span className="health-symbol">✓</span><div><strong><T en="Remote commands" ar="الأوامر عن بُعد" /></strong><small><T en="Not implemented or enabled" ar="غير منفذة وغير مفعّلة" /></small></div><span className="health-badge disabled"><T en="DISABLED" ar="معطّلة" /></span></div>
             </div>
-            <div className="panel-footer"><span><T en="System readiness does not certify the physical vehicle as safe." ar="جاهزية النظام لا تعني أن العربية آمنة للتشغيل." /></span></div>
+            <div className="panel-footer"><span><T en="System readiness does not certify the physical vehicle as safe." ar="جاهزية النظام لا تعني أن المركبة آمنة للتشغيل." /></span></div>
           </section>
           <section className="panel-card" id="battery">
             <div className="panel-heading"><div><h2><T en="Battery & charging" ar="البطارية والشحن" /></h2><p><T en="Live readings need a verified battery interface" ar="القراءات المباشرة تحتاج واجهة بطارية موثقة" /></p></div><span className="panel-icon cyan-icon">ϟ</span></div>
