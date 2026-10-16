@@ -1,0 +1,54 @@
+name: Build Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, feat/iaet-racing-identity-refresh]
+    paths:
+      - "mobile/**"
+      - ".github/workflows/android-apk.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+      - name: Generate Android project
+        run: npx expo prebuild --platform android --non-interactive
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+      - name: Build release APK
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleRelease
+      - name: Publish APK to rolling GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: mobile-latest
+          name: Exotic Racing Android App (Latest)
+          body: Automated Android APK build from the current repository branch.
+          files: mobile/android/app/build/outputs/apk/release/app-release.apk
+          make_latest: false
+          fail_on_unmatched_files: true
+          overwrite_files: true
