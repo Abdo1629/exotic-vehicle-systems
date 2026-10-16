@@ -7,11 +7,20 @@ const LocaleContext = createContext<{ locale: Locale; toggle: () => void; tr: (e
 });
 export function LocaleProvider({ children }: { children: ReactNode }) {
   const [locale, setLocale] = useState<Locale>("en");
-  useEffect(() => { void AsyncStorage.getItem("evs.mobile.locale").then((saved) => { if (saved === "ar" || saved === "en") setLocale(saved); }).catch(() => {}); }, []);
+  const [ready, setReady] = useState(false);
   useEffect(() => {
+    let active = true;
+    void AsyncStorage.getItem("evs.mobile.locale")
+      .then((saved) => { if (active && (saved === "ar" || saved === "en")) setLocale(saved); })
+      .catch(() => {})
+      .finally(() => { if (active) setReady(true); });
+    return () => { active = false; };
+  }, []);
+  useEffect(() => {
+    if (!ready) return;
     void AsyncStorage.setItem("evs.mobile.locale", locale).catch(() => {});
     // Avoid forcing an app restart via I18nManager; direction is applied to individual layouts.
-  }, [locale]);
+  }, [locale, ready]);
   const toggle = useCallback(() => setLocale((current) => current === "en" ? "ar" : "en"), []);
   const tr = useCallback((en: string, ar: string) => locale === "ar" ? ar : en, [locale]);
   return <LocaleContext.Provider value={{ locale, toggle, tr }}>{children}</LocaleContext.Provider>;
