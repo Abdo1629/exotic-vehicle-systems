@@ -1,14 +1,15 @@
 import { Tabs } from "expo-router";
 import { Text } from "react-native";
-
-const tabs = [
-  { name: "index", title: "Overview", glyph: "◈" },
-  { name: "battery", title: "Battery", glyph: "ϟ" },
-  { name: "diagnostics", title: "System", glyph: "⌁" },
-  { name: "logbook", title: "Test log", glyph: "≡" },
-] as const;
+import { useLocale } from "../../lib/i18n";
 
 export default function TabLayout() {
+  const { locale, tr } = useLocale();
+  const tabs = [
+    { name: "index", title: tr("Overview", "الرئيسية"), glyph: "◈" },
+    { name: "battery", title: tr("Battery", "البطارية"), glyph: "ϟ" },
+    { name: "diagnostics", title: tr("System", "النظام"), glyph: "⌁" },
+    { name: "logbook", title: tr("Test log", "سجل الاختبارات"), glyph: "≡" },
+  ] as const;
   return (
     <Tabs
       screenOptions={{
@@ -22,7 +23,7 @@ export default function TabLayout() {
           paddingTop: 8,
           paddingBottom: 8,
         },
-        tabBarLabelStyle: { fontSize: 10, fontWeight: "600" },
+        tabBarLabelStyle: { fontSize: locale === "ar" ? 10 : 10, fontWeight: "600" },
       }}
     >
       {tabs.map((tab) => (
