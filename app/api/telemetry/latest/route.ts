@@ -15,6 +15,11 @@ function measurement(reading: NumericReading | undefined, source: string): Measu
   return { value: reading.value, unit: reading.unit, measuredAt: reading.measuredAt, source, quality: "verified" };
 }
 
+function chargerMeasurement(reading: VehicleTelemetrySnapshot["battery"]["chargerConnected"], source: string): Measurement<"connected" | "disconnected"> | undefined {
+  if (!reading || reading.quality !== "valid" || reading.value === null || !reading.measuredAt) return undefined;
+  return { value: reading.value ? "connected" : "disconnected", unit: "state", measuredAt: reading.measuredAt, source, quality: "verified" };
+}
+
 function toApiSnapshot(snapshot: VehicleTelemetrySnapshot, receivedAt: string): ApiSnapshot {
   const source = snapshot.source.id;
   return {
@@ -25,6 +30,14 @@ function toApiSnapshot(snapshot: VehicleTelemetrySnapshot, receivedAt: string): 
     batteryVoltageV: measurement(snapshot.battery.voltage, source),
     batteryCurrentA: measurement(snapshot.battery.current, source),
     batteryTemperatureC: measurement(snapshot.battery.temperature, source),
+    chargerConnected: chargerMeasurement(snapshot.battery.chargerConnected, source),
+    speedKph: measurement(snapshot.motor?.speedKph, source),
+    motorTemperatureC: measurement(snapshot.motor?.controllerTemperatureC ?? snapshot.motor?.temperatureC, source),
+    motorVoltageV: measurement(snapshot.motor?.voltageV, source),
+    motorCurrentA: measurement(snapshot.motor?.currentA, source),
+    latitude: measurement(snapshot.gps?.latitudeDeg, source),
+    longitude: measurement(snapshot.gps?.longitudeDeg, source),
+    odometerKm: measurement(snapshot.odometerKm, source),
   };
 }
 
