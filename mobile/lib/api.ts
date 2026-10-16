@@ -15,7 +15,7 @@ export type TelemetryApiSnapshot = {
   odometerKm?: ApiMeasurement;
 };
 export type TelemetryApiResponse = {
-  status: "connected" | "not_configured" | "unavailable" | "authorization_required";
+  status: "connected" | "not_configured" | "unavailable" | "authorization_required" | "stale";
   vehicleId: string;
   data: TelemetryApiSnapshot | null;
   message?: string;
