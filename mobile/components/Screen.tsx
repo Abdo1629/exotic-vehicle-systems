@@ -14,7 +14,7 @@ export function Screen({ children }: { children: ReactNode }) {
           <View style={styles.brandMark}><Text style={styles.brandGlyph}>EVS</Text></View>
           <View style={styles.brandCopy}>
             <Text style={styles.brandTitle}>EXOTIC RACING</Text>
-            <Text style={styles.brandSubtitle}>{tr("IAET · VEHICLE SYSTEMS", "IAET · أنظمة العربية")}</Text>
+            <Text style={styles.brandSubtitle}>{tr("IAET · VEHICLE SYSTEMS", "IAET · أنظمة المركبة")}</Text>
           </View>
         </View>
         <View style={[styles.headerActions, rtl && styles.rowRtl]}>
