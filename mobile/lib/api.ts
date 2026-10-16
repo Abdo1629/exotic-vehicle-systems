@@ -7,6 +7,12 @@ export type TelemetryApiSnapshot = {
   batteryVoltageV?: ApiMeasurement;
   batteryCurrentA?: ApiMeasurement;
   batteryTemperatureC?: ApiMeasurement;
+  chargerConnected?: { value: "connected" | "disconnected"; unit: string; measuredAt: string; source: string; quality: "verified" | "estimated" };
+  speedKph?: ApiMeasurement;
+  motorTemperatureC?: ApiMeasurement;
+  latitude?: ApiMeasurement;
+  longitude?: ApiMeasurement;
+  odometerKm?: ApiMeasurement;
 };
 export type TelemetryApiResponse = {
   status: "connected" | "not_configured" | "unavailable" | "authorization_required";
