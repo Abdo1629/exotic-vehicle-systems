@@ -8,6 +8,7 @@ const navigation = [
   { key: "battery", label: "Battery & charging", ar: "البطارية والشحن", icon: "▤", href: "/battery" },
   { key: "diagnostics", label: "Diagnostics", ar: "حالة النظام", icon: "⌁", href: "/diagnostics" },
   { key: "tests", label: "Test sessions", ar: "جلسات الاختبار", icon: "◷", href: "/tests" },
+  { key: "checklist", label: "Before-test checklist", ar: "قائمة ما قبل الاختبار", icon: "✓", href: "/checklist" },
   { key: "logbook", label: "Engineering logbook", ar: "سجل الصيانة والهندسة", icon: "☷", href: "/logbook" },
 ];
 
