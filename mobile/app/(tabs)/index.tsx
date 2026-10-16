@@ -73,7 +73,7 @@ function makeStyles(colors: ThemeColors) { return StyleSheet.create({
   heroTop: { flexDirection: "row", alignItems: "center", gap: 12 },
   rowRtl: { flexDirection: "row-reverse" },
   textRtl: { textAlign: "right" },
-  brandMark: { width: 42, height: 42, borderRadius: 13, backgroundColor: "#292821", borderColor: "#756442", borderWidth: 1, alignItems: "center", justifyContent: "center" },
+  brandMark: { width: 42, height: 42, borderRadius: 13, backgroundColor: colors.surfaceRaised, borderColor: colors.border, borderWidth: 1, alignItems: "center", justifyContent: "center" },
   brandGlyph: { color: colors.accent, fontWeight: "900", fontSize: 12, letterSpacing: 1 },
   heroTitle: { color: colors.text, fontSize: 21, fontWeight: "700" },
   divider: { height: 1, backgroundColor: colors.border, marginVertical: 14 },
