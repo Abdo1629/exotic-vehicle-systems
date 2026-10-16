@@ -79,6 +79,19 @@ export default function Home() {
                     <div className="logbook-icon">☷</div><div><strong>Engineering logbook</strong><p>Keep maintenance notes, inspections, test sessions, and hardware changes in one traceable record.</p></div><span className="coming-soon">FOUNDATION PHASE</span>
                   </section>
         
+                  <section className="app-download-card" id="app-download" aria-labelledby="app-download-title">
+                    <div className="app-download-mark" aria-hidden="true">↓</div>
+                    <div className="app-download-copy">
+                      <span className="eyebrow">EXOTIC RACING · ANDROID</span>
+                      <h2 id="app-download-title">Take the team dashboard with you.</h2>
+                      <p>Install the Android app (APK). If a build is not available yet, use the build status link to check progress.</p>
+                    </div>
+                    <div className="app-download-actions">
+                      <a className="app-download-button" href="https://github.com/Abdo1629/exotic-vehicle-systems/releases/download/mobile-latest/exotic-racing.apk">Download APK <span>↓</span></a>
+                      <a className="app-download-status" href="https://github.com/Abdo1629/exotic-vehicle-systems/actions/workflows/android-apk.yml">Build status ↗</a>
+                    </div>
+                  </section>
+
                   <footer className="footer"><span>EVS <span className="footer-dot">·</span> Exotic Racing Team IAET</span><span>Engineering interface <span className="footer-dot">·</span> Not safety-certified</span></footer>
       </div>
     </AppShell>
