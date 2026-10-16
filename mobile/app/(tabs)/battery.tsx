@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Card, Heading, Label, Pill, Screen, Value } from "../../components/Screen";
-import { theme } from "../../lib/theme";
+import { useTheme, type ThemeColors } from "../../lib/theme";
 import { useLocale } from "../../lib/i18n";
 import { fetchLatestTelemetry, type TelemetryApiResponse } from "../../lib/api";
 
 export default function BatteryScreen() {
+  const { colors } = useTheme();
+  const styles = makeStyles(colors);
   const { tr, locale } = useLocale();
   const [response, setResponse] = useState<TelemetryApiResponse | null>(null);
   useEffect(() => {
@@ -51,24 +53,25 @@ export default function BatteryScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  packCard: { backgroundColor: theme.colors.surfaceRaised },
+function makeStyles(colors: ThemeColors) { return StyleSheet.create({
+  packCard: { backgroundColor: colors.surfaceRaised },
   packHeader: { flexDirection: "row", alignItems: "center", gap: 11, marginBottom: 6 },
   rowRtl: { flexDirection: "row-reverse" },
   textRtl: { textAlign: "right" },
-  batteryIcon: { color: theme.colors.accent, fontSize: 30, width: 42, textAlign: "center" },
-  packTitle: { color: theme.colors.text, fontSize: 17, fontWeight: "700" },
-  packSub: { color: theme.colors.muted, fontSize: 11 },
-  specRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", borderTopWidth: 1, borderTopColor: theme.colors.border, paddingVertical: 12 },
-  specLabel: { color: theme.colors.muted, fontSize: 12 },
-  specValue: { color: theme.colors.text, fontSize: 18, fontWeight: "700" },
-  note: { color: theme.colors.subtle, fontSize: 11, lineHeight: 17, paddingTop: 4 },
+  batteryIcon: { color: colors.accent, fontSize: 30, width: 42, textAlign: "center" },
+  packTitle: { color: colors.text, fontSize: 17, fontWeight: "700" },
+  packSub: { color: colors.muted, fontSize: 11 },
+  specRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", borderTopWidth: 1, borderTopColor: colors.border, paddingVertical: 12 },
+  specLabel: { color: colors.muted, fontSize: 12 },
+  specValue: { color: colors.text, fontSize: 18, fontWeight: "700" },
+  note: { color: colors.subtle, fontSize: 11, lineHeight: 17, paddingTop: 4 },
   sectionHeading: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginTop: 3 },
-  sectionTitle: { color: theme.colors.text, fontSize: 16, fontWeight: "700" },
+  sectionTitle: { color: colors.text, fontSize: 16, fontWeight: "700" },
   readingGrid: { flexDirection: "row", flexWrap: "wrap", gap: 10 },
   reading: { width: "48%", flexGrow: 1, minHeight: 110, padding: 13, gap: 8 },
-  cardTitle: { color: theme.colors.text, fontWeight: "700", fontSize: 14, marginBottom: 4 },
+  cardTitle: { color: colors.text, fontWeight: "700", fontSize: 14, marginBottom: 4 },
   checkRow: { flexDirection: "row", alignItems: "flex-start", gap: 12, paddingVertical: 7 },
-  checkNumber: { color: theme.colors.accent, fontWeight: "800", fontSize: 11, paddingTop: 2 },
-  checkText: { color: theme.colors.muted, fontSize: 12, lineHeight: 18, flex: 1 },
+  checkNumber: { color: colors.accent, fontWeight: "800", fontSize: 11, paddingTop: 2 },
+  checkText: { color: colors.muted, fontSize: 12, lineHeight: 18, flex: 1 },
 });
+}
