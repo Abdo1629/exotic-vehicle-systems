@@ -2,7 +2,7 @@ import { Link } from "expo-router";
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Card, Eyebrow, Heading, Label, Pill, Screen, Value } from "../../components/Screen";
-import { theme } from "../../lib/theme";
+import { useTheme, type ThemeColors } from "../../lib/theme";
 import { useLocale } from "../../lib/i18n";
 import { fetchLatestTelemetry, type TelemetryApiResponse } from "../../lib/api";
 
@@ -11,6 +11,8 @@ function reading(value: number | undefined, digits = 1) {
 }
 
 export default function OverviewScreen() {
+  const { colors } = useTheme();
+  const styles = makeStyles(colors);
   const { tr, locale } = useLocale();
   const [response, setResponse] = useState<TelemetryApiResponse | null>(null);
   useEffect(() => {
@@ -66,30 +68,31 @@ export default function OverviewScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  hero: { padding: 18, backgroundColor: theme.colors.surfaceRaised },
+function makeStyles(colors: ThemeColors) { return StyleSheet.create({
+  hero: { padding: 18, backgroundColor: colors.surfaceRaised },
   heroTop: { flexDirection: "row", alignItems: "center", gap: 12 },
   rowRtl: { flexDirection: "row-reverse" },
   textRtl: { textAlign: "right" },
   brandMark: { width: 42, height: 42, borderRadius: 13, backgroundColor: "#292821", borderColor: "#756442", borderWidth: 1, alignItems: "center", justifyContent: "center" },
-  brandGlyph: { color: theme.colors.accent, fontWeight: "900", fontSize: 12, letterSpacing: 1 },
-  heroTitle: { color: theme.colors.text, fontSize: 21, fontWeight: "700" },
-  divider: { height: 1, backgroundColor: theme.colors.border, marginVertical: 14 },
-  heroMessage: { color: theme.colors.muted, fontSize: 13, lineHeight: 20 },
+  brandGlyph: { color: colors.accent, fontWeight: "900", fontSize: 12, letterSpacing: 1 },
+  heroTitle: { color: colors.text, fontSize: 21, fontWeight: "700" },
+  divider: { height: 1, backgroundColor: colors.border, marginVertical: 14 },
+  heroMessage: { color: colors.muted, fontSize: 13, lineHeight: 20 },
   assetLine: { flexDirection: "row", alignItems: "center", gap: 8, marginTop: 4 },
-  dot: { width: 7, height: 7, borderRadius: 4, backgroundColor: theme.colors.warning },
-  connectedDot: { backgroundColor: theme.colors.blue },
-  assetText: { color: theme.colors.subtle, fontSize: 11, lineHeight: 16 },
-  timestamp: { color: theme.colors.subtle, fontSize: 10, marginTop: 3 },
+  dot: { width: 7, height: 7, borderRadius: 4, backgroundColor: colors.warning },
+  connectedDot: { backgroundColor: colors.blue },
+  assetText: { color: colors.subtle, fontSize: 11, lineHeight: 16 },
+  timestamp: { color: colors.subtle, fontSize: 10, marginTop: 3 },
   chargingRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 10, marginTop: 6 },
   sectionTitle: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginTop: 4, gap: 8 },
-  sectionHeading: { color: theme.colors.text, fontSize: 16, fontWeight: "700" },
+  sectionHeading: { color: colors.text, fontSize: 16, fontWeight: "700" },
   grid: { flexDirection: "row", flexWrap: "wrap", gap: 10 },
   metric: { width: "48%", flexGrow: 1, minHeight: 124, padding: 13, gap: 9 },
-  metricUnit: { color: theme.colors.subtle, fontSize: 10 },
+  metricUnit: { color: colors.subtle, fontSize: 10 },
   rowBetween: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 10 },
-  cardTitle: { color: theme.colors.text, fontSize: 14, fontWeight: "700" },
-  body: { color: theme.colors.muted, fontSize: 12, lineHeight: 19 },
-  link: { color: theme.colors.accent, fontWeight: "700", fontSize: 12, paddingTop: 3 },
-  footer: { color: theme.colors.subtle, textAlign: "center", fontSize: 9, letterSpacing: 0.5, marginTop: 8 },
+  cardTitle: { color: colors.text, fontSize: 14, fontWeight: "700" },
+  body: { color: colors.muted, fontSize: 12, lineHeight: 19 },
+  link: { color: colors.accent, fontWeight: "700", fontSize: 12, paddingTop: 3 },
+  footer: { color: colors.subtle, textAlign: "center", fontSize: 9, letterSpacing: 0.5, marginTop: 8 },
 });
+}
