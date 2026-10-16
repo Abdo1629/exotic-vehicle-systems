@@ -8,7 +8,7 @@ Bilingual vehicle-operations software for Exotic Racing Team IAET, designed as a
 Next.js App Router, React, TypeScript. Run with `npm ci && npm run dev`.
 
 - Arabic/English language toggle with RTL layout and Arabic typography.
-- Overview, battery & charging, diagnostics, test sessions and engineering logbook.
+- Overview, battery & charging, diagnostics, test sessions, pre-test checklist and engineering logbook.
 - Telemetry cards read from the API and do not generate measurements.
 - Dark/light theme and responsive phone-sized web layout.
 
@@ -23,8 +23,8 @@ npx expo start
 
 - Dedicated app header that respects the phone's safe area/status bar.
 - Arabic/English toggle, RTL-aware layouts and bottom navigation.
-- Overview polls the configured latest-telemetry API; battery/system/test log screens are available.
-- Test notes are still stored locally on the device and are not synced to the team server.
+- Overview and Battery poll the configured latest-telemetry API; System, Test Log and Pit Mode screens are available.
+- Test notes and Pit Mode checklist state are still stored locally on the device and are not synced to the team server.
 
 ## Real telemetry integration
 
