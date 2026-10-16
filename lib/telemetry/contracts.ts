@@ -23,7 +23,10 @@ export interface VehicleTelemetrySnapshot {
   batteryCurrentA?: Measurement;
   batteryPowerW?: Measurement;
   batteryTemperatureC?: Measurement;
+  chargerConnected?: Measurement<"connected" | "disconnected">;
   motorTemperatureC?: Measurement;
+  motorVoltageV?: Measurement;
+  motorCurrentA?: Measurement;
   speedKph?: Measurement;
   latitude?: Measurement;
   longitude?: Measurement;
