@@ -62,7 +62,7 @@ export default function LocalRecordBook({ storageKey, heading, description, butt
           <label><T en="Title" ar="العنوان" /><input required value={title} onChange={(event) => setTitle(event.target.value)} placeholder={rtl ? "مثال: فحص البطارية" : "e.g. Battery inspection"} maxLength={100} /></label>
           <label><T en="Date" ar="التاريخ" /><input required type="date" value={date} onChange={(event) => setDate(event.target.value)} /></label>
           <label><T en="Notes" ar="ملاحظات" /><textarea value={notes} onChange={(event) => setNotes(event.target.value)} placeholder={rtl ? "إيه اللي تم فحصه أو تغييره أو ملاحظته؟" : "What was checked, changed, or observed?"} rows={4} maxLength={2000} /></label>
-          <button className="primary-action" type="submit">{buttonLabel}</button>
+          <button className="primary-action" type="submit">{rtl ? (buttonLabel === "Save session" ? "حفظ الجلسة" : "حفظ الملاحظة") : buttonLabel}</button>
           <p className="local-storage-note"><T en="Saved in this browser only. It is not uploaded or shared with the team." ar="يتم الحفظ في المتصفح ده فقط، ولا يتم رفع السجل أو مشاركته مع الفريق." /></p>
         </form>
       </section>
