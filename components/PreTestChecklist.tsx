@@ -47,7 +47,7 @@ export default function PreTestChecklist() {
     <section className="panel-card pit-checklist">
       <div className="panel-heading"><div><h2><T en="Before-test checklist" ar="قائمة ما قبل الاختبار" /></h2><p><T en="A team workflow aid — not a substitute for the official safety procedure." ar="أداة لتنظيم عمل الفريق، ولا تُغني عن إجراءات السلامة الرسمية." /></p></div><span className="panel-icon">✓</span></div>
       <div className="pit-progress">
-        <div className="pit-progress-copy"><strong>{checked.filter((id) => items.some((item) => item.id === id)).length} / {items.length}</strong><span><T en="items checked on this device" ar="البنود التي تم تأكيدها على هذا الجهاز" /></span></div>
+        <div className="pit-progress-copy"><strong>{checked.filter((id) => items.some((item) => item.id === id)).length} / {items.length}</strong><span><T en="items checked on this device" ar="البنود المؤكدة على هذا الجهاز" /></span></div>
         <div className="pit-progress-track"><span style={{ width: `${Math.round(checked.filter((id) => items.some((item) => item.id === id)).length / items.length * 100)}%` }} /></div>
       </div>
       <div className="pit-list">
@@ -55,7 +55,7 @@ export default function PreTestChecklist() {
           const done = checked.includes(item.id);
           return <button type="button" key={item.id} className={`pit-item${done ? " checked" : ""}`} onClick={() => setItem(item.id, !done)} aria-pressed={done}>
             <span className="pit-check">{done ? "✓" : String(index + 1).padStart(2, "0")}</span>
-            <span className="pit-item-copy"><strong><T en={item.en} ar={item.ar} /></strong><small>{done ? <T en="Marked complete on this device" ar="تم تحديدها بوصفها مكتملة على هذا الجهاز" /> : <T en="Mark only after the responsible person has checked it" ar="لا تحدده بوصفه مكتملًا إلا بعد فحصه من المسؤول المختص" />}</small></span>
+            <span className="pit-item-copy"><strong><T en={item.en} ar={item.ar} /></strong><small>{done ? <T en="Marked complete on this device" ar="البنود المحددة بوصفها مكتملة على هذا الجهاز" /> : <T en="Mark only after the responsible person has checked it" ar="لا تحدده بوصفه مكتملًا إلا بعد فحصه من المسؤول المختص" />}</small></span>
             <span className="pit-item-state">{done ? <T en="DONE" ar="تم" /> : <T en="OPEN" ar="مفتوح" />}</span>
           </button>;
         })}
