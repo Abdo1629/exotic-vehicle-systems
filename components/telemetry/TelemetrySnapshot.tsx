@@ -39,9 +39,9 @@ export default function TelemetrySnapshot() {
   const data = response?.data;
   const connected = response?.status === "connected" && !!data;
   const metrics = [
-    { label: "State of charge", arLabel: "نسبة الشحن", value: displayMeasurement(data?.stateOfChargePercent), unit: data?.stateOfChargePercent?.unit ?? "%", note: data?.stateOfChargePercent?.source ?? "Waiting for verified BMS mapping", arNote: "في انتظار مصدر BMS موثّق", icon: "▤" },
-    { label: "Battery voltage", arLabel: "جهد البطارية", value: displayMeasurement(data?.batteryVoltageV), unit: data?.batteryVoltageV?.unit ?? "V", note: data?.batteryVoltageV?.source ?? "Waiting for voltage source", arNote: "في انتظار مصدر الجهد", icon: "ϟ" },
-    { label: "Battery temperature", arLabel: "حرارة البطارية", value: displayMeasurement(data?.batteryTemperatureC), unit: data?.batteryTemperatureC?.unit ?? "°C", note: data?.batteryTemperatureC?.source ?? "Waiting for mapped temperature sensor", arNote: "في انتظار مستشعر حرارة موثّق", icon: "♨" },
+    { label: "State of charge", arLabel: "نسبة الشحن", value: connected ? displayMeasurement(data?.stateOfChargePercent) : "—", unit: data?.stateOfChargePercent?.unit ?? "%", note: connected ? data?.stateOfChargePercent?.source ?? "Waiting for verified BMS mapping" : "No current verified reading", arNote: connected ? data?.stateOfChargePercent?.source ?? "في انتظار مصدر BMS موثّق" : "لا توجد قراءة حالية موثّقة", icon: "▤" },
+    { label: "Battery voltage", arLabel: "جهد البطارية", value: connected ? displayMeasurement(data?.batteryVoltageV) : "—", unit: data?.batteryVoltageV?.unit ?? "V", note: connected ? data?.batteryVoltageV?.source ?? "Waiting for voltage source" : "No current verified reading", arNote: connected ? data?.batteryVoltageV?.source ?? "في انتظار مصدر الجهد" : "لا توجد قراءة حالية موثّقة", icon: "ϟ" },
+    { label: "Battery temperature", arLabel: "حرارة البطارية", value: connected ? displayMeasurement(data?.batteryTemperatureC) : "—", unit: data?.batteryTemperatureC?.unit ?? "°C", note: connected ? data?.batteryTemperatureC?.source ?? "Waiting for mapped temperature sensor" : "No current verified reading", arNote: connected ? data?.batteryTemperatureC?.source ?? "في انتظار مستشعر حرارة موثّق" : "لا توجد قراءة حالية موثّقة", icon: "♨" },
     { label: "Vehicle connection", arLabel: "اتصال العربية", value: connected ? "Connected" : "Offline", arValue: connected ? "متصلة" : "غير متصلة", unit: connected ? "Telemetry received" : "No verified feed", arUnit: connected ? "تم استقبال بيانات" : "لا يوجد مصدر موثّق", note: connected ? `Updated ${new Date(data.receivedAt).toLocaleTimeString(locale === "ar" ? "ar-EG" : "en-US")}` : "Connection state only; motion unknown", arNote: "حالة الاتصال فقط؛ الحركة غير معروفة", icon: "⌁" },
   ];
 
@@ -51,7 +51,7 @@ export default function TelemetrySnapshot() {
         <div className="notice-icon">i</div>
         <div className="notice-copy">
           <strong>{connected ? <T en="Vehicle data received" ar="تم استقبال بيانات العربية" /> : <T en="Vehicle data source unavailable" ar="مصدر بيانات العربية غير متاح" />}</strong>
-          <p>{response?.message ?? (connected ? (locale === "ar" ? "القيم التالية من مصدر القياس المتصل." : "Values below are from the configured telemetry provider.") : (locale === "ar" ? "الواجهة متصلة بطبقة API؛ ستظهر القراءات بعد إعداد مصدر أجهزة موثّق." : "The dashboard is wired to the telemetry API. Live values appear after a verified hardware adapter is configured."))}</p>
+          <p>{response?.status === "authorization_required" ? (locale === "ar" ? "قراءات العربية محمية؛ يلزم إعداد تسجيل الدخول وصلاحيات الفريق قبل عرضها." : "Telemetry reads are protected until sign-in and team permissions are configured.") : response?.message ?? (connected ? (locale === "ar" ? "القيم التالية من مصدر القياس المتصل." : "Values below are from the configured telemetry provider.") : (locale === "ar" ? "ستظهر القراءات بعد إعداد مصدر أجهزة موثّق." : "Live values appear after a verified hardware adapter is configured."))}</p>
         </div>
         <span className="notice-tag">{connected ? <T en="SOURCE CONNECTED" ar="المصدر متصل" /> : <T en="AWAITING SOURCE" ar="في انتظار المصدر" />}</span>
       </section>
