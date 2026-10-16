@@ -3,9 +3,6 @@ import { timingSafeEqual } from "node:crypto";
 import { validateTelemetrySnapshot } from "@/lib/telemetry/validate";
 import type { VehicleTelemetrySnapshot } from "@/lib/telemetry/types";
 
-export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
-
 function safeTokenMatch(received: string, expected: string) {
   const a = Buffer.from(received);
   const b = Buffer.from(expected);
