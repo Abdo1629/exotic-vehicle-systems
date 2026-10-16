@@ -1,0 +1,74 @@
+name: Android APK
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "mobile/**"
+      - ".github/workflows/android-apk.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: android-apk-publish
+  cancel-in-progress: false
+
+jobs:
+  build-and-publish:
+    name: Build and publish installable Android APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Keep a stable team-test signing key between builds
+        uses: actions/cache@v4
+        with:
+          path: ~/.android/debug.keystore
+          key: evs-android-debug-keystore-v1
+
+      - name: Install mobile dependencies
+        run: npm ci --prefix mobile --no-audit --no-fund
+
+      - name: Generate native Android project
+        working-directory: mobile
+        run: npx expo prebuild --platform android --no-install --non-interactive
+
+      - name: Build installable APK
+        working-directory: mobile/android
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon assembleDebug
+
+      - name: Publish latest team-test APK
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          BUILD_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          APK="mobile/android/app/build/outputs/apk/debug/app-debug.apk"
+          test -s "$APK"
+          NOTES="$(printf '%s\n\n' 'Automatically built Android APK for internal Exotic Racing Team testing.' 'This is a debug-signed team-test build, not a Google Play production release. Install only if you trust the official team repository.' "Source commit: $BUILD_SHA")"
+          if gh release view mobile-latest >/dev/null 2>&1; then
+            gh release edit mobile-latest --target "$BUILD_SHA" --title "Exotic Racing Android — Team Test" --notes "$NOTES" --prerelease
+          else
+            gh release create mobile-latest --target "$BUILD_SHA" --title "Exotic Racing Android — Team Test" --notes "$NOTES" --prerelease
+          fi
+          gh release upload mobile-latest "$APK#exotic-racing.apk" --clobber
