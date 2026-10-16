@@ -54,6 +54,7 @@ export default function OverviewDashboard() {
         <p className="subtitle"><T en="One place for vehicle status, live position, trip history, battery and engineering records." ar="عرض موحّد لحالة المركبة وموقعها وسجل رحلاتها والبطارية والسجلات الهندسية." /></p></div>
       <div className="vehicle-state"><span className="state-symbol">↗</span><div><span><T en="VEHICLE STATUS" ar="حالة المركبة" /></span><strong>{loading ? <T en="Checking connection" ar="جارٍ التحقق من الاتصال" /> : connected ? <T en="Connected" ar="متصلة بالنظام" /> : <T en="Not connected" ar="غير متصلة بالنظام" />}</strong><small>{connected ? <T en="Latest verified telemetry available" ar="تتوفر أحدث بيانات القياس الموثّقة" /> : <T en="Movement and safety state unknown" ar="حالة الحركة والسلامة غير معروفة" />}</small></div></div>
     </section>
+    <VehicleModelStage />
     <section className="overview-metrics" aria-label={locale === "ar" ? "ملخص بيانات المركبة" : "Vehicle summary"}>
       <article className="overview-metric"><span className="overview-metric-icon">▤</span><div><small><T en="Battery charge" ar="نسبة شحن البطارية" /></small><strong>{connected ? measurement(data?.stateOfChargePercent) : "—"}<em>{connected && data?.stateOfChargePercent ? "%" : ""}</em></strong><span>{connected ? <T en="Verified reading" ar="قراءة موثّقة" /> : <T en="No live reading" ar="لا توجد قراءة مباشرة" />}</span></div></article>
       <article className="overview-metric"><span className="overview-metric-icon">ϟ</span><div><small><T en="Battery voltage" ar="جهد البطارية" /></small><strong>{connected ? measurement(data?.batteryVoltageV) : "—"}<em>{connected && data?.batteryVoltageV ? " V" : ""}</em></strong><span><T en="Latest accepted value" ar="أحدث قيمة مقبولة" /></span></div></article>
@@ -87,7 +88,7 @@ export default function OverviewDashboard() {
         </div>
       </section>
     </div>
-    <VehicleModelStage />
+
     <footer className="footer"><span>EVS <span className="footer-dot">·</span> Exotic Racing Team IAET</span><span><T en="Engineering workspace · Not safety-certified" ar="منظومة هندسية · غير معتمدة كمنظومة سلامة" /></span></footer>
   </div>;
 }
