@@ -1,9 +1,11 @@
 import { Tabs } from "expo-router";
 import { Text } from "react-native";
 import { useLocale } from "../../lib/i18n";
+import { useTheme } from "../../lib/theme";
 
 export default function TabLayout() {
   const { locale, tr } = useLocale();
+  const { colors } = useTheme();
   const tabs = [
     { name: "index", title: tr("Overview", "الرئيسية"), glyph: "◈" },
     { name: "battery", title: tr("Battery", "البطارية"), glyph: "ϟ" },
@@ -15,11 +17,11 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: "#C5A875",
-        tabBarInactiveTintColor: "#85877F",
+        tabBarActiveTintColor: colors.accent,
+        tabBarInactiveTintColor: colors.subtle,
         tabBarStyle: {
-          backgroundColor: "#191C21",
-          borderTopColor: "#353A41",
+          backgroundColor: colors.surface,
+          borderTopColor: colors.border,
           height: 68,
           paddingTop: 8,
           paddingBottom: 8,
