@@ -25,11 +25,12 @@ export default function OverviewScreen() {
   }, []);
   const data = response?.data;
   const connected = response?.status === "connected" && data?.connection === "connected";
+  const chargerConnection = connected && data?.chargerConnected ? (data.chargerConnected.value === "connected" ? tr("Connected", "متصل") : tr("Disconnected", "غير متصل")) : tr("Unknown", "غير معروفة");
   const metrics = [
     { label: tr("State of charge", "نسبة الشحن"), value: connected ? reading(data?.stateOfChargePercent?.value) : "—", unit: connected ? data?.stateOfChargePercent?.unit ?? "%" : tr("No live data", "لا توجد بيانات مباشرة") },
     { label: tr("Battery voltage", "جهد البطارية"), value: connected ? reading(data?.batteryVoltageV?.value, 2) : "—", unit: connected ? data?.batteryVoltageV?.unit ?? "V" : tr("Unavailable", "غير متاح") },
     { label: tr("Battery temperature", "حرارة البطارية"), value: connected ? reading(data?.batteryTemperatureC?.value) : "—", unit: connected ? data?.batteryTemperatureC?.unit ?? "°C" : tr("Unavailable", "غير متاح") },
-    { label: tr("Motor controller", "وحدة التحكم"), value: "—", unit: tr("No mapped signal", "لا توجد إشارة موثّقة") },
+    { label: tr("Vehicle speed", "سرعة العربية"), value: connected ? reading(data?.speedKph?.value) : "—", unit: connected ? data?.speedKph?.unit ?? "km/h" : tr("Unavailable", "غير متاحة") },
   ];
   return (
     <Screen>
@@ -48,6 +49,7 @@ export default function OverviewScreen() {
         <View style={[styles.assetLine, locale === "ar" && styles.rowRtl]}><View style={[styles.dot, connected && styles.connectedDot]} /><Text style={styles.assetText}>{connected ? tr("Latest gateway snapshot received", "تم استقبال أحدث بيانات من وحدة الاتصال") : tr("No current verified gateway data", "لا توجد بيانات حالية موثّقة من وحدة الاتصال")}</Text></View>
         {response?.message && !connected ? <Text style={[styles.assetText, locale === "ar" && styles.textRtl]}>{locale === "ar" ? "الاتصال بالخادم أو مصدر البيانات غير متاح حاليًا." : response.message}</Text> : null}
         {data?.receivedAt ? <Text style={styles.timestamp}>{tr("Last server receipt", "آخر استقبال على الخادم")}: {new Date(data.receivedAt).toLocaleString(locale === "ar" ? "ar-EG" : "en-US")}</Text> : null}
+        <View style={[styles.chargingRow, locale === "ar" && styles.rowRtl]}><Text style={styles.assetText}>{tr("Charger connection", "اتصال الشاحن")}</Text><Pill>{chargerConnection}</Pill></View>
       </Card>
       <View style={[styles.sectionTitle, locale === "ar" && styles.rowRtl]}><Text style={styles.sectionHeading}>{tr("Telemetry snapshot", "ملخص القراءات")}</Text>{connected ? <Pill>{tr("LIVE SOURCE", "مصدر مباشر")}</Pill> : <Pill>{tr("NO LIVE DATA", "لا توجد بيانات مباشرة")}</Pill>}</View>
       <View style={styles.grid}>
@@ -78,6 +80,7 @@ const styles = StyleSheet.create({
   connectedDot: { backgroundColor: theme.colors.blue },
   assetText: { color: theme.colors.subtle, fontSize: 11, lineHeight: 16 },
   timestamp: { color: theme.colors.subtle, fontSize: 10, marginTop: 3 },
+  chargingRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 10, marginTop: 6 },
   sectionTitle: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginTop: 4, gap: 8 },
   sectionHeading: { color: theme.colors.text, fontSize: 16, fontWeight: "700" },
   grid: { flexDirection: "row", flexWrap: "wrap", gap: 10 },
