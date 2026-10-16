@@ -6,14 +6,14 @@ import { useLocale } from "../../lib/i18n";
 export default function DiagnosticsScreen() {
   const { tr, locale } = useLocale();
   const checks = [
-    { name: tr("Vehicle gateway", "وحدة الاتصال بالعربية"), state: tr("NOT CONFIGURED", "غير مُعدة"), detail: tr("No verified gateway or hardware adapter is connected.", "لا توجد وحدة اتصال أو وسيط أجهزة تم التحقق منه.") },
+    { name: tr("Vehicle gateway", "وحدة الاتصال بالمركبة"), state: tr("NOT CONFIGURED", "غير مُعدة"), detail: tr("No verified gateway or hardware adapter is connected.", "لا توجد وحدة اتصال أو وسيط أجهزة تم التحقق منه.") },
     { name: tr("Telemetry source", "مصدر القراءات"), state: tr("UNAVAILABLE", "غير متاح"), detail: tr("No battery or controller readings have been received.", "لم يتم استقبال قراءات من البطارية أو وحدة التحكم.") },
     { name: tr("Data freshness", "حداثة البيانات"), state: tr("UNKNOWN", "غير معروفة"), detail: tr("Freshness cannot be assessed without timestamps.", "لا يمكن تقييم حداثة البيانات من غير طوابع زمنية.") },
-    { name: tr("Remote operations", "العمليات عن بُعد"), state: tr("DISABLED", "معطّلة"), detail: tr("No vehicle commands are implemented in this app.", "لا توجد أوامر تحكم بالعربية منفذة في التطبيق.") },
+    { name: tr("Remote operations", "العمليات عن بُعد"), state: tr("DISABLED", "معطّلة"), detail: tr("No vehicle commands are implemented in this app.", "لا توجد أوامر تحكم بالمركبة منفذة في التطبيق.") },
   ];
   return (
     <Screen>
-      <Heading title={tr("System diagnostics", "تشخيص النظام")} subtitle={tr("Connection readiness and data quality. These checks do not certify the vehicle as safe.", "جاهزية الاتصال وجودة البيانات. الفحوصات دي لا تعتمد سلامة العربية.")} />
+      <Heading title={tr("System diagnostics", "تشخيص النظام")} subtitle={tr("Connection readiness and data quality. These checks do not certify the vehicle as safe.", "جاهزية الاتصال وجودة البيانات. الفحوصات دي لا تعتمد سلامة المركبة.")} />
       {checks.map((item, index) => (
         <Card key={item.name}>
           <View style={[styles.row, locale === "ar" && styles.rowRtl]}>
