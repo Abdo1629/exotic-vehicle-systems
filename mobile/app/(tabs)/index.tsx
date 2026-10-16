@@ -31,22 +31,22 @@ export default function OverviewScreen() {
     { label: tr("State of charge", "نسبة الشحن"), value: connected ? reading(data?.stateOfChargePercent?.value) : "—", unit: connected ? data?.stateOfChargePercent?.unit ?? "%" : tr("No live data", "لا توجد بيانات مباشرة") },
     { label: tr("Battery voltage", "جهد البطارية"), value: connected ? reading(data?.batteryVoltageV?.value, 2) : "—", unit: connected ? data?.batteryVoltageV?.unit ?? "V" : tr("Unavailable", "غير متاح") },
     { label: tr("Battery temperature", "حرارة البطارية"), value: connected ? reading(data?.batteryTemperatureC?.value) : "—", unit: connected ? data?.batteryTemperatureC?.unit ?? "°C" : tr("Unavailable", "غير متاح") },
-    { label: tr("Vehicle speed", "سرعة العربية"), value: connected ? reading(data?.speedKph?.value) : "—", unit: connected ? data?.speedKph?.unit ?? "km/h" : tr("Unavailable", "غير متاحة") },
+    { label: tr("Vehicle speed", "سرعة المركبة"), value: connected ? reading(data?.speedKph?.value) : "—", unit: connected ? data?.speedKph?.unit ?? "km/h" : tr("Unavailable", "غير متاحة") },
   ];
   return (
     <Screen>
-      <Heading title={tr("Vehicle overview", "ملخص العربية")} subtitle={tr("Understand the latest confirmed information and what needs attention.", "اعرف آخر المعلومات المؤكدة وإيه اللي محتاج متابعة.")} />
+      <Heading title={tr("Vehicle overview", "ملخص المركبة")} subtitle={tr("Understand the latest confirmed information and what needs attention.", "اعرف آخر المعلومات المؤكدة وإيه اللي محتاج متابعة.")} />
       <Card style={styles.hero}>
         <View style={[styles.heroTop, locale === "ar" && styles.rowRtl]}>
           <View style={styles.brandMark}><Text style={styles.brandGlyph}>EX</Text></View>
           <View style={{ flex: 1, gap: 3 }}>
-            <Eyebrow>{tr("TEAM VEHICLE", "عربية الفريق")}</Eyebrow>
-            <Text style={styles.heroTitle}>{tr("Exotic Racer", "عربية إكزوتك")}</Text>
+            <Eyebrow>{tr("TEAM VEHICLE", "مركبة الفريق")}</Eyebrow>
+            <Text style={styles.heroTitle}>{tr("Exotic Racer", "مركبة إكزوتك")}</Text>
           </View>
           <Pill tone={connected ? "accent" : "warning"}>{connected ? tr("ONLINE", "متصلة") : stale ? tr("STALE DATA", "بيانات قديمة") : tr("OFFLINE", "غير متصلة")}</Pill>
         </View>
         <View style={styles.divider} />
-        <Text style={[styles.heroMessage, locale === "ar" && styles.textRtl]}>{connected ? tr("The gateway reports a connection. This is not a safety certification.", "وحدة الاتصال بتبلغ عن اتصال، وده مش اعتماد لسلامة العربية.") : stale ? tr("The latest snapshot is too old to represent the current vehicle state. Live values are withheld.", "آخر قراءة قديمة ومش بتعبّر عن حالة العربية الحالية؛ تم إخفاء القراءات المباشرة.") : tr("Movement and safety state are unknown. Connection status alone cannot confirm the car is stopped.", "حالة الحركة والسلامة غير معروفة. حالة الاتصال وحدها لا تثبت إن العربية متوقفة.")}</Text>
+        <Text style={[styles.heroMessage, locale === "ar" && styles.textRtl]}>{connected ? tr("The gateway reports a connection. This is not a safety certification.", "وحدة الاتصال بتبلغ عن اتصال، وده مش اعتماد لسلامة المركبة.") : stale ? tr("The latest snapshot is too old to represent the current vehicle state. Live values are withheld.", "آخر قراءة قديمة ومش بتعبّر عن حالة المركبة الحالية؛ تم إخفاء القراءات المباشرة.") : tr("Movement and safety state are unknown. Connection status alone cannot confirm the car is stopped.", "حالة الحركة والسلامة غير معروفة. حالة الاتصال وحدها لا تثبت إن المركبة متوقفة.")}</Text>
         <View style={[styles.assetLine, locale === "ar" && styles.rowRtl]}><View style={[styles.dot, connected && styles.connectedDot]} /><Text style={styles.assetText}>{connected ? tr("Latest gateway snapshot received", "تم استقبال أحدث بيانات من وحدة الاتصال") : stale ? tr("Last snapshot is stale", "آخر قراءة قديمة") : tr("No current verified gateway data", "لا توجد بيانات حالية موثّقة من وحدة الاتصال")}</Text></View>
         {response?.message && !connected ? <Text style={[styles.assetText, locale === "ar" && styles.textRtl]}>{locale === "ar" ? "الاتصال بالخادم أو مصدر البيانات غير متاح حاليًا." : response.message}</Text> : null}
         {data?.receivedAt ? <Text style={styles.timestamp}>{tr("Last server receipt", "آخر استقبال على الخادم")}: {new Date(data.receivedAt).toLocaleString(locale === "ar" ? "ar-EG" : "en-US")}</Text> : null}

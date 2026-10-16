@@ -7,7 +7,7 @@ const STORAGE_KEY = "evs-pretest-checklist-v1";
 const items = [
   { id: "briefing", en: "Team briefing and roles agreed", ar: "تم الاتفاق على إحاطة الفريق والأدوار" },
   { id: "interlocks", en: "Safety interlocks and emergency stop checked by the responsible lead", ar: "تم فحص دوائر الأمان والإيقاف الطارئ بواسطة المسؤول المختص" },
-  { id: "vehicle", en: "Vehicle body, wheels, fasteners and visible wiring inspected", ar: "تم فحص جسم العربية والعجلات والمثبتات والتوصيلات الظاهرة" },
+  { id: "vehicle", en: "Vehicle body, wheels, fasteners and visible wiring inspected", ar: "تم فحص جسم المركبة والعجلات والمثبتات والتوصيلات الظاهرة" },
   { id: "battery", en: "Battery enclosure and charging equipment inspected by an authorized member", ar: "تم فحص صندوق البطارية ومعدات الشحن بواسطة عضو مخوّل" },
   { id: "telemetry", en: "Telemetry gateway power, timestamps and data source checked", ar: "تم فحص تغذية وحدة القياس والطوابع الزمنية ومصدر البيانات" },
   { id: "abort", en: "Test area, communication plan and stop criteria agreed", ar: "تم الاتفاق على منطقة الاختبار وخطة التواصل ومعايير إيقاف الاختبار" },

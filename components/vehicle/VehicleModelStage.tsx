@@ -45,11 +45,11 @@ export default function VehicleModelStage() {
     <section className="vehicle-stage-card" aria-labelledby="vehicle-stage-title">
       <div className="vehicle-stage-heading">
         <div>
-          <div className="stage-eyebrow"><span className="stage-eyebrow-dot" /> <T en="VEHICLE DIGITAL VIEW" ar="عرض العربية الرقمي" /></div>
-          <h2 id="vehicle-stage-title"><T en="Vehicle model" ar="نموذج العربية" /></h2>
+          <div className="stage-eyebrow"><span className="stage-eyebrow-dot" /> <T en="VEHICLE DIGITAL VIEW" ar="عرض المركبة الرقمي" /></div>
+          <h2 id="vehicle-stage-title"><T en="Vehicle model" ar="نموذج المركبة" /></h2>
           <p><T en="Rotatable 3D viewer · select a subsystem to inspect" ar="عارض ثلاثي الأبعاد قابل للدوران · اختر نظامًا لفحصه" /></p>
         </div>
-        <div className="stage-controls" role="group" aria-label={rtl ? "وضع عرض العربية" : "Vehicle view mode"}>
+        <div className="stage-controls" role="group" aria-label={rtl ? "وضع عرض المركبة" : "Vehicle view mode"}>
           <button className={view === "3d" ? "stage-tab selected" : "stage-tab"} onClick={() => setView("3d")} type="button"><T en="Model view" ar="عرض النموذج" /></button>
           <button className={view === "systems" ? "stage-tab selected" : "stage-tab"} onClick={() => setView("systems")} type="button"><T en="Systems" ar="الأنظمة" /></button>
         </div>
@@ -58,14 +58,14 @@ export default function VehicleModelStage() {
       <div className="vehicle-stage-body">
         <div className="vehicle-viewport" data-model-slot="vehicle-glb" data-model-path="/models/exotic-racer.glb">
           <div className="viewport-grid" aria-hidden="true" />
-          <div className="viewport-topline"><span>EVS / <T en="VEHICLE ASSET" ar="ملف العربية" /></span><span className="asset-state"><i /> {modelStatus === "loaded" ? <T en="3D MODEL LOADED" ar="تم تحميل النموذج" /> : modelStatus === "error" ? <T en="ASSET NOT FOUND" ar="الملف غير موجود" /> : <T en="MODEL ASSET PENDING" ar="في انتظار ملف النموذج" />}</span></div>
+          <div className="viewport-topline"><span>EVS / <T en="VEHICLE ASSET" ar="ملف المركبة" /></span><span className="asset-state"><i /> {modelStatus === "loaded" ? <T en="3D MODEL LOADED" ar="تم تحميل النموذج" /> : modelStatus === "error" ? <T en="ASSET NOT FOUND" ar="الملف غير موجود" /> : <T en="MODEL ASSET PENDING" ar="في انتظار ملف النموذج" />}</span></div>
           {view === "3d" ? (
             <div className="vehicle-model-shell">
               <model-viewer
                 ref={modelViewerRef}
                 className="vehicle-model-viewer"
                 src="/models/exotic-racer.glb"
-                alt={rtl ? "نموذج ثلاثي الأبعاد تفاعلي لعربية فريق إكزوتك ريسينج" : "Interactive 3D model of the Exotic Racing Team vehicle"}
+                alt={rtl ? "نموذج ثلاثي الأبعاد تفاعلي لمركبة فريق إكزوتك ريسينج" : "Interactive 3D model of the Exotic Racing Team vehicle"}
                 camera-controls
                 auto-rotate
                 rotation-per-second="12deg"
@@ -78,9 +78,9 @@ export default function VehicleModelStage() {
               >
                 <div slot="poster" className="model-pending">
                   <span className="model-pending-mark">3D</span>
-                  <strong><T en="Vehicle model not uploaded yet" ar="لم يتم رفع نموذج العربية بعد" /></strong>
-                  <p><T en="Add the team’s verified exotic-racer.glb file to public/models/. Once present, drag to rotate and scroll or pinch to zoom." ar="أضف ملف exotic-racer.glb المعتمد للعربية داخل public/models/. بعد إضافته، اسحب لتدوير النموذج واستخدم التمرير أو ضم الأصابع للتكبير." /></p>
-                  <span className="placeholder-caption"><T en="WAITING FOR THE REAL VEHICLE ASSET" ar="في انتظار الملف الحقيقي للعربية" /></span>
+                  <strong><T en="Vehicle model not uploaded yet" ar="لم يتم رفع نموذج المركبة بعد" /></strong>
+                  <p><T en="Add the team’s verified exotic-racer.glb file to public/models/. Once present, drag to rotate and scroll or pinch to zoom." ar="أضف ملف exotic-racer.glb المعتمد للمركبة داخل public/models/. بعد إضافته، اسحب لتدوير النموذج واستخدم التمرير أو ضم الأصابع للتكبير." /></p>
+                  <span className="placeholder-caption"><T en="WAITING FOR THE REAL VEHICLE ASSET" ar="في انتظار الملف الحقيقي للمركبة" /></span>
                 </div>
               </model-viewer>
               <div className="model-controls-hint"><span>↔</span> <T en="Drag to rotate" ar="اسحب للتدوير" /> <span>⌕</span> <T en="Scroll / pinch to zoom" ar="مرّر أو ضم الأصابع للتكبير" /></div>
@@ -100,7 +100,7 @@ export default function VehicleModelStage() {
 
         <aside className="vehicle-inspector" aria-live="polite">
           <div className="inspector-label"><T en="SELECTED SUBSYSTEM" ar="النظام المحدد" /></div>
-          <div className="inspector-title"><span className="inspector-symbol">⌁</span><div><strong>{rtl ? selectedZone.arLabel : selectedZone.label}</strong><small><T en="Vehicle zone" ar="منطقة في العربية" /> · {selectedZone.id.toUpperCase()}</small></div></div>
+          <div className="inspector-title"><span className="inspector-symbol">⌁</span><div><strong>{rtl ? selectedZone.arLabel : selectedZone.label}</strong><small><T en="Vehicle zone" ar="منطقة في المركبة" /> · {selectedZone.id.toUpperCase()}</small></div></div>
           <div className="inspector-status"><span className="status-dot grey" /> <T en="DATA UNAVAILABLE" ar="البيانات غير متاحة" /></div>
           <p className="inspector-description">{rtl ? selectedZone.arDetail : selectedZone.detail}</p>
           <div className="inspector-divider" />

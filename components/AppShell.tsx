@@ -35,7 +35,7 @@ export default function AppShell({ children, active, title }: { children: ReactN
         <div className="sidebar-bottom">
           <div className="system-card">
             <span className="system-card-icon">⌘</span>
-            <div><strong><T en="Vehicle connection" ar="اتصال العربية" /></strong><small><T en="No hardware adapter" ar="لا يوجد وسيط أجهزة متصل" /></small></div>
+            <div><strong><T en="Vehicle connection" ar="اتصال المركبة" /></strong><small><T en="No hardware adapter" ar="لا يوجد وسيط أجهزة متصل" /></small></div>
             <span className="status-dot grey" />
           </div>
           <div className="profile">

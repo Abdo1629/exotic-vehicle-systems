@@ -42,5 +42,5 @@ export function T({ en, ar }: { en: string; ar: string }) {
 
 export function LanguageToggle() {
   const { locale, toggle } = useLocale();
-  return <button className="language-toggle" type="button" onClick={toggle} aria-label={locale === "ar" ? "Switch to English" : "التبديل إلى العربية"}>{locale === "ar" ? "EN" : "عربي"}</button>;
+  return <button className="language-toggle" type="button" onClick={toggle} aria-label={locale === "ar" ? "Switch to English" : "التبديل إلى المركبة"}>{locale === "ar" ? "EN" : "عربي"}</button>;
 }
