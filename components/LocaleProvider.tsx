@@ -8,10 +8,14 @@ const LocaleContext = createContext<{ locale: Locale; toggle: () => void }>({ lo
 export function LocaleProvider({ children }: { children: ReactNode }) {
   const [locale, setLocale] = useState<Locale>("en");
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem("evs-locale");
-      if (saved === "ar" || saved === "en") setLocale(saved);
-    } catch {}
+    let active = true;
+    void Promise.resolve().then(() => {
+      try {
+        const saved = localStorage.getItem("evs-locale");
+        if (active && (saved === "ar" || saved === "en")) setLocale(saved);
+      } catch {}
+    });
+    return () => { active = false; };
   }, []);
   useEffect(() => {
     document.documentElement.lang = locale;
