@@ -18,6 +18,7 @@ export const metadata: Metadata = {
   title: "EVS | Exotic Vehicle Systems",
   description: "A bilingual vehicle operations workspace for teams. Live readings appear only from a verified data source.",
   applicationName: "Exotic Vehicle Systems",
+  icons: { icon: "/logo.jpeg", apple: "/logo.jpeg" },
   robots: { index: false, follow: false },
 };
 

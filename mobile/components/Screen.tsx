@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Pressable, ScrollView, StyleSheet, Text, View, type StyleProp, type ViewStyle } from "react-native";
+import { Image, Pressable, ScrollView, StyleSheet, Text, View, type StyleProp, type ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme, type ThemeColors } from "../lib/theme";
 import { useLocale } from "../lib/i18n";
@@ -13,7 +13,7 @@ export function Screen({ children }: { children: ReactNode }) {
     <SafeAreaView style={styles.safe} edges={["top"]}>
       <View style={[styles.appHeader, rtl && styles.rowRtl]}>
         <View style={[styles.brandGroup, rtl && styles.rowRtl]}>
-          <View style={styles.brandMark}><Text style={styles.brandGlyph}>EVS</Text></View>
+          <View style={styles.brandMark}><Image source={require("../../public/logo.jpeg")} style={styles.brandImage} accessibilityLabel="Exotic Vehicle Systems logo" /></View>
           <View style={styles.brandCopy}>
             <Text style={styles.brandTitle}>EXOTIC RACING</Text>
             <Text style={styles.brandSubtitle}>{tr("IAET · VEHICLE SYSTEMS", "IAET · أنظمة المركبة")}</Text>
@@ -90,9 +90,9 @@ function makeStyles(colors: ThemeColors) { return StyleSheet.create({
   appHeader: { minHeight: 66, paddingHorizontal: 17, paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: colors.border, flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 10, backgroundColor: colors.surface },
   brandGroup: { flexDirection: "row", alignItems: "center", gap: 9, flexShrink: 1 },
   brandMark: { width: 36, height: 36, borderRadius: 9, borderWidth: 1, borderColor: colors.border, backgroundColor: colors.surfaceRaised, alignItems: "center", justifyContent: "center" },
-  brandGlyph: { color: colors.accent, fontWeight: "900", fontSize: 10, letterSpacing: 1 },
+  brandImage: { width: "100%", height: "100%" },
   brandCopy: { gap: 3, flexShrink: 1 },
-  brandTitle: { color: colors.text, fontWeight: "800", fontSize: 10, letterSpacing: 1 },
+  brandTitle: { color: colors.text, fontFamily: "Manrope_500Medium", fontWeight: "800", fontSize: 10, letterSpacing: 1 },
   brandSubtitle: { color: colors.subtle, fontSize: 8 },
   headerActions: { flexDirection: "row", alignItems: "center", gap: 7 },
   connectionPill: { flexDirection: "row", alignItems: "center", gap: 5, borderWidth: 1, borderColor: colors.border, borderRadius: 99, paddingHorizontal: 8, paddingVertical: 6 },
@@ -106,7 +106,7 @@ function makeStyles(colors: ThemeColors) { return StyleSheet.create({
   textRtl: { alignItems: "stretch" },
   heading: { gap: 7, marginBottom: 4 },
   eyebrow: { color: colors.accent, fontSize: 10, letterSpacing: 1.2, fontWeight: "700" },
-  title: { color: colors.text, fontSize: 27, fontWeight: "700", letterSpacing: -0.4, textAlign: "auto" },
+  title: { color: colors.text, fontFamily: "Manrope_500Medium", fontSize: 27, fontWeight: "700", letterSpacing: -0.4, textAlign: "auto" },
   subtitle: { color: colors.muted, fontSize: 13, lineHeight: 20, maxWidth: 360, textAlign: "auto" },
   card: { backgroundColor: colors.surface, borderColor: colors.border, borderWidth: 1, borderRadius: 9, padding: 16, gap: 12 },
   label: { color: colors.muted, fontSize: 12, fontWeight: "600" },

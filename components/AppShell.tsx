@@ -21,7 +21,7 @@ export default function AppShell({ children, active, title }: { children: ReactN
     <main className="app-shell">
       <aside className="sidebar">
         <Link className="brand" href="/" aria-label="Exotic Vehicle Systems home">
-          <span className="brand-mark" aria-label="Reserved space for the official team logo"><span aria-hidden="true" /></span>
+          <span className="brand-mark"><img src="/logo.jpeg" alt="Exotic Vehicle Systems logo" /></span>
           <span className="brand-copy"><strong>EXOTIC</strong><small>VEHICLE SYSTEMS</small></span>
         </Link>
         <div className="side-label"><T en="TEAM WORKSPACE" ar="مساحة عمل الفريق" /></div>

@@ -10,6 +10,7 @@ export default function TabLayout() {
     { name: "index", title: tr("Overview", "الرئيسية"), glyph: "◈" },
     { name: "battery", title: tr("Battery", "البطارية"), glyph: "ϟ" },
     { name: "diagnostics", title: tr("System", "النظام"), glyph: "⌁" },
+    { name: "map", title: tr("Location", "الموقع"), glyph: "⌖" },
     { name: "logbook", title: tr("Test log", "سجل الاختبارات"), glyph: "≡" },
     { name: "pit", title: tr("Pit mode", "وضع الاختبار"), glyph: "✓" },
   ] as const;

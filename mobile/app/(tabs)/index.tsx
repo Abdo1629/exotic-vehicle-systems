@@ -1,10 +1,11 @@
 import { Link } from "expo-router";
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 import { Card, Eyebrow, Heading, Label, Pill, Screen, Value } from "../../components/Screen";
 import { useTheme, type ThemeColors } from "../../lib/theme";
 import { useLocale } from "../../lib/i18n";
 import { fetchLatestTelemetry, type TelemetryApiResponse } from "../../lib/api";
+import { VehiclePreview3D } from "../../components/VehiclePreview3D";
 
 function reading(value: number | undefined, digits = 1) {
   return typeof value === "number" && Number.isFinite(value) ? value.toLocaleString(undefined, { maximumFractionDigits: digits }) : "—";
@@ -40,7 +41,7 @@ export default function OverviewScreen() {
       <Heading title={tr("Vehicle overview", "ملخص المركبة")} subtitle={tr("Understand the latest confirmed information and what needs attention.", "اعرف آخر المعلومات المؤكدة وإيه اللي محتاج متابعة.")} />
       <Card style={styles.hero}>
         <View style={[styles.heroTop, locale === "ar" && styles.rowRtl]}>
-          <View style={styles.brandMark}><Text style={styles.brandGlyph}>EX</Text></View>
+          <View style={styles.brandMark}><Image source={require("../../../public/logo.jpeg")} style={styles.brandImage} accessibilityLabel="Exotic Vehicle Systems logo" /></View>
           <View style={{ flex: 1, gap: 3 }}>
             <Eyebrow>{tr("TEAM VEHICLE", "مركبة الفريق")}</Eyebrow>
             <Text style={styles.heroTitle}>{tr("Exotic Racer", "مركبة إكزوتك")}</Text>
@@ -54,6 +55,7 @@ export default function OverviewScreen() {
         {data?.receivedAt ? <Text style={styles.timestamp}>{tr("Last server receipt", "آخر استقبال على الخادم")}: {new Date(data.receivedAt).toLocaleString(locale === "ar" ? "ar-EG" : "en-US")}</Text> : null}
         <View style={[styles.chargingRow, locale === "ar" && styles.rowRtl]}><Text style={styles.assetText}>{tr("Charger connection", "اتصال الشاحن")}</Text><Pill>{chargerConnection}</Pill></View>
       </Card>
+      <VehiclePreview3D />
       <View style={[styles.sectionTitle, locale === "ar" && styles.rowRtl]}><Text style={styles.sectionHeading}>{tr("Telemetry snapshot", "ملخص القراءات")}</Text>{connected ? <Pill>{tr("LIVE SOURCE", "مصدر مباشر")}</Pill> : <Pill>{tr("NO LIVE DATA", "لا توجد بيانات مباشرة")}</Pill>}</View>
       <View style={styles.grid}>
         {metrics.map((item) => <Card key={item.label} style={styles.metric}><Label>{item.label}</Label><Value>{item.value}</Value><Text style={styles.metricUnit}>{item.unit}</Text></Card>)}
@@ -74,10 +76,10 @@ function makeStyles(colors: ThemeColors) { return StyleSheet.create({
   rowRtl: { flexDirection: "row-reverse" },
   textRtl: { textAlign: "right" },
   brandMark: { width: 42, height: 42, borderRadius: 13, backgroundColor: colors.surfaceRaised, borderColor: colors.border, borderWidth: 1, alignItems: "center", justifyContent: "center" },
-  brandGlyph: { color: colors.accent, fontWeight: "900", fontSize: 12, letterSpacing: 1 },
-  heroTitle: { color: colors.text, fontSize: 21, fontWeight: "700" },
+  brandImage: { width: "100%", height: "100%" },
+  heroTitle: { color: colors.text, fontFamily: "Cairo_400Regular", fontSize: 21, fontWeight: "700" },
   divider: { height: 1, backgroundColor: colors.border, marginVertical: 14 },
-  heroMessage: { color: colors.muted, fontSize: 13, lineHeight: 20 },
+  heroMessage: { color: colors.muted, fontFamily: "Cairo_400Regular", fontSize: 13, lineHeight: 20 },
   assetLine: { flexDirection: "row", alignItems: "center", gap: 8, marginTop: 4 },
   dot: { width: 7, height: 7, borderRadius: 4, backgroundColor: colors.warning },
   connectedDot: { backgroundColor: colors.blue },
@@ -85,7 +87,7 @@ function makeStyles(colors: ThemeColors) { return StyleSheet.create({
   timestamp: { color: colors.subtle, fontSize: 10, marginTop: 3 },
   chargingRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 10, marginTop: 6 },
   sectionTitle: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginTop: 4, gap: 8 },
-  sectionHeading: { color: colors.text, fontSize: 16, fontWeight: "700" },
+  sectionHeading: { color: colors.text, fontFamily: "Cairo_400Regular", fontSize: 16, fontWeight: "700" },
   grid: { flexDirection: "row", flexWrap: "wrap", gap: 10 },
   metric: { width: "48%", flexGrow: 1, minHeight: 124, padding: 13, gap: 9 },
   metricUnit: { color: colors.subtle, fontSize: 10 },

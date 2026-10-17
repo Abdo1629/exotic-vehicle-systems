@@ -43,10 +43,10 @@ function makeStyles(colors: ThemeColors) { return StyleSheet.create({
   number: { width: 36, height: 36, borderRadius: 11, backgroundColor: colors.surfaceRaised, alignItems: "center", justifyContent: "center" },
   numberText: { color: colors.accent, fontSize: 11, fontWeight: "800" },
   content: { flex: 1, gap: 8 },
-  name: { color: colors.text, fontWeight: "700", fontSize: 14 },
-  detail: { color: colors.muted, fontSize: 12, lineHeight: 18 },
+  name: { color: colors.text, fontFamily: "Cairo_400Regular", fontWeight: "700", fontSize: 14 },
+  detail: { color: colors.muted, fontFamily: "Cairo_400Regular", fontSize: 12, lineHeight: 18 },
   infoCard: { borderColor: colors.border, backgroundColor: colors.surfaceRaised, marginTop: 4 },
   infoTitle: { color: colors.warning, fontWeight: "700", fontSize: 13 },
-  infoBody: { color: colors.muted, fontSize: 12, lineHeight: 19 },
+  infoBody: { color: colors.muted, fontFamily: "Cairo_400Regular", fontSize: 12, lineHeight: 19 },
 });
 }
