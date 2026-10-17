@@ -9,8 +9,9 @@ export default function TabLayout() {
   const tabs = [
     { name: "index", title: tr("Overview", "الرئيسية"), glyph: "◈" },
     { name: "battery", title: tr("Battery", "البطارية"), glyph: "ϟ" },
+    { name: "map", title: tr("Map", "الخريطة"), glyph: "⌖" },
+    { name: "trips", title: tr("Trip history", "سجل الرحلات"), glyph: "↗" },
     { name: "diagnostics", title: tr("System", "النظام"), glyph: "⌁" },
-    { name: "map", title: tr("Location", "الموقع"), glyph: "⌖" },
     { name: "logbook", title: tr("Test log", "سجل الاختبارات"), glyph: "≡" },
     { name: "pit", title: tr("Pit mode", "وضع الاختبار"), glyph: "✓" },
   ] as const;
@@ -24,10 +25,10 @@ export default function TabLayout() {
           backgroundColor: colors.surface,
           borderTopColor: colors.border,
           height: 68,
-          paddingTop: 8,
-          paddingBottom: 8,
+          paddingTop: 7,
+          paddingBottom: 7,
         },
-        tabBarLabelStyle: { fontSize: locale === "ar" ? 10 : 10, fontWeight: "600" },
+        tabBarLabelStyle: { fontSize: 9, fontWeight: "600" },
       }}
     >
       {tabs.map((tab) => (
@@ -37,7 +38,7 @@ export default function TabLayout() {
           options={{
             title: tab.title,
             tabBarIcon: ({ color }) => (
-              <Text style={{ color, fontSize: 20, fontWeight: "600" }}>{tab.glyph}</Text>
+              <Text style={{ color, fontSize: 19, fontWeight: "700" }}>{tab.glyph}</Text>
             ),
           }}
         />
