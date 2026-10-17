@@ -3,7 +3,7 @@
     "name": "Exotic Racing",
     "slug": "exotic-racing-mobile",
     "scheme": "exoticracing",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "icon": "../public/logo.jpeg",
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
@@ -14,14 +14,18 @@
     },
     "android": {
       "package": "com.iaet.exoticracing",
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "adaptiveIcon": {
+        "foregroundImage": "../public/logo.jpeg",
+        "backgroundColor": "#090A0B"
+      }
     },
     "plugins": ["expo-router"],
     "experiments": {
       "typedRoutes": true
     },
     "androidStatusBar": {
-      "backgroundColor": "#111317",
+      "backgroundColor": "#090A0B",
       "barStyle": "light-content"
     }
   }
